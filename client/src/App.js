@@ -72,7 +72,7 @@ function App() {
   let notifier = new AWN(globalOptions)
 
 
-  const [render, setRender] = useState(false)
+  const [render, setRender] = useState(true)
 
   const [user, setUser] = useState({})
 
