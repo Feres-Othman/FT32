@@ -1,0 +1,88 @@
+body {
+    overflow-x: hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #2b2b2b;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: rgb(182, 182, 182);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(230, 230, 230);
+    width: 10px;
+}
+
+.switch-wrapper {
+    position: relative;
+    background-color: rgb(219, 219, 219) !important;
+    background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+}
+
+.switch-wrapper > div {
+    position: absolute;
+    width: 100%;
+    background-color: rgb(219, 219, 219) !important;
+    background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+}
+
+.mainWrapper {
+    background-color: rgb(219, 219, 219) !important;
+    background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+}
+
+.lazy-load-image-background {
+    height: 100%;
+}
+
+.menuImageSmall {
+    width: 100%;
+}
+
+.menuImageMedium {
+    width: 49%;
+}
+
+.menuImageBig {
+    width: 45%;
+}
+
+.dropdown-toggle:focus,
+.dropdown:focus,
+.btn:focus,
+.btn-Primary:focus,
+.noFocus:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: 0 0 0 0 rgb(0 123 255 / 0%) !important;
+}
+
+.hoverScale {
+    transition: transform 0.2s;
+}
+
+.hoverScale:hover,
+.hoverScale:focus {
+    transition: transform 0.2s;
+    transform: scale(1.1);
+}
+
+.hoverScaleImage {
+    transition: transform 0.2s;
+}
+
+.hoverScaleImage:hover,
+.hoverScaleImage:focus {
+    transition: transform 0.2s;
+    transform: scale(1.03);
+}

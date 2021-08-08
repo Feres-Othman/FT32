@@ -1,0 +1,48 @@
+/* checkbox circle */
+.check {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.check:checked {
+    background-color: gray;
+}
+
+/* BUTTONS */
+.button {
+    display: inline-block;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    text-decoration: none;
+    background: #a31212;
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 15px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.button:hover,
+.button:focus {
+    background: #811010;
+    outline: none;
+}
+.button:active {
+    transform: scale(0.8);
+}

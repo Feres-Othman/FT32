@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(219, 219, 219) !important;
+  background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+  min-height: 100vh;
+}
+
+#root {
+  background-color: rgb(219, 219, 219) !important;
+  background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+  min-height: 100vh;
+}
+
+html {
+  background-color: rgb(219, 219, 219) !important;
+  background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+  min-height: 100vh;
+}
