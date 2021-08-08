@@ -94,75 +94,75 @@ function App() {
 
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    let verifyToken = (session) => {
+  //   let verifyToken = (session) => {
 
-      var isExpired = false;
-      const token = session.token;
-      // console.log(token);
-      var decodedToken = jwt_decode(token, { complete: true });
-      // console.log(decodedToken);
-      var dateNow = new Date();
-      if (decodedToken.exp < dateNow.getTime() / 1000)
-        isExpired = true;
+  //     var isExpired = false;
+  //     const token = session.token;
+  //     // console.log(token);
+  //     var decodedToken = jwt_decode(token, { complete: true });
+  //     // console.log(decodedToken);
+  //     var dateNow = new Date();
+  //     if (decodedToken.exp < dateNow.getTime() / 1000)
+  //       isExpired = true;
 
-      if (isExpired) {
-        setRender(true);
-        history.push("/login");
-      } else {
-        setRender(true);
-      }
+  //     if (isExpired) {
+  //       setRender(true);
+  //       history.push("/login");
+  //     } else {
+  //       setRender(true);
+  //     }
 
-    }
+  //   }
 
-    var session = Ls.getObject('session', { 'isLoggedIn': false });
+  //   var session = Ls.getObject('session', { 'isLoggedIn': false });
 
-    console.log(session)
+  //   console.log(session)
 
-    if (location.pathname.includes("/register")) {
+  //   if (location.pathname.includes("/register")) {
 
-      console.log("register");
-      if (session.isLoggedIn) {
+  //     console.log("register");
+  //     if (session.isLoggedIn) {
 
-        verifyToken(session);
-        history.push("/");
-      }
-      setRender(true);
+  //       verifyToken(session);
+  //       history.push("/");
+  //     }
+  //     setRender(true);
 
-    } else if (location.pathname.includes("/login")) {
+  //   } else if (location.pathname.includes("/login")) {
 
-      console.log("login")
-      if (session.isLoggedIn) {
+  //     console.log("login")
+  //     if (session.isLoggedIn) {
 
-        verifyToken(session);
-        history.push("/");
-      }
-      setRender(true);
+  //       verifyToken(session);
+  //       history.push("/");
+  //     }
+  //     setRender(true);
 
-    }
-    else if (location.pathname.includes("/reset/password")) {
+  //   }
+  //   else if (location.pathname.includes("/reset/password")) {
 
-      console.log("reset password")
-      if (session.isLoggedIn) {
+  //     console.log("reset password")
+  //     if (session.isLoggedIn) {
 
-        verifyToken(session);
-        history.push("/");
-      }
-      setRender(true);
+  //       verifyToken(session);
+  //       history.push("/");
+  //     }
+  //     setRender(true);
 
-    } else if (!session.isLoggedIn) {
-      notifier.alert("Connectez-vous");
-      setRender(true);
-      history.push("/login");
+  //   } else if (!session.isLoggedIn) {
+  //     notifier.alert("Connectez-vous");
+  //     setRender(true);
+  //     history.push("/login");
 
-    } else {
+  //   } else {
 
-      verifyToken(session);
+  //     verifyToken(session);
 
-    }
+  //   }
 
-  }, []);
+  // }, []);
 
   const doLogout = async () => {
 
