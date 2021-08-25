@@ -23,10 +23,11 @@ import Login from './Components/auth/Login';
 // import ResetPassword from './Components/auth/ResetPassword';
 import SellProduct from './Components/user/SellProduct';
 
-// SHOPPING
-import Seller from './Components/shopping/Seller';
 import Players from './Components/Players';
 import PlayersByTeam from './Components/PlayersByTeam';
+import PlayersByFilter from './Components/PlayersByFilter';
+
+import AddMatch from './Components/AddMatch';
 
 import logo from './Atoms/logo.png';
 
@@ -77,7 +78,7 @@ function App() {
   const [user, setUser] = useState({})
 
   const [design, setDesign] = useState({
-    primaryColor: "#FF7211",
+    primaryColor: "#1a7eb4",
     accentColor: "#ccc",//"#0D9BA3",
     backgroundColor: "#fff",
     mainTextColor: "#333",
@@ -281,7 +282,9 @@ function App() {
                       <ResetPassword />
                     </Route> */}
 
-
+                    <Route path="/players/:sex/:category" >
+                      <PlayersByFilter />
+                    </Route>
 
 
                     <Route path="/players/:clubName" >
@@ -290,6 +293,10 @@ function App() {
 
                     <Route path="/players" >
                       <Players />
+                    </Route>
+
+                    <Route path="/match/add" >
+                      <AddMatch />
                     </Route>
 
                     {/* <Route path="/user/view" >

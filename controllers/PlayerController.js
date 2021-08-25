@@ -12113,7 +12113,32 @@ const readPlayer = async (req, res, next) => {
 const readPlayers = async (req, res, next) => {
 
   try {
-    const players = await Player.find({})
+
+    const categories = await Category.find({}).sort({ __v: 1 })
+
+    let finalCategories = [];
+
+    let i = 0;
+
+    for (i = 0; i < categories.length; i++) {
+      const element = categories[i];
+
+      if (element.name == req.body.category.toUpperCase()) {
+        break;
+      }
+
+    }
+
+    for (let j = 0; j <= i; j++) {
+      const element = categories[j];
+
+      finalCategories.push(element._id);
+
+    }
+
+
+
+    const players = await Player.find({ sex: req.body.sex.toUpperCase(), category: { $in: finalCategories } })
       .sort({ score: -1 })
       .populate("category")
       .populate("team")

@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
-
+import { Dropdown } from 'react-bootstrap'
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import DrpDown from '../Molecules/DrpDown';
 import Btn from '../Molecules/Btn';
 import { useHistory } from 'react-router-dom';
 
-export default function Players() {
+export default function AddMatch() {
 
 
     const { design } = useContext(DesignContext);
@@ -17,6 +17,18 @@ export default function Players() {
 
     const [categories, setCategories] = useState([])
     const [category, setCategory] = useState({})
+
+    const types = [
+        "Championnat individuel – phase nationale + TOP 6",
+        "Championnat individuel – phase régionale ",
+        "Critérium national",
+        "Critérium régional ",
+        "Championnat par équipe – super div nationale",
+        "Championnat par équipe –div nationale 1 et 2",
+        "Championnat par équipe jeune – phase régionale et inter - régionale",
+        "Championnat par équipe jeune –phase finale ",
+        "Coupe de Tunisie par équipes"
+    ]
 
     const genders = [{
         _id: "F",
@@ -68,7 +80,7 @@ export default function Players() {
         <div style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "start",
             alignItems: "center",
             width: "90%",
             height: "87vh",
@@ -78,24 +90,26 @@ export default function Players() {
             textAlign: 'center',
             // overflowY: "scroll"
         }} >
+            <Dropdown style={{ width: 600 }}>
 
-            <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
-            <br />
-            <DrpDown dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
-            <br />
-            <Btn onClick={() => {
-                if (gender._id == undefined) {
-                    notifier.alert("please select a gender");
-                    return;
-                }
+                <Dropdown.Toggle variant="success" variant="Primary"
+                    style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
+                    Choisir le type de compétition
+                </Dropdown.Toggle>
 
-                if (category.name == undefined) {
-                    notifier.alert("please select a category");
-                    return;
-                }
+                <div style={{ borderRadius: 15, zIndex: 100 }}>
+                    <Dropdown.Menu style={{ width: '100%', zIndex: 100 }}>
 
-                history.push(`/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}`);
-            }} style={{ width: 400 }}>Valider</Btn>
+                        {types.map((item, index) => (
+                            <Dropdown.Item key={item._id} onClick={() => { }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                                <div style={{ paddingTop: 10 }} >{item}</div>
+                            </Dropdown.Item>
+                        ))}
+
+                    </Dropdown.Menu>
+                </div>
+
+            </Dropdown>
 
         </div >
     )
