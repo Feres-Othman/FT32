@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { RContext } from '../RContext'
 
-export default function DrpDown({ dataset, data, setData, children, label }) {
+export default function DrpDown({ dataset, data, setData, children, label , style = null}) {
 
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
     return (
@@ -32,10 +32,10 @@ export default function DrpDown({ dataset, data, setData, children, label }) {
                     </Dropdown>
                 </div> :
                 <div style={{ display: 'flex', flexDirection: isSmall ? 'column' : 'row', justifyContent: 'space-between', alignItems: isSmall ? '' : 'center' }}>
-                    <Dropdown style={{ width: "100%" }}>
+                    <Dropdown style={{ width: 400, ...style}}>
 
                         <Dropdown.Toggle variant="success" variant="Primary"
-                            style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: 400 }}>
+                            style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: 400, ...style }}>
                             {(data.name?.length > 0 ? ((data.name.toLowerCase())[0].toUpperCase() + (data.name.toLowerCase()).substring(1)) : "") || children}
                         </Dropdown.Toggle>
 

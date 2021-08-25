@@ -79,9 +79,10 @@ const readTeams = async (req, res, next) => {
             message: "Teams-not-found"
         })
 
-        return res.json({ success: true, Teams: docs });
+        return res.json({ success: true, teams: Teams });
 
     } catch (error) {
+        console.log(error)
         return res.json({
             success: false,
             message: "server-error"

@@ -12162,6 +12162,58 @@ const readPlayers = async (req, res, next) => {
 
 }
 
+
+const readAllPlayers = async (req, res, next) => {
+
+  try {
+
+    const categories = await Category.find({}).sort({ __v: 1 })
+
+    let finalCategories = [];
+
+    let i = 0;
+
+    for (i = 0; i < categories.length; i++) {
+      const element = categories[i];
+
+      if (element.name == req.body.category.toUpperCase()) {
+        break;
+      }
+
+    }
+
+    for (let j = 0; j <= i; j++) {
+      const element = categories[j];
+
+      finalCategories.push(element._id);
+
+    }
+
+
+
+    const players = await Player.find({ category: { $in: finalCategories } })
+      .sort({ score: -1 })
+      .populate("team")
+      .exec();
+
+    if (!players) return res.json({
+      success: false,
+      message: "Players-not-found"
+    })
+
+    return res.json({ success: true, players: players });
+
+  } catch (error) {
+    console.log(error)
+    return res.json({
+      success: false,
+      message: "server-error"
+    })
+  }
+
+}
+
+
 const banPlayer = (req, res, next) => {
 
   try {
@@ -12291,6 +12343,7 @@ module.exports = {
   createPlayer,
   readPlayer,
   readPlayers,
+  readAllPlayers,
   banPlayer,
   updatePlayer,
   resetDB
