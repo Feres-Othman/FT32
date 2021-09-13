@@ -1,6 +1,7 @@
 // Njibou l'express package
 const express = require('express')
 const app = express();
+
 const http = require('http').createServer(app);
 const path = require('path');
 const cors = require('cors');
@@ -28,20 +29,9 @@ require("dotenv").config();
 
 // Body-parser 
 // Body-parser y5alina naccediw lel "req.body" object
-app.use(express.json({ limit: '50mb' }));
-// Enable CORS
+app.use(express.json());
 app.use(cors());
-// Serve static files from the React app
-
-
-
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
+app.use (bodyParser.json())
 
 const port = process.env.PORT || 5000;
 

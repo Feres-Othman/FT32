@@ -2,6 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React, { useState, useEffect, useMemo } from 'react'
 import NvBar from './Molecules/NvBar';
+import Ajouterjouer from "./Components/Ajouterjouer"
+import Updatejouer from "./Components/updatejouer"
 
 import { UserContext } from './UserContext';
 import { RContext } from './RContext';
@@ -269,6 +271,9 @@ function App() {
                     <Route path="/login" >
                       <Login />
                     </Route>
+                      <Route path="/updatejouer/:_id" >
+                     <Updatejouer />
+                    </Route>
 
                     <Route path="/register" >
                       <Register />
@@ -293,6 +298,9 @@ function App() {
 
                     <Route path="/players" >
                       <Players />
+                    </Route>
+                    <Route path="/Ajouterjouer" >
+                      <Ajouterjouer />
                     </Route>
 
                     <Route path="/match/add" >

@@ -6,7 +6,16 @@ import PlayerItem from './PlayerItem';
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import { useParams } from 'react-router-dom';
-
+import  Btn from '../Molecules/Btn'
+import { useHistory } from 'react-router-dom';
+import {
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+  } from "@material-ui/core";
 export default function PlayersByFilter() {
 
 
@@ -49,10 +58,24 @@ export default function PlayersByFilter() {
         getProducts();
     }, [])
 
+    let history = useHistory();
 
     return (
         <>
             <h1 style={{ textAlign: 'center', margin: 20 }} >{sex.toUpperCase() == "M" ? "Homme" : "Femme"} : {category.toLowerCase()[0].toUpperCase() + category.toLowerCase().substring(1)}</h1>
+            <Btn onClick={() => {
+
+                history.push(`/Ajouterjouer/`);
+            }}style={{ float:'right' , 
+              display: "flex",
+             justifyContent: "start",
+             alignItems: "start",
+            marginRight: "5%",
+            marginBottom: "5px",
+
+                textAlign: 'center',
+
+             }}>Ajouter un jouer</Btn>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -64,7 +87,8 @@ export default function PlayersByFilter() {
                 marginLeft: "5%",
                 textAlign: 'center',
                 overflowY: "scroll"
-            }} >
+            }} >                  
+
 
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: design.accentColor, width: "100%", height: 50, marginBottom: 10 }} >
 

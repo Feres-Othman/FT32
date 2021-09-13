@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { DesignContext } from '../DesignContext'
 import "./Button.css"
 
-export default function Btn({ content, onClick = null, children, style, isActive = true }) {
+export default function Btn({ type,content, onClick = null, children, style, isActive = true }) {
 
     const { design } = useContext(DesignContext)
 

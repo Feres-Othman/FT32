@@ -5,10 +5,14 @@ const PlayerController = require("../controllers/PlayerController");
 
 router.post("/read/all", PlayerController.readPlayers);
 router.post("/read/category/all", PlayerController.readAllPlayers);
-router.post("/read/one", verify, PlayerController.readPlayer);
-router.post("/create", verify, PlayerController.createPlayer);
-router.post("/update", verify, PlayerController.updatePlayer);
+router.post("/read/one/:_id",  PlayerController.readPlayer);
+router.post("/update/:_id",  PlayerController.updatePlayer);
 router.post("/ban", verify, PlayerController.banPlayer);
 router.post("/reset", verify, PlayerController.resetDB);
+router.post("/Ajoutjouer", PlayerController.createPlayer);
+router.delete("/delete/:id", PlayerController.deletePlayers);
+
+
+
 
 module.exports = router;

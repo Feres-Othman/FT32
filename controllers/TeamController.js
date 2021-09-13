@@ -70,16 +70,16 @@ const readTeam = async (req, res, next) => {
 const readTeams = async (req, res, next) => {
 
     try {
-        const Teams = await Team.find({})
+        const teams = await Team.find({})
             .populate("players")
             .exec();
 
-        if (!Teams) return res.json({
+        if (!teams) return res.json({
             success: false,
             message: "Teams-not-found"
         })
 
-        return res.json({ success: true, teams: Teams });
+        return res.json({ success: true, teams: teams });
 
     } catch (error) {
         console.log(error)
