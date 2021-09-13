@@ -18,13 +18,23 @@ export default function PlayerItem({ _id,firstName, lastName, number, score, sex
 
     const history = useHistory();
     const dispatch = useDispatch();
+ 
     const handleDelete = (e) => {
         e.preventDefault();
-         if (window.confirm('Are you sure you wish to delete this item?') ) {   console.log("ID",_id)
-    dispatch(deleteJouer(_id)); history.go(0)
+        notifier.confirm(
+            'Are you sure?',
+            onOk,
+            onCancel,
+          
+          )
+         
 } 
 
-     }
+     
+     let onOk = () => {    dispatch(deleteJouer(_id)); history.go(0)
+     };
+     let onCancel = () => {};
+ 
       const handleUpdate = (e) => {
         e.preventDefault();
                 history.push(`/updatejouer/${_id}`);
