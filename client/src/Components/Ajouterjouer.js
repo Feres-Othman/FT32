@@ -175,9 +175,9 @@ const Ajoutjouer=() => {
           const { data } = await api.Ajout(formData);
       
           dispatch({ type: AJOUT, data });
-          if(data.success==false){ notifier.alert('player with that UniqueNumber  already exist')
+          if(data.success==false){ notifier.alert('joueur avec ce Numéro Unique existe déjà')
           }else if(data.success==true)
-          { notifier.success('success')
+          { notifier.success('Succès')
           }
               
       
@@ -194,38 +194,38 @@ const Ajoutjouer=() => {
            
 
             if ( form.Nom == '') {
-                notifier.alert("Name field can not be empty and can only contain Letters");
+                notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
                 return;
             } if ( form.Prenom == '' ) {
-                notifier.alert("LastName field can not be empty and can only contain Letters");
+                notifier.alert("Le champ Prenom ne peut pas être vide et ne peut contenir que des lettres");
                 return;
             } 
             if (gender._id == undefined) {
-                notifier.alert("please select a gender");
+                notifier.alert("veuillez sélectionner un sexe");
                 return;
             }
             if (category.name == undefined) {
-                notifier.alert("please select a category");
+                notifier.alert("Veuillez sélectionner une catégorie");
                 return;
             }   if (team.name == undefined) {
-                notifier.alert("please select a team");
+                notifier.alert("veuillez sélectionner une équipe");
                 return;
             }  if ( form.Date == '' ) {
-                notifier.alert("Date field can not be empty");
+                notifier.alert("Le champ de date ne peut pas être vide");
                 return;
             }
             if ( form.Score == '' ) {
-                notifier.alert("Score field can not be empty and can only contain numbers");
+                notifier.alert("Le champ Score ne peut pas être vide et ne peut contenir que des chiffres");
                 return;
             }if ( form.UniqueNumber == '' ) {
-                notifier.alert("UniqueNumber field can not be empty ");
+                notifier.alert("Le champ NuméroUnique ne peut pas être vide ");
                 return;
             }
             if ( form.Nationalité == '' ) {
-                notifier.alert("nat field can not be empty and can only contain Letters");
+                notifier.alert("le champ nationalité ne peut pas être vide et ne peut contenir que des lettres");
                 return;
             }if ( form.Numero == '' ) {
-                notifier.alert("Number field can not be empty and can only contain numbers");
+                notifier.alert("Le champ Numero ne peut pas être vide et ne peut contenir que des chiffre");
                 return;
             }
        

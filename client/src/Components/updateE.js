@@ -101,11 +101,11 @@ console.log(_id)
           const { data } = await api.Updateequipe(formData,team._id);
       
           dispatch({ type: AJOUT, data });
-          if(data.samename==true){ notifier.alert('team already exist ')
+          if(data.samename==true){ notifier.alert('l équipe existe déjà  ')
           }else if(data.success==true)
-          { notifier.success('success')
+          { notifier.success('Succès')
           }else if(data.success==false )
-          { notifier.alert('error')
+          { notifier.alert('Erreur')
           }
               
       
@@ -121,7 +121,7 @@ console.log(_id)
            
 
             if ( form.Nom == '') {
-                notifier.alert("Name field can not be empty and can only contain Letters");
+                notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
                 return;
             
            
@@ -163,7 +163,7 @@ console.log(_id)
             textAlign: 'center',
             // overflowY: "scroll"
         }} >
-                    <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute une equipe</h1>
+                    <h1 style={{ textAlign: 'center', margin: 20 }}>Mise a jour d'une equipe</h1>
 
          <div > 
 <Input  handleChange={handleChange1}    name ="Nom" placeholder={team.name} width="400px"  maxLength="9"

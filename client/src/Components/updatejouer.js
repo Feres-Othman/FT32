@@ -198,9 +198,9 @@ console.log(_id)
           const { data } = await api.Update(formData,_id);
       
           dispatch({ type: AJOUT, data });
-          if(data.success==false){ notifier.alert('player with that UniqueNumber  already exist')
+          if(data.success==false){ notifier.alert('joueur avec ce Numéro Unique existe déjà ')
           }else if(data.success==true)
-          { notifier.success('success')
+          { notifier.success('Succès')
           }
               
       
@@ -220,41 +220,41 @@ const handleUpdate = (e) => {
     form.Category1=category
         form.Gender=gender
         form.Team=team
-  if ( form.Nom == '') {
-                notifier.alert("Name field can not be empty and can only contain Letters");
-                return;
-            } if ( form.Prenom == '' ) {
-                notifier.alert("LastName field can not be empty and can only contain Letters");
-                return;
-            } 
-            if (gender._id == undefined) {
-                notifier.alert("please select a gender");
-                return;
-            }
-            if (category.name == undefined) {
-                notifier.alert("please select a category");
-                return;
-            }   if (team.name == undefined) {
-                notifier.alert("please select a team");
-                return;
-            }  if ( form.Date == '' ) {
-                notifier.alert("Date field can not be empty");
-                return;
-            }
-            if ( form.Score == '' ) {
-                notifier.alert("Score field can not be empty and can only contain numbers");
-                return;
-            }if ( form.UniqueNumber == '' ) {
-                notifier.alert("UniqueNumber field can not be empty ");
-                return;
-            }
-            if ( form.Nationalité == '' ) {
-                notifier.alert("nat field can not be empty and can only contain Letters");
-                return;
-            }if ( form.Numero == '' ) {
-                notifier.alert("Number field can not be empty and can only contain numbers");
-                return;
-            }
+        if ( form.Nom == '') {
+            notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
+            return;
+        } if ( form.Prenom == '' ) {
+            notifier.alert("Le champ Prenom ne peut pas être vide et ne peut contenir que des lettres");
+            return;
+        } 
+        if (gender._id == undefined) {
+            notifier.alert("veuillez sélectionner un sexe");
+            return;
+        }
+        if (category.name == undefined) {
+            notifier.alert("Veuillez sélectionner une catégorie");
+            return;
+        }   if (team.name == undefined) {
+            notifier.alert("veuillez sélectionner une équipe");
+            return;
+        }  if ( form.Date == '' ) {
+            notifier.alert("Le champ de date ne peut pas être vide");
+            return;
+        }
+        if ( form.Score == '' ) {
+            notifier.alert("Le champ Score ne peut pas être vide et ne peut contenir que des chiffres");
+            return;
+        }if ( form.UniqueNumber == '' ) {
+            notifier.alert("Le champ NuméroUnique ne peut pas être vide ");
+            return;
+        }
+        if ( form.Nationalité == '' ) {
+            notifier.alert("le champ nationalité ne peut pas être vide et ne peut contenir que des lettres");
+            return;
+        }if ( form.Numero == '' ) {
+            notifier.alert("Le champ Numero ne peut pas être vide et ne peut contenir que des chiffre");
+            return;
+        }
          dispatch(update(form, history,_id));
 }
 

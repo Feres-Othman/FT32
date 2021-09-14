@@ -34,10 +34,14 @@ export default function TeamItem({ _id,name, rang,createdAt, isByTeam,isBanned, 
     const handleDelete = (e) => {
         e.preventDefault();
         notifier.confirm(
-            'Are you sure?',
+            'Es-tu sûr?',
             onOk,
             onCancel,
-          
+            {
+                labels: {
+                  confirm: ''
+                }
+              }
           )
          
 } 
@@ -46,7 +50,8 @@ export default function TeamItem({ _id,name, rang,createdAt, isByTeam,isBanned, 
      let onOk = () => { dispatch(deleteTeam(_id)); history.go(0)
      };
      let onCancel = () => {};
- 
+     
+    
       const handleUpdate = (e) => {
         e.preventDefault();
                 history.push(`/updateequipe/${_id}`);

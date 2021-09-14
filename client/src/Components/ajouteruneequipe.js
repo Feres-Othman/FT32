@@ -71,9 +71,9 @@ const Ajoutequipe=() => {
         try {
           const { data } = await api.Ajoutequipe(formData);
       
-          if(data.samename==true){ notifier.alert('team already exist ')
+          if(data.samename==true){ notifier.alert('léquipe existe déjà')
           }else if(data.success==true)
-          { notifier.success('success')
+          { notifier.success('Succès')
           }
               
       
@@ -85,23 +85,17 @@ const Ajoutequipe=() => {
     
       const handleSubmit = (e) => {
    
-        form.Banned=banned
 
            
 
             if ( form.Nom == '') {
-                notifier.alert("Name field can not be empty and can only contain Letters");
+                notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
                 return;
             
            
             }
-            if (banned._id == undefined) {
-                notifier.alert("please select banned or not ");
-                console.log(form.Nom)
-
-                return;
-
-            }
+       
+            
      
 
 
@@ -146,18 +140,8 @@ const Ajoutequipe=() => {
 
  
 
-<div>
 
-          <DrpDown name="Banned" handleChange={handleChange} style={{width:"400px" }}  dataset={banneds} setData={setBanned} data={banned} > equipes banned? </DrpDown>
-  
-
-    
-     
-           
-            </div>
-            <br />
        
-            <br />
             <Btn onClick={handleSubmit} style={{ width: 400 }}>Valider</Btn>
 
         </div ></form>
