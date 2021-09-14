@@ -12028,21 +12028,24 @@ const resetDB = async (req, res, next) => {
 
 
 const createPlayer = async (req, res, next) => {
-
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const number = req.body.number;
-  const day = req.body.day;
-  const month = req.body.month;
-  const year = req.body.year;
-  const category = req.body.category;
-  const score = req.body.score;
-  const team = req.body.team;
-  const sex = req.body.sex;
-  const indGenre = req.body.indGenre;
-  const nat = req.body.nat;
+  console.log(req.body.UniqueNumber)
+ const alreadyexist= await Player.findOne({UniqueNumber:req.body.UniqueNumber})
+  try{
+  const firstName = req.body.Nom;
+  const lastName = req.body.Prenom;
+  const number = req.body.Numero;
+  const day = req.body.Date.slice(8,10);
+  const month = req.body.Date.slice(5,7);
+  const year = req.body.Date.slice(0,4);
+  const category = req.body.Category1._id;
+  const score = req.body.Score;
+  const team = req.body.Team._id;
+  const sex = req.body.Gender._id;
+  const indGenre="1"
+  
+  const nat = req.body.Nationalité;
   const UniqueNumber = req.body.UniqueNumber;
-
+if(!alreadyexist){
   const newPlayer = new Player({
     firstName,
     lastName,
@@ -12053,61 +12056,77 @@ const createPlayer = async (req, res, next) => {
     category,
     score,
     team,
-    sex,
     indGenre,
+    sex,
     nat,
     UniqueNumber
   });
 
   newPlayer.save()
-    .then(() => {
+  console.log(newPlayer)
+const team1=await Team.findOneAndUpdate({_id:req.body.Team._id},{$push:{players:newPlayer._id}})
+console.log (team1)
+console.log(req.body.Team._id)
+console.log(newPlayer._id)
 
       res.json({
         success: true,
         newPlayer: newPlayer
       })
-
-    })
-    .catch(error => {
+}else if (alreadyexist){
+    res.json({
+        success: false,
+        message: " player with that UniqueNumber already exist"
+      })
+}
+    }
+    catch(error)  {
       console.log(error)
       res.json({
         message: 'mongoose-error',
         success: false
       })
-    })
+    }
 }
 
 const readPlayer = async (req, res, next) => {
-
-  // const id = req.user._id;
-
+console.log(req.params._id)
+const { id } = req.params._id;
   try {
 
-    const idPlayer = req.body.idPlayer;
+    const player0 = await Player.findOne({ _id: req.params._id })
+    console.log(player0)
 
-    const player = await Player.findOne({ _id: idPlayer })
-      .populate("category")
-      .populate("team")
-      .populate("history")
-      .exec();
-
-    if (!player) return res.json({
+    if (!player0) return res.json({
       success: false,
       message: "Player-not-found"
     })
-
+else if (player0){
     return res.json({
       success: true,
-      player: Player
+      player: player0
     })
 
-
+}
   } catch (error) {
+              console.log(error)
+
     return res.json({
       success: false,
-      message: "server-error"
+      message: "server-error",
+
     })
   }
+}
+const deletePlayers = async (req, res) => {
+  const { id } = req.params;
+     console.log(id);
+
+     await Player.findByIdAndRemove(id);
+
+
+
+  res.json({ message: "Player deleted successfully." });
 }
 
 const readPlayers = async (req, res, next) => {
@@ -12239,94 +12258,88 @@ const banPlayer = (req, res, next) => {
 
 }
 
-const updatePlayer = (req, res, next) => {
-
+const updatePlayer = async (req, res) => {
+console.log(req.body)
+const { id } = req.params._id;
+const firstName = req.body.Nom;
+  const lastName = req.body.Prenom;
+  const number = req.body.Numero;
+  const day = req.body.Date.slice(8,10);
+  const month = req.body.Date.slice(5,7);
+  const year = req.body.Date.slice(0,4);
+  const category = req.body.Category1._id;
+  const score = req.body.Score;
+  const team = req.body.Team._id;
+  const sex = req.body.Gender._id;
+  const indGenre="1"
+  
+  const nat = req.body.Nationalité;
+  const UniqueNumber = req.body.UniqueNumber;
   try {
-    const idPlayer = req.body.idPlayer;
 
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const number = req.body.number;
-    const day = req.body.day;
-    const month = req.body.month;
-    const year = req.body.year;
-    const category = req.body.category;
-    const score = req.body.score;
-    const team = req.body.team;
-    const sex = req.body.sex;
-    const indGenre = req.body.indGenre;
-    const nat = req.body.nat;
-    const UniqueNumber = req.body.UniqueNumber;
+    
+    const player2 =await  Player.findOne({ _id: req.params._id })
+console.log(req.body.UniqueNumber)
+console.log(player2.UniqueNumber)
 
-    const newPlayer = {};
 
-    if (firstName) {
-      newPlayer.firstName = firstName;
-    }
+if (UniqueNumber===player2.UniqueNumber){
+  console.log("here")
 
-    if (lastName) {
-      newPlayer.lastName = lastName;
-    }
+  const player1 =await  Player.findOneAndUpdate({ _id: req.params._id },{$set:{ 
+     firstName,
+    lastName,
+    number,
+    day,
+    month,
+    year,
+    category,
+    score,
+    team,
+    indGenre,
+    sex,
+    nat,
+    }});
 
-    if (number) {
-      newPlayer.number = number;
-    }
 
-    if (day) {
-      newPlayer.day = day;
-    }
+ return res.json({
+      success: true,
+      player: player1
+    })
+  }else if(!(req.body.UniqueNumber===player2.UniqueNumber)){
+    console.log("here2")
 
-    if (month) {
-      newPlayer.month = month;
-    }
-
-    if (year) {
-      newPlayer.year = year;
-    }
-
-    if (category) {
-      newPlayer.category = category;
-    }
-
-    if (score) {
-      newPlayer.score = score;
-    }
-
-    if (team) {
-      newPlayer.team = team;
-    }
-
-    if (sex) {
-      newPlayer.sex = sex;
-    }
-
-    if (indGenre) {
-      newPlayer.indGenre = indGenre;
-    }
-
-    if (nat) {
-      newPlayer.nat = nat;
-    }
-
-    if (UniqueNumber) {
-      newPlayer.UniqueNumber = UniqueNumber;
-    }
-
-    Player.findOneAndUpdate({ _id: idPlayer }, newPlayer, function (err, doc) {
-      if (err) return res.json({
-        message: 'mongoose-error',
-        success: false,
-        err
-      });
+    const player3 =await  Player.findOne({ UniqueNumber: req.body.UniqueNumber })
+    if(player3){
       return res.json({
-        message: 'update-success',
-        success: true
-      });
-    });
+        success: false,
+        message: "UniqueNumber already exist "
+      })
+    }else if (!player3){
+      console.log("here3")
 
+      const player4 =await  Player.findOneAndUpdate({ _id: req.params._id },{$set:{ 
+        firstName,
+       lastName,
+       number,
+       day,
+       month,
+       year,
+       category,
+       score,
+       team,
+       indGenre,
+       sex,
+       nat,
+       UniqueNumber
+       }});
+   
+      return res.json({
+        success: true,
+        player: player4      })
+    }
 
-
-
+  }
   } catch (error) {
     return res.json({
       success: false,
@@ -12346,5 +12359,6 @@ module.exports = {
   readAllPlayers,
   banPlayer,
   updatePlayer,
-  resetDB
+  resetDB,
+  deletePlayers,
 }

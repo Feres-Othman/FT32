@@ -1,25 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
-import PlayerItem from './PlayerItem';
+import TeamItem from './TeamItem';
 
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import { useParams } from 'react-router-dom';
 import  Btn from '../Molecules/Btn'
 import { useHistory } from 'react-router-dom';
-import {
-    Button,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-  } from "@material-ui/core";
-export default function PlayersByFilter() {
+
+export default function Teams() {
 
 
-    let { sex, category } = useParams();
+    
 
     const { design } = useContext(DesignContext);
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
@@ -35,14 +28,14 @@ export default function PlayersByFilter() {
             }
         }
 
-        axios.post("/api/player/read/all", { sex: sex, category: category }, config)
+        axios.post("/api/team/read/all", config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {
                     console.log(res)
 
 
-                    setItems(res.players);
+                    setItems(res.teams);
                 } else {
                     console.log(res)
                 }
@@ -62,10 +55,10 @@ export default function PlayersByFilter() {
 
     return (
         <>
-            <h1 style={{ textAlign: 'center', margin: 20 }} >{sex.toUpperCase() == "M" ? "Homme" : "Femme"} : {category.toLowerCase()[0].toUpperCase() + category.toLowerCase().substring(1)}</h1>
+            <h1 style={{ textAlign: 'center', margin: 20 }} >Les Équipes </h1>
             <Btn onClick={() => {
 
-                history.push(`/Ajouterjouer/`);
+                history.push(`/equipejouer/`);
             }}style={{ float:'right' , 
               display: "flex",
              justifyContent: "start",
@@ -75,7 +68,7 @@ export default function PlayersByFilter() {
 
                 textAlign: 'center',
 
-             }}>Ajouter un jouer</Btn>
+             }}>Ajouter une Équipe</Btn>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -92,17 +85,17 @@ export default function PlayersByFilter() {
 
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: design.accentColor, width: "100%", height: 50, marginBottom: 10 }} >
 
-                    <div style={{ width: "10%" }} >rang</div>
-                    <div style={{ width: "10%" }} >Num</div>
-                    <div style={{ width: "15%" }} >Nom</div>
-                    <div style={{ width: "15%" }} >Prenom</div>
-                    <div style={{ width: "15%" }} >Club</div>
-                    <div style={{ width: "10%" }} >Points</div>
+                
+                   <div style={{ width: "10%" }} >rang</div>
+
+                    <div style={{ width: "30%" }} >Nom</div>
+                    <div style={{ width: "30%" }} >Banned</div>
+
 
                 </div>
                 {items.map((item, index) => {
                     // remove the last filtered item
-                    return <PlayerItem isByFilter={true} key={item._id} rang={index} {...item} filteredScore={item[`${category}Score`]} filteredScore={item[`score`]} />
+                 return <TeamItem isByFilter={true} key={item._id} rang={index} {...item}  />
                 })}
 
 
