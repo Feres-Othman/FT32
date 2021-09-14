@@ -4,6 +4,8 @@ import React, { useState, useEffect, useMemo } from 'react'
 import NvBar from './Molecules/NvBar';
 import Ajouterjouer from "./Components/Ajouterjouer"
 import Updatejouer from "./Components/updatejouer"
+import Ajouterequipe from "./Components/ajouteruneequipe"
+import Updateequipe from "./Components/updateE"
 
 import { UserContext } from './UserContext';
 import { RContext } from './RContext';
@@ -30,6 +32,7 @@ import PlayersByTeam from './Components/PlayersByTeam';
 import PlayersByFilter from './Components/PlayersByFilter';
 
 import AddMatch from './Components/AddMatch';
+import Teams from './Components/teamslist';
 
 import logo from './Atoms/logo.png';
 
@@ -271,9 +274,16 @@ function App() {
                     <Route path="/login" >
                       <Login />
                     </Route>
+                    <Route path="/teams" >
+                      <Teams />
+                    </Route>
                       <Route path="/updatejouer/:_id" >
                      <Updatejouer />
                     </Route>
+                    <Route path="/Updateequipe/:_id" >
+                     <Updateequipe />
+                    </Route>
+
 
                     <Route path="/register" >
                       <Register />
@@ -301,6 +311,9 @@ function App() {
                     </Route>
                     <Route path="/Ajouterjouer" >
                       <Ajouterjouer />
+                    </Route>
+                    <Route path="/equipejouer" >
+                      <Ajouterequipe />
                     </Route>
 
                     <Route path="/match/add" >

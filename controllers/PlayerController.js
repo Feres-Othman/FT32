@@ -12064,7 +12064,10 @@ if(!alreadyexist){
 
   newPlayer.save()
   console.log(newPlayer)
-
+const team1=await Team.findOneAndUpdate({_id:req.body.Team._id},{$push:{players:newPlayer._id}})
+console.log (team1)
+console.log(req.body.Team._id)
+console.log(newPlayer._id)
 
       res.json({
         success: true,

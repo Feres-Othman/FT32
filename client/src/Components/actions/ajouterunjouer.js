@@ -34,5 +34,17 @@ export const deleteJouer = (_id) => async (dispatch) => {
     console.log(error);
   }
 };
+export const deleteTeam = (_id) => async (dispatch) => {
+
+  try {
+    console.log(_id)  
+     await api.Deleteteam(_id);
+
+
+  
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
