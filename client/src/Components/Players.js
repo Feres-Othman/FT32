@@ -95,7 +95,7 @@ export default function Players() {
                 }
 
                 history.push(`/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}`);
-            }} style={{ width: 400 }}>Valider</Btn>
+            }} style={{ width: 400 }}>Valider {isSmall ? " small" : " not small"}</Btn>
 
         </div >
     )

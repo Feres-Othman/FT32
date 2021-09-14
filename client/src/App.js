@@ -21,7 +21,6 @@ import Register from './Components/auth/Register';
 import Login from './Components/auth/Login';
 // import ForgetPassword from './Components/auth/ForgetPassword';
 // import ResetPassword from './Components/auth/ResetPassword';
-import SellProduct from './Components/user/SellProduct';
 
 import Players from './Components/Players';
 import PlayersByTeam from './Components/PlayersByTeam';
@@ -222,6 +221,7 @@ function App() {
               <div className="mainWrapper">
 
                 {/* remove comments for navbar not show on login et register */}
+
                 {
                   (
                     !location.pathname.includes("/login") &&

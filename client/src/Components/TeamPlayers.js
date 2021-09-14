@@ -176,6 +176,7 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
                         <div style={{ width: 600, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
                             {team.name} <b style={{ fontWeight: "bolder", fontSize: 20 }}> - - - {teamScore}</b >
                         </div>
+
                         <div style={{ width: 188, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
                             {`${number == 1 ? "C" : "Z"} : ${player1.firstName} ${player1.lastName} - ${player1.number} `}
                         </div>
