@@ -14,7 +14,7 @@ import { DesignContext } from './DesignContext';
 import { AnimatedSwitch, spring } from 'react-router-transition';
 
 import jwt_decode from "jwt-decode";
-import { Route, useHistory, useLocation } from "react-router-dom";
+import { Route, useHistory, useLocation, Redirect } from "react-router-dom";
 import "./AWN.css";
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import AWN from "awesome-notifications"
@@ -48,6 +48,7 @@ function App() {
   const [isSmall, setIsSmall] = useState(false)
   const [isMedium, setIsMedium] = useState(false)
   const [isLarge, setIsLarge] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   useEffect(() => {
 
     function handleResize() {
@@ -77,7 +78,7 @@ function App() {
   let notifier = new AWN(globalOptions)
 
 
-  const [render, setRender] = useState(true)
+  const [render, setRender] = useState(false)
 
   const [user, setUser] = useState({})
 
@@ -89,7 +90,7 @@ function App() {
     secondaryTextColor: "#a31212"
   })
 
-  const responsivenessProviderValue = useMemo(() => ({ isMedium, isSmall, isLarge, notifier }), [isMedium, isSmall, isLarge, notifier]);
+  const responsivenessProviderValue = useMemo(() => ({ isMedium, isSmall, isLarge, notifier, isLoggedIn, setIsLoggedIn }), [isMedium, isSmall, isLarge, notifier, isLoggedIn, setIsLoggedIn]);
   const userProviderValue = useMemo(() => ({ user, setUser }), [user, setUser]);
   const designProvider = useMemo(() => ({ design, setDesign }), [design, setDesign]);
 
@@ -99,75 +100,111 @@ function App() {
 
 
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   let verifyToken = (session) => {
+    let verifyToken = (session) => {
 
-  //     var isExpired = false;
-  //     const token = session.token;
-  //     // console.log(token);
-  //     var decodedToken = jwt_decode(token, { complete: true });
-  //     // console.log(decodedToken);
-  //     var dateNow = new Date();
-  //     if (decodedToken.exp < dateNow.getTime() / 1000)
-  //       isExpired = true;
+      var isExpired = false;
+      const token = session.token;
+      // console.log(token);
+      var decodedToken = jwt_decode(token, { complete: true });
+      // console.log(decodedToken);
+      var dateNow = new Date();
+      if (decodedToken.exp < dateNow.getTime() / 1000)
+        isExpired = true;
 
-  //     if (isExpired) {
-  //       setRender(true);
-  //       history.push("/login");
-  //     } else {
-  //       setRender(true);
-  //     }
+      if (isExpired) {
+        setRender(true);
+        history.push("/login");
+      } else {
+        setRender(true);
+        setIsLoggedIn(true);
+      }
 
-  //   }
+    }
 
-  //   var session = Ls.getObject('session', { 'isLoggedIn': false });
+    var session = Ls.getObject('session', { 'isLoggedIn': false });
 
-  //   console.log(session)
+    console.log(session)
 
-  //   if (location.pathname.includes("/register")) {
+    var isExpired = false;
+    if (session.isLoggedIn) {
+      const token = session.token;
+      // console.log(token);
+      var decodedToken = jwt_decode(token, { complete: true });
+      // console.log(decodedToken);
+      var dateNow = new Date();
+      if (decodedToken.exp < dateNow.getTime() / 1000)
+        isExpired = true;
 
-  //     console.log("register");
-  //     if (session.isLoggedIn) {
+      if (!isExpired) {
+        setIsLoggedIn(true);
+      }
+    }
 
-  //       verifyToken(session);
-  //       history.push("/");
-  //     }
-  //     setRender(true);
 
-  //   } else if (location.pathname.includes("/login")) {
+    if (location.pathname.includes("/register")) {
 
-  //     console.log("login")
-  //     if (session.isLoggedIn) {
+      console.log("register");
+      if (session.isLoggedIn) {
 
-  //       verifyToken(session);
-  //       history.push("/");
-  //     }
-  //     setRender(true);
+        verifyToken(session);
+        history.push("/");
+      }
+      setRender(true);
 
-  //   }
-  //   else if (location.pathname.includes("/reset/password")) {
+    } else if (location.pathname.includes("/login")) {
 
-  //     console.log("reset password")
-  //     if (session.isLoggedIn) {
+      console.log("login")
+      if (session.isLoggedIn) {
 
-  //       verifyToken(session);
-  //       history.push("/");
-  //     }
-  //     setRender(true);
+        verifyToken(session);
+        history.push("/");
+      }
+      setRender(true);
 
-  //   } else if (!session.isLoggedIn) {
-  //     notifier.alert("Connectez-vous");
-  //     setRender(true);
-  //     history.push("/login");
+    }
+    //public routes
+    else if (location.pathname.includes("/players")) {
 
-  //   } else {
+      setRender(true);
 
-  //     verifyToken(session);
+    }
 
-  //   }
+    else if (location.pathname.includes("/teams")) {
+      setRender(true);
 
-  // }, []);
+    }
+
+    else if (location.pathname.includes("/competitions")) {
+
+      setRender(true);
+
+    }
+    //end public routes
+
+    else if (location.pathname.includes("/reset/password")) {
+
+      console.log("reset password")
+      if (session.isLoggedIn) {
+
+        verifyToken(session);
+        history.push("/");
+      }
+      setRender(true);
+
+    } else if (!session.isLoggedIn) {
+      notifier.alert("Connectez-vous");
+      setRender(true);
+      history.push("/login");
+
+    } else {
+
+      verifyToken(session);
+
+    }
+
+  }, []);
 
   const doLogout = async () => {
 
@@ -267,7 +304,8 @@ function App() {
                     location={location}>
 
                     <Route path="/" exact >
-                      <Home />
+                      {/* <Home /> */}
+                      <Redirect to="/players" />
                     </Route>
 
                     {/* AUTH */}
@@ -277,11 +315,11 @@ function App() {
                     <Route path="/teams" >
                       <Teams />
                     </Route>
-                      <Route path="/updatejouer/:_id" >
-                     <Updatejouer />
+                    <Route path="/updatejouer/:_id" >
+                      <Updatejouer />
                     </Route>
                     <Route path="/Updateequipe/:_id" >
-                     <Updateequipe />
+                      <Updateequipe />
                     </Route>
 
 

@@ -17,7 +17,7 @@ export default function Login() {
 
     var history = useHistory();
 
-    const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
+    const { isMedium, isSmall, isLarge, notifier, setIsLoggedIn } = useContext(RContext)
     const { design } = useContext(DesignContext)
     const { setUser } = useContext(UserContext);
 
@@ -47,9 +47,9 @@ export default function Login() {
                         // console.log(res.data)
 
                         setUser(res.data.user);
-
+                        setIsLoggedIn(true);
                         Ls.setObject("session", { token: res.data.token, isLoggedIn: true, username: res.data.username });
-                        history.push("/profile")
+                        history.push("/players")
 
                     } else {
                         notifier.alert(res.data.message);
@@ -93,8 +93,9 @@ export default function Login() {
 
                     setUser(res.data.user);
 
+
                     Ls.setObject("session", { token: res.data.token, isLoggedIn: true, username: res.data.username });
-                    history.push("/profile")
+                    history.push("/players")
 
                 } else {
                     notifier.alert(res.data.message);
@@ -149,7 +150,7 @@ export default function Login() {
                     label="Nom d'utilisateur ou E-mail*"
                     type="text"
                     value={email}
-                    onChange={setEmail}
+                    handleChange={setEmail}
                 />
 
                 <Input
@@ -157,7 +158,7 @@ export default function Login() {
                     type="password"
                     label="Mot de passe*"
                     value={password}
-                    onChange={setPassword}
+                    handleChange={setPassword}
                     onKeyPress={handleEnter}
                 />
 

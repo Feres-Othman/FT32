@@ -13,7 +13,7 @@ export default function Players() {
     let { clubName } = useParams();
 
     const { design } = useContext(DesignContext);
-    const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
+    const { isMedium, isSmall, isLarge, notifier, isLoggedIn } = useContext(RContext)
 
     const [items, setItems] = useState([])
 
@@ -60,25 +60,54 @@ export default function Players() {
                 alignItems: "start",
                 width: "90%",
                 height: "75vh",
-                backgroundColor: design.backgroundColor,
+                backgroundColor: design.accentColor,
                 marginLeft: "5%",
                 textAlign: 'center',
                 overflowY: "scroll"
             }} >
 
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: design.accentColor, width: "100%", height: 50, marginBottom: 10 }} >
 
-                    <div style={{ width: "10%" }} >Num</div>
-                    <div style={{ width: "15%" }} >Nom</div>
-                    <div style={{ width: "15%" }} >Prenom</div>
-                    <div style={{ width: "15%" }} >Categorie</div>
-                    <div style={{ width: "10%" }} >Sexe</div>
-                    <div style={{ width: "10%" }} >Points</div>
-                </div>
-                {items.map((item, index) => {
-                    return <PlayerItem isByTeam={true} key={item._id} rang={index} {...item} />
-                })}
 
+                {
+                    isLoggedIn ?
+
+
+                        <>
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: "white", width: "100%", height: 50, marginBottom: 10, paddingTop: 20, paddingBottom: 20 }} >
+
+                                <div style={{ width: "10%" }} >Num</div>
+                                <div style={{ width: "15%" }} >Nom</div>
+                                <div style={{ width: "15%" }} >Prenom</div>
+                                <div style={{ width: "15%" }} >Categorie</div>
+                                <div style={{ width: "10%" }} >Sexe</div>
+                                <div style={{ width: "10%" }} >Points</div>
+
+                            </div>
+                            {items.map((item, index) => {
+                                return <PlayerItem isByTeam={true} key={item._id} rang={index} {...item} />
+                            })}
+                        </>
+
+                        :
+
+                        <>
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: "white", width: "100%", height: 50, marginBottom: 10, paddingTop: 20, paddingBottom: 20 }} >
+
+                                <div style={{ width: "10%" }} >Num</div>
+                                <div style={{ width: "20%" }} >Nom</div>
+                                <div style={{ width: "20%" }} >Prenom</div>
+                                <div style={{ width: "20%" }} >Categorie</div>
+                                <div style={{ width: "15%" }} >Sexe</div>
+                                <div style={{ width: "15%" }} >Points</div>
+
+                            </div>
+                            {items.map((item, index) => {
+                                return <PlayerItem isByTeam={true} key={item._id} rang={index} {...item} />
+                            })}
+
+                        </>
+
+                }
 
 
             </div >

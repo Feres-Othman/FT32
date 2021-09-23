@@ -7,7 +7,7 @@ import { UserContext } from '../UserContext'
 import { DesignContext } from '../DesignContext';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { useHistory } from "react-router-dom";
-import { faUser,faTrophy, faUserFriends, faMapMarked, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faTrophy, faUserFriends, faMapMarked, faPhone, faEnvelope, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import axios from 'axios'
@@ -31,7 +31,7 @@ function NvBar({ doLogout }) {
         }
     }
 
-    const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
+    const { isMedium, isSmall, isLarge, notifier, isLoggedIn } = useContext(RContext)
     const { user } = useContext(UserContext)
     const [categories, setCategories] = useState([])
     const [data, setData] = useState({ name: "Categorie" })
@@ -98,7 +98,7 @@ function NvBar({ doLogout }) {
                 backgroundColor: design.backgroundColor,
                 paddingLeft: isSmall ? 20 : 40,
                 paddingRight: isSmall ? 20 : 40,
-                gap: 30,
+                gap: 20,
                 height: 60,
                 // filter: 'drop-shadow(4px 6px 8px #555)',
             }} >
@@ -130,7 +130,15 @@ function NvBar({ doLogout }) {
                 <div>
                     <NavLink style={style.navitem} activeStyle={style.active} to="/players" exact ><Icon icon={faUser} className="hoverScale" size="lg" style={{ width: 25 }} /> JOUEURES </NavLink>
                 </div>
-                
+
+                {
+                    isLoggedIn &&
+                    <div>
+                        <NavLink style={style.navitem} activeStyle={style.active} to="/match/add" exact ><Icon icon={faTrophy} className="hoverScale" size="lg" style={{ width: 25 }} /> AJOUTER UN MATCH </NavLink>
+                    </div>
+                }
+
+
 
                 <div style={{ width: isSmall ? "10%" : "20%" }} ></div>
 
@@ -150,6 +158,10 @@ function NvBar({ doLogout }) {
                     <Icon icon={faEnvelope} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
                 </a>
 
+                {
+                    isLoggedIn &&
+                    <Icon icon={faSignOutAlt} onClick={doLogout} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor, marginLeft: 30, cursor: "pointer" }} />
+                }
             </div>
 
 

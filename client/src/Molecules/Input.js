@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { RContext } from "../RContext";
 import { DesignContext } from "../DesignContext";
 
-export default function Input({ name,label, type = "text", placeholder, value, handleChange, onKeyPress, disabled = false , width= "65%"}) {
+export default function Input({ name, label, type = "text", placeholder, value, handleChange, onKeyPress, disabled = false, width = "65%" }) {
 
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
     const { design } = useContext(DesignContext)
@@ -16,7 +16,7 @@ export default function Input({ name,label, type = "text", placeholder, value, h
                 type={type}
                 placeholder={placeholder}
                 value={value}
-                onChange={handleChange}
+                onChange={(e) => { handleChange(e.target.value) }}
                 style={{ borderRadius: 15, height: 45, width: isSmall ? '' : width, backgroundColor: 'white' }}
                 onKeyPress={onKeyPress}
                 className='form-control'

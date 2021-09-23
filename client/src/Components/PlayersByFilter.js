@@ -6,7 +6,7 @@ import PlayerItem from './PlayerItem';
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import { useParams } from 'react-router-dom';
-import  Btn from '../Molecules/Btn'
+import Btn from '../Molecules/Btn'
 import { useHistory } from 'react-router-dom';
 import {
     Button,
@@ -15,14 +15,14 @@ import {
     DialogContent,
     DialogContentText,
     DialogActions,
-  } from "@material-ui/core";
+} from "@material-ui/core";
 export default function PlayersByFilter() {
 
 
     let { sex, category } = useParams();
 
     const { design } = useContext(DesignContext);
-    const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
+    const { isMedium, isSmall, isLarge, notifier, isLoggedIn } = useContext(RContext)
 
     const [items, setItems] = useState([])
 
@@ -63,19 +63,24 @@ export default function PlayersByFilter() {
     return (
         <>
             <h1 style={{ textAlign: 'center', margin: 20 }} >{sex.toUpperCase() == "M" ? "Homme" : "Femme"} : {category.toLowerCase()[0].toUpperCase() + category.toLowerCase().substring(1)}</h1>
-            <Btn onClick={() => {
+            {isLoggedIn &&
 
-                history.push(`/Ajouterjouer/`);
-            }}style={{ float:'right' , 
-              display: "flex",
-             justifyContent: "start",
-             alignItems: "start",
-            marginRight: "5%",
-            marginBottom: "5px",
+                <Btn
+                    onClick={() => {
+                        history.push(`/Ajouterjouer/`);
+                    }}
+                    style={{
+                        float: 'right',
+                        display: "flex",
+                        justifyContent: "start",
+                        alignItems: "start",
+                        marginRight: "5%",
+                        marginBottom: "5px",
+                        textAlign: 'center',
+                    }}>Ajouter un jouer</Btn>
+            }
 
-                textAlign: 'center',
 
-             }}>Ajouter un jouer</Btn>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -83,31 +88,59 @@ export default function PlayersByFilter() {
                 alignItems: "start",
                 width: "90%",
                 height: "75vh",
-                backgroundColor: design.backgroundColor,
+                backgroundColor: design.accentColor,
                 marginLeft: "5%",
                 textAlign: 'center',
                 overflowY: "scroll"
-            }} >                  
+            }} >
+
+                {
+                    isLoggedIn ?
 
 
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: design.accentColor, width: "100%", height: 50, marginBottom: 10 }} >
+                        <>
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: "white", width: "100%", height: 50, marginBottom: 10, paddingTop: 20, paddingBottom: 20 }} >
 
-                    <div style={{ width: "10%" }} >rang</div>
-                    <div style={{ width: "10%" }} >Num</div>
-                    <div style={{ width: "15%" }} >Nom</div>
-                    <div style={{ width: "15%" }} >Prenom</div>
-                    <div style={{ width: "15%" }} >Club</div>
-                    <div style={{ width: "10%" }} >Points</div>
+                                <div style={{ width: "10%" }} >rang</div>
+                                <div style={{ width: "10%" }} >Num</div>
+                                <div style={{ width: "15%" }} >Nom</div>
+                                <div style={{ width: "15%" }} >Prenom</div>
+                                <div style={{ width: "15%" }} >Club</div>
+                                <div style={{ width: "10%" }} >Points</div>
 
-                </div>
-                {items.map((item, index) => {
-                    // remove the last filtered item
-                    return <PlayerItem isByFilter={true} key={item._id} rang={index} {...item} filteredScore={item[`${category}Score`]} filteredScore={item[`score`]} />
-                })}
+                            </div>
+                            {items.map((item, index) => {
+                                // remove the last filtered item
+                                return <PlayerItem isLoggedIn={true} isByFilter={true} key={item._id} rang={index} {...item} filteredScore={item[`${category}Score`]} filteredScore={item[`score`]} />
+                            })}
+                        </>
+
+                        :
+
+                        <>
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: "white", width: "100%", height: 50, marginBottom: 10, paddingTop: 20, paddingBottom: 20 }} >
+
+                                <div style={{ width: "10%" }} >rang</div>
+                                <div style={{ width: "15%" }} >Num</div>
+                                <div style={{ width: "20%" }} >Nom</div>
+                                <div style={{ width: "20%" }} >Prenom</div>
+                                <div style={{ width: "20%" }} >Club</div>
+                                <div style={{ width: "15%" }} >Points</div>
+
+                            </div>
+                            {items.map((item, index) => {
+                                // remove the last filtered item
+                                return <PlayerItem isLoggedIn={false} isByFilter={true} key={item._id} rang={index} {...item} filteredScore={item[`${category}Score`]} filteredScore={item[`score`]} />
+                            })}
+
+                        </>
+
+                }
 
 
 
-            </div >
+
+            </div>
         </>
     )
 }
