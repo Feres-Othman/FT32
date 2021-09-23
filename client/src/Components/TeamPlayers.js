@@ -14,7 +14,7 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
                 onClick(e);
             }}
             variant="Primary"
-            style={{ backgroundColor: 'white', borderRadius: 15, height: 50, width: 600, maxWidth: 600, minWidth: 400, border: "0px" }}>
+            style={{ backgroundColor: 'white', borderRadius: 15, height: 50, maxWidth: 600, minWidth: 400, border: "0px" }}>
 
             {children}
             &#x25bc;
@@ -86,10 +86,11 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
                         alignItems: "center",
                         // paddingTop: "20vh",
                         // backgroundColor: "red",
-                        gap: 20
+                        gap: 20,
+                        maxWidth: 600, minWidth: 400
                         // overflowY: "scroll"
                     }}>
-                        <Dropdown>
+                        <Dropdown style={{ maxWidth: 600, minWidth: 400 }}>
                             <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
                                 {team.name || `Selectionner l'equipe ${number} `}
                             </Dropdown.Toggle>
@@ -170,22 +171,22 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
                         // backgroundColor: "red",
                         gap: 18,
                         flexWrap: "wrap",
-                        width: 600
+                        width: 400
                         // overflowY: "scroll"
                     }}>
-                        <div style={{ width: 600, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
+                        <div style={{ maxWidth: 600, minWidth: 400, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
                             {team.name} <b style={{ fontWeight: "bolder", fontSize: 20 }}> - - - {teamScore}</b >
                         </div>
 
-                        <div style={{ width: 188, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
-                            {`${number == 1 ? "C" : "Z"} : ${player1.firstName} ${player1.lastName} - ${player1.number} `}
+                        <div style={{ maxWidth: 160, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
+                            {`${number == 1 ? "A" : "X"} : ${player1.firstName} ${player1.lastName} - ${player1.number} `}
                         </div>
 
-                        <div style={{ width: 188, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
-                            {`${number == 1 ? "C" : "Z"} : ${player2.firstName} ${player2.lastName} - ${player2.number} `}
+                        <div style={{ maxWidth: 160, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
+                            {`${number == 1 ? "B" : "Y"} : ${player2.firstName} ${player2.lastName} - ${player2.number} `}
                         </div>
 
-                        <div style={{ width: 188, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
+                        <div style={{ maxWidth: 160, backgroundColor: "white", borderRadius: 15, padding: 10 }}>
                             {`${number == 1 ? "C" : "Z"} : ${player3.firstName} ${player3.lastName} - ${player3.number} `}
                         </div>
                     </div>

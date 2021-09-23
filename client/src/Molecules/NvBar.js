@@ -7,7 +7,7 @@ import { UserContext } from '../UserContext'
 import { DesignContext } from '../DesignContext';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { useHistory } from "react-router-dom";
-import { faUser, faTrophy, faUserFriends, faMapMarked, faPhone, faEnvelope, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faTrophy, faUserFriends, faMapMarked, faPhone, faEnvelope, faSignOutAlt, faTableTennis } from '@fortawesome/free-solid-svg-icons'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import axios from 'axios'
@@ -93,6 +93,7 @@ function NvBar({ doLogout }) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: "100%",
+                flexWrap: "wrap",
                 // border: `2px solid ${design.backgroundColor}`,
                 // borderRadius: 25,
                 backgroundColor: design.backgroundColor,
@@ -107,56 +108,64 @@ function NvBar({ doLogout }) {
                         history.push("/")
                     }}
                     style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 20, color: design.mainTextColor, cursor: "pointer" }}>
-                    <img className="hoverScale" style={{ width: 45, height: 45, borderRadius: "10%", objectFit: "contain", marginTop: 17 }} src={logo}></img>
+                    <img className="hoverScale" style={{ width: 45, height: 45, borderRadius: "10%", objectFit: "contain", marginTop: isMedium ? 0 : 17 }} src={logo}></img>
 
-                    {!isSmall && <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: "center" }}>
+                    {!isMedium && <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: "center" }}>
                         <p style={{ fontWeight: "bold", fontSize: 15, marginTop: 17 }}>
                             Fédération Tunisienne <br /> de Tennis de Table
                         </p>
                     </div>}
 
+
+
                 </div>
 
 
 
                 <div>
-                    <NavLink style={style.navitem} activeStyle={style.active} to="/competitions" exact ><Icon icon={faTrophy} className="hoverScale" size="lg" style={{ width: 25 }} /> COMPÉTITIONS </NavLink>
+                    <NavLink style={style.navitem} activeStyle={style.active} to="/competitions" exact ><Icon icon={faTrophy} className="hoverScale" size="lg" style={{ width: 25 }} /> {!isLarge ? "COMPÉTITIONS" : ""}  </NavLink>
                 </div>
 
                 <div>
-                    <NavLink style={style.navitem} activeStyle={style.active} to="/teams" exact ><Icon icon={faUserFriends} className="hoverScale" size="lg" style={{ width: 25 }} /> ÉQUIPES </NavLink>
+                    <NavLink style={style.navitem} activeStyle={style.active} to="/teams" exact ><Icon icon={faUserFriends} className="hoverScale" size="lg" style={{ width: 25 }} /> {!isLarge ? "ÉQUIPES" : ""}  </NavLink>
                 </div>
 
                 <div>
-                    <NavLink style={style.navitem} activeStyle={style.active} to="/players" exact ><Icon icon={faUser} className="hoverScale" size="lg" style={{ width: 25 }} /> JOUEURES </NavLink>
+                    <NavLink style={style.navitem} activeStyle={style.active} to="/players" exact ><Icon icon={faUser} className="hoverScale" size="lg" style={{ width: 25 }} />{!isLarge ? "JOUEURES" : ""}  </NavLink>
                 </div>
 
                 {
                     isLoggedIn &&
                     <div>
-                        <NavLink style={style.navitem} activeStyle={style.active} to="/match/add" exact ><Icon icon={faTrophy} className="hoverScale" size="lg" style={{ width: 25 }} /> AJOUTER UN MATCH </NavLink>
+                        <NavLink style={style.navitem} activeStyle={style.active} to="/match/add" exact ><Icon icon={faTableTennis} className="hoverScale" size="lg" style={{ width: 25 }} />{!isLarge ? "AJOUTER UN MATCH" : ""}  </NavLink>
                     </div>
                 }
 
 
 
-                <div style={{ width: isSmall ? "10%" : "20%" }} ></div>
+                <div style={{ width: isMedium ? "0%" : "10%" }} ></div>
 
-                <a target="blank" href="https://www.google.com/maps/dir/?api=1&destination=36.8%2C10.1833&fbclid=IwAR1UuOjlFCVSWEaluFADgfByp9d6Got1kJPTwMN0MnWjV5rhoo_5snn4u7o" style={{ cursor: 'pointer' }}>
-                    <Icon icon={faMapMarked} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
-                </a>
+                {
+                    !isMedium && <>
 
-                <a href="tel:+21671238722" style={{ cursor: 'pointer' }}>
-                    <Icon icon={faPhone} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
-                </a>
+                        <a target="blank" href="https://www.google.com/maps/dir/?api=1&destination=36.8%2C10.1833&fbclid=IwAR1UuOjlFCVSWEaluFADgfByp9d6Got1kJPTwMN0MnWjV5rhoo_5snn4u7o" style={{ cursor: 'pointer' }}>
+                            <Icon icon={faMapMarked} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
+                        </a>
 
-                <a target="blank" href="https://www.facebook.com/fttt.tunisia/" style={{ cursor: 'pointer' }}>
-                    <Icon icon={faFacebook} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
-                </a>
+                        <a href="tel:+21671238722" style={{ cursor: 'pointer' }}>
+                            <Icon icon={faPhone} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
+                        </a>
 
-                <a href="mailto:tunisianttf_2013@yahoo.fr" style={{ cursor: 'pointer' }}>
-                    <Icon icon={faEnvelope} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
-                </a>
+                        <a target="blank" href="https://www.facebook.com/fttt.tunisia/" style={{ cursor: 'pointer' }}>
+                            <Icon icon={faFacebook} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
+                        </a>
+
+                        <a href="mailto:tunisianttf_2013@yahoo.fr" style={{ cursor: 'pointer' }}>
+                            <Icon icon={faEnvelope} className="hoverScale" size="lg" style={{ width: 25, color: design.mainTextColor }} />
+                        </a>
+                    </>
+                }
+
 
                 {
                     isLoggedIn &&

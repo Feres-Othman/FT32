@@ -372,7 +372,7 @@ export default function AddMatch() {
                 gap: 20
                 // overflowY: "scroll"
             }} >
-                <Dropdown style={{ width: 600 }}>
+                <Dropdown style={{ maxWidth: 600, minWidth: 400 }}>
 
                     <Dropdown.Toggle variant="success" variant="Primary"
                         style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
@@ -393,11 +393,11 @@ export default function AddMatch() {
 
                 </Dropdown>
 
-                <div style={{ width: 100 }}>
+                <div style={{ maxWidth: 100, minWidth: 50 }}>
 
                 </div>
 
-                <DrpDown style={{ width: 600 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
+                <DrpDown style={{ maxWidth: 600, minWidth: 400 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
 
             </div >
 
@@ -433,7 +433,7 @@ export default function AddMatch() {
                         isValidated={isValidated}
                         teamScore={teamScore(contests, 1)}
                     />
-                    <div style={{ width: 100, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                    <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                         {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
                         {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && isValidated) && <Icon onClick={() => { setIsValidated(false) }} icon={faTimesCircle} size="lg" />}
                     </div>

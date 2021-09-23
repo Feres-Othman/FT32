@@ -77,7 +77,7 @@ export default function PlayersByFilter() {
                         marginRight: "5%",
                         marginBottom: "5px",
                         textAlign: 'center',
-                    }}>Ajouter un jouer</Btn>
+                    }}>Ajouter un joueur</Btn>
             }
 
 
