@@ -31,7 +31,7 @@ require("dotenv").config();
 // Body-parser y5alina naccediw lel "req.body" object
 app.use(express.json());
 app.use(cors());
-app.use (bodyParser.json())
+app.use(bodyParser.json())
 
 const port = process.env.PORT || 5000;
 
@@ -53,6 +53,7 @@ app.use('/api/team', TeamRouter)
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.get('*', (req, res) => {
 
   // if(req.session.userID){
