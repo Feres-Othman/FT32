@@ -3,14 +3,14 @@ import { RContext } from '../RContext'
 import { useDispatch } from 'react-redux';
 import Dialog from 'react-bootstrap-dialog'
 import * as api from '../api/index';
-import { AJOUT,DELETE } from '../constants/actionTypes';
+import { AJOUT, DELETE } from '../constants/actionTypes';
 
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
-import { Row,Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import TeamPlayers from './TeamPlayers';
 import { Dropdown, FormControl } from 'react-bootstrap'
-import {ajout} from "./actions/ajouterunjouer"
+import { ajout } from "./actions/ajouterunjouer"
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import DrpDown from '../Molecules/DrpDown';
@@ -19,9 +19,9 @@ import Input from '../Molecules/Input';
 
 
 import { useHistory } from 'react-router-dom';
-const initialState = { Nom: '', Prenom: '', Nationalité: '', UniqueNumber: '', Numero: '',Score: '',Category1: '',Gender: '',Date: '',Team: '' };
+const initialState = { Nom: '', Prenom: '', Nationalité: '', UniqueNumber: '', Numero: '', Score: '', Category1: '', Gender: '', Date: '', Team: '' };
 
-const Ajoutjouer=() => {
+const Ajoutjouer = () => {
 
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 
@@ -70,7 +70,7 @@ const Ajoutjouer=() => {
 
 
 
-    
+
     const { design } = useContext(DesignContext);
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
     const dispatch = useDispatch();
@@ -158,156 +158,160 @@ const Ajoutjouer=() => {
         getTeams();
     }, [])
 
-  
-      const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-      const handleChange1 = (e) => {  
-          
-            setForm({ ...form, [e.target.name]: e.target.value.replace(/[^A-Za-z]/ig, '')});
-        }
-       
-      
 
-       const blockInvalidChar = e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
-       const onlyletter = e =>  (e.charCode >= 65 && e.charCode <= 90) || (e.charCode >= 97 && e.charCode <= 122);
-       const ajout = (formData, router) => async (dispatch) => {
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleChange1 = (e) => {
+
+        setForm({ ...form, [e.target.name]: e.target.value.replace(/[^A-Za-z]/ig, '') });
+    }
+
+
+
+    const blockInvalidChar = e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
+    const onlyletter = e => (e.charCode >= 65 && e.charCode <= 90) || (e.charCode >= 97 && e.charCode <= 122);
+    const ajout = (formData, router) => async (dispatch) => {
 
         try {
-          const { data } = await api.Ajout(formData);
-      
-          dispatch({ type: AJOUT, data });
-          if(data.success==false){ notifier.alert('joueur avec ce Numéro Unique existe déjà')
-          }else if(data.success==true)
-          { notifier.success('Succès')
-          }
-              
-      
-        
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      const handleSubmit = (e) => {
-        form.Category1=category
-        form.Gender=gender
-        form.Team=team
-        
-           
+            const { data } = await api.Ajout(formData);
 
-            if ( form.Nom == '') {
-                notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
-                return;
-            } if ( form.Prenom == '' ) {
-                notifier.alert("Le champ Prenom ne peut pas être vide et ne peut contenir que des lettres");
-                return;
-            } 
-            if (gender._id == undefined) {
-                notifier.alert("veuillez sélectionner un sexe");
-                return;
+            dispatch({ type: AJOUT, data });
+            if (data.success == false) {
+                notifier.alert('joueur avec ce Numéro Unique existe déjà')
+            } else if (data.success == true) {
+                notifier.success('Succès')
             }
-            if (category.name == undefined) {
-                notifier.alert("Veuillez sélectionner une catégorie");
-                return;
-            }   if (team.name == undefined) {
-                notifier.alert("veuillez sélectionner une équipe");
-                return;
-            }  if ( form.Date == '' ) {
-                notifier.alert("Le champ de date ne peut pas être vide");
-                return;
-            }
-            if ( form.Score == '' ) {
-                notifier.alert("Le champ Score ne peut pas être vide et ne peut contenir que des chiffres");
-                return;
-            }if ( form.UniqueNumber == '' ) {
-                notifier.alert("Le champ NuméroUnique ne peut pas être vide ");
-                return;
-            }
-            if ( form.Nationalité == '' ) {
-                notifier.alert("le champ nationalité ne peut pas être vide et ne peut contenir que des lettres");
-                return;
-            }if ( form.Numero == '' ) {
-                notifier.alert("Le champ Numero ne peut pas être vide et ne peut contenir que des chiffre");
-                return;
-            }
-       
-     
+
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const handleSubmit = (e) => {
+        form.Category1 = category
+        form.Gender = gender
+        form.Team = team
+
+
+
+        if (form.Nom == '') {
+            notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
+            return;
+        } if (form.Prenom == '') {
+            notifier.alert("Le champ Prenom ne peut pas être vide et ne peut contenir que des lettres");
+            return;
+        }
+        if (gender._id == undefined) {
+            notifier.alert("veuillez sélectionner un sexe");
+            return;
+        }
+        if (category.name == undefined) {
+            notifier.alert("Veuillez sélectionner une catégorie");
+            return;
+        } if (team.name == undefined) {
+            notifier.alert("veuillez sélectionner une équipe");
+            return;
+        } if (form.Date == '') {
+            notifier.alert("Le champ de date ne peut pas être vide");
+            return;
+        }
+        if (form.Score == '') {
+            notifier.alert("Le champ Score ne peut pas être vide et ne peut contenir que des chiffres");
+            return;
+        } if (form.UniqueNumber == '') {
+            notifier.alert("Le champ NuméroUnique ne peut pas être vide ");
+            return;
+        }
+        if (form.Nationalité == '') {
+            notifier.alert("le champ nationalité ne peut pas être vide et ne peut contenir que des lettres");
+            return;
+        } if (form.Numero == '') {
+            notifier.alert("Le champ Numero ne peut pas être vide et ne peut contenir que des chiffre");
+            return;
+        }
+
+
 
         console.log(form.Category1)
         console.log(category)
         console.log(form)
 
 
-       
+
         e.preventDefault();
         dispatch(ajout(form, history));
 
- 
-       };
-  
+
+    };
+
 
     return (
         <form  >
 
-        <div style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "90%",
-            height: "87vh",
-            //paddingTop: "20vh",
-            // backgroundColor: design.backgroundColor,
-            marginLeft: "5%",
-            textAlign: 'center',
-            // overflowY: "scroll"
-        }} >
-                    <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute un jouer</h1>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "90%",
+                height: "87vh",
+                //paddingTop: "20vh",
+                // backgroundColor: design.backgroundColor,
+                marginLeft: "5%",
+                textAlign: 'center',
+                // overflowY: "scroll"
+            }} >
+                <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute un jouer</h1>
 
-         <div > 
-         <Row>
+                <div >
+                    <Row>
 
-         <Col><Input  handleChange={handleChange1}    name ="Nom" placeholder="Nom" width="200px"  maxLength="9"
- ></Input></Col>
-         <Col><Input  handleChange={handleChange1} name ="Prenom" placeholder="Prenom"  width="200px"></Input></Col>
-</Row>
-</div>
-<br />
-<div > 
-<Row>
+                        <Col>
+                            <Input handleChangeEvent={handleChange1} name="Nom" placeholder="Nom" width="200px" maxLength="9" />
+                        </Col>
+                        <Col>
+                            <Input handleChangeEvent={handleChange1} name="Prenom" placeholder="Prenom" width="200px" />
+                        </Col>
+                    </Row>
+                </div>
+                <br />
+                <div >
+                    <Row>
 
-<Col><Input  handleChange={handleChange1} name ="Nationalité" placeholder="Nationalité" width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="Nationalité" placeholder="Nationalité" width="200px" ></Input></Col>
 
-<Col><Input  handleChange={handleChange}  name ="UniqueNumber" placeholder="Numéro unique" width="200px" ></Input></Col>
-</Row>
+                        <Col><Input handleChangeEvent={handleChange} name="UniqueNumber" placeholder="Numéro unique" width="200px" ></Input></Col>
+                    </Row>
 
-</div>           
-
-
-  
+                </div>
 
 
-<br />
-<div > 
-    <Row>
-<Col><Input  handleChange={handleChange}  onKeyPress={blockInvalidChar} type="number" name ="Numero" placeholder="Numero" width="200px" ></Input></Col>
 
-<Col><Input  handleChange={handleChange} type="number"  onKeyPress={blockInvalidChar}  name ="Score" placeholder="Score" width="200px" ></Input></Col>
-</Row>
-</div>            <br />
-<DrpDown handleChange={handleChange}  value={category} name ="Category" dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
-            <br />
-<div > 
-<h4 style={{textAlign: 'left' }}>Date de naissance: </h4>
-<Input   handleChange={handleChange} name ="Date" placeholder="Date de naissance" width="400px"type="date" ></Input>
-</div> 
 
-<br />
-<div>
-<Row>
 
-          <Col><DrpDown name="Gender" handleChange={handleChange} style={{width:"200px",zIndex: 5 }}  dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>  
-  
+                <br />
+                <div >
+                    <Row>
+                        <Col><Input handleChangeEvent={handleChange} onKeyPress={blockInvalidChar} type="number" name="Numero" placeholder="Numero" width="200px" ></Input></Col>
 
-          <Col>     <Dropdown name="team" handleChange={handleChange} style={{width:"200px",zIndex: 5 }} >
+                        <Col><Input handleChangeEvent={handleChange} type="number" onKeyPress={blockInvalidChar} name="Score" placeholder="Score" width="200px" ></Input></Col>
+                    </Row>
+                </div>            <br />
+                <DrpDown handleChangeEvent={handleChange} value={category} name="Category" dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
+                <br />
+                <div >
+                    <h4 style={{ textAlign: 'left' }}>Date de naissance: </h4>
+                    <Input handleChangeEvent={handleChange} name="Date" placeholder="Date de naissance" width="400px" type="date" ></Input>
+                </div>
+
+                <br />
+                <div>
+                    <Row>
+
+                        <Col><DrpDown name="Gender" handleChangeEvent={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>
+
+
+                        <Col>     <Dropdown name="team" handleChangeEvent={handleChange} style={{ width: "200px", zIndex: 5 }} >
                             <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
                                 {team.name || `Selectionner l'equipe `}
                             </Dropdown.Toggle>
@@ -320,15 +324,15 @@ const Ajoutjouer=() => {
                                 ))}
                             </Dropdown.Menu>
                         </Dropdown></Col>
-     
-            </Row>
-            </div>
-            <br />
-       
-            <br />
-            <Btn onClick={handleSubmit} style={{ width: 400 }}>Valider</Btn>
 
-        </div ></form>
+                    </Row>
+                </div>
+                <br />
+
+                <br />
+                <Btn onClick={handleSubmit} style={{ width: 400 }}>Valider</Btn>
+
+            </div ></form>
     )
 };
 export default Ajoutjouer;

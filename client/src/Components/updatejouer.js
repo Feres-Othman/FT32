@@ -3,14 +3,14 @@ import { RContext } from '../RContext'
 import { useDispatch } from 'react-redux';
 import Dialog from 'react-bootstrap-dialog'
 import * as api from '../api/index';
-import { AJOUT,DELETE } from '../constants/actionTypes';
+import { AJOUT, DELETE } from '../constants/actionTypes';
 
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
-import { Row,Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import TeamPlayers from './TeamPlayers';
 import { Dropdown, FormControl } from 'react-bootstrap'
-import {update} from "./actions/ajouterunjouer"
+import { update } from "./actions/ajouterunjouer"
 
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
@@ -22,12 +22,12 @@ import { useParams } from 'react-router-dom';
 
 import { useHistory } from 'react-router-dom';
 
-const Updatejouer=() => {
+const Updatejouer = () => {
     let { _id } = useParams();
-console.log(_id)
-   
+    console.log(_id)
 
- 
+
+
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 
         <button ref={ref}
@@ -74,7 +74,7 @@ console.log(_id)
     );
 
 
-   const [Player, setPlayer] = useState({})
+    const [Player, setPlayer] = useState({})
 
 
     const { design } = useContext(DesignContext);
@@ -96,7 +96,7 @@ console.log(_id)
         name: "Homme"
     }]
     const [gender, setGender] = useState({})
- const getPlayer = async () => {
+    const getPlayer = async () => {
 
         var session = Ls.getObject('session', { 'isLoggedIn': false });
         let config = {
@@ -188,45 +188,46 @@ console.log(_id)
     useEffect(() => {
         getTeams();
     }, [])
-      useEffect(() => {
+    useEffect(() => {
         getPlayer();
     }, [])
 
-     const update = (formData, router,_id) => async (dispatch) => {
+    const update = (formData, router, _id) => async (dispatch) => {
 
         try {
-          const { data } = await api.Update(formData,_id);
-      
-          dispatch({ type: AJOUT, data });
-          if(data.success==false){ notifier.alert('joueur avec ce Numéro Unique existe déjà ')
-          }else if(data.success==true)
-          { notifier.success('Succès')
-          }
-              
-      
-        
+            const { data } = await api.Update(formData, _id);
+
+            dispatch({ type: AJOUT, data });
+            if (data.success == false) {
+                notifier.alert('joueur avec ce Numéro Unique existe déjà ')
+            } else if (data.success == true) {
+                notifier.success('Succès')
+            }
+
+
+
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
-      const initialState = { Nom:"", Prenom: '', Nationalité: '', UniqueNumber: '', Numero: '',Score: '',Category1: '',Gender: '',Date: '',Team: '' };
+    };
+    const initialState = { Nom: "", Prenom: '', Nationalité: '', UniqueNumber: '', Numero: '', Score: '', Category1: '', Gender: '', Date: '', Team: '' };
     const [form, setForm] = useState(initialState);
 
-      const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-      const handleChange1 = (e) => setForm({ ...form, [e.target.name]: e.target.value.replace(/[^A-Za-z]/ig, '') });
-      
-const handleUpdate = (e) => {
-    e.preventDefault();
-    form.Category1=category
-        form.Gender=gender
-        form.Team=team
-        if ( form.Nom == '') {
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleChange1 = (e) => setForm({ ...form, [e.target.name]: e.target.value.replace(/[^A-Za-z]/ig, '') });
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        form.Category1 = category
+        form.Gender = gender
+        form.Team = team
+        if (form.Nom == '') {
             notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
             return;
-        } if ( form.Prenom == '' ) {
+        } if (form.Prenom == '') {
             notifier.alert("Le champ Prenom ne peut pas être vide et ne peut contenir que des lettres");
             return;
-        } 
+        }
         if (gender._id == undefined) {
             notifier.alert("veuillez sélectionner un sexe");
             return;
@@ -234,94 +235,94 @@ const handleUpdate = (e) => {
         if (category.name == undefined) {
             notifier.alert("Veuillez sélectionner une catégorie");
             return;
-        }   if (team.name == undefined) {
+        } if (team.name == undefined) {
             notifier.alert("veuillez sélectionner une équipe");
             return;
-        }  if ( form.Date == '' ) {
+        } if (form.Date == '') {
             notifier.alert("Le champ de date ne peut pas être vide");
             return;
         }
-        if ( form.Score == '' ) {
+        if (form.Score == '') {
             notifier.alert("Le champ Score ne peut pas être vide et ne peut contenir que des chiffres");
             return;
-        }if ( form.UniqueNumber == '' ) {
+        } if (form.UniqueNumber == '') {
             notifier.alert("Le champ NuméroUnique ne peut pas être vide ");
             return;
         }
-        if ( form.Nationalité == '' ) {
+        if (form.Nationalité == '') {
             notifier.alert("le champ nationalité ne peut pas être vide et ne peut contenir que des lettres");
             return;
-        }if ( form.Numero == '' ) {
+        } if (form.Numero == '') {
             notifier.alert("Le champ Numero ne peut pas être vide et ne peut contenir que des chiffre");
             return;
         }
-         dispatch(update(form, history,_id));
-}
+        dispatch(update(form, history, _id));
+    }
 
 
     return (
         <form  >
 
-        <div style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "90%",
-            height: "87vh",
-        //paddingTop: "20vh",
-            // backgroundColor: design.backgroundColor,
-            marginLeft: "5%",
-            textAlign: 'center',
-            // overflowY: "scroll"
-        }} >
-                    <h1 style={{ textAlign: 'center', margin: 20 }}>Mise a jour d'un jouer</h1>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "90%",
+                height: "87vh",
+                //paddingTop: "20vh",
+                // backgroundColor: design.backgroundColor,
+                marginLeft: "5%",
+                textAlign: 'center',
+                // overflowY: "scroll"
+            }} >
+                <h1 style={{ textAlign: 'center', margin: 20 }}>Mise a jour d'un jouer</h1>
 
-         <div > 
-         <Row>
+                <div >
+                    <Row>
 
-         <Col><Input  handleChange={handleChange1} name ="Nom" placeholder={Player.firstName}w width="200px"  ></Input></Col>
-         <Col><Input  handleChange={handleChange1} name ="Prenom" placeholder={Player.lastName}width="200px"></Input></Col>
-</Row>
-</div>
-<br />
-<div > 
-<Row>
+                        <Col><Input handleChangeEvent={handleChange1} name="Nom" placeholder={Player.firstName} w width="200px"  ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="Prenom" placeholder={Player.lastName} width="200px"></Input></Col>
+                    </Row>
+                </div>
+                <br />
+                <div >
+                    <Row>
 
-<Col><Input  handleChange={handleChange1} name ="Nationalité" placeholder={Player.nat} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="Nationalité" placeholder={Player.nat} width="200px" ></Input></Col>
 
-<Col><Input  handleChange={handleChange}  name ="UniqueNumber" placeholder={Player.UniqueNumber} width="200px" ></Input></Col>
-</Row>
+                        <Col><Input handleChangeEvent={handleChange} name="UniqueNumber" placeholder={Player.UniqueNumber} width="200px" ></Input></Col>
+                    </Row>
 
-</div>           
-
-
-  
+                </div>
 
 
-<br />
-<div > 
-    <Row>
-<Col><Input  handleChange={handleChange} type="number" name ="Numero" placeholder={Player.number} width="200px" ></Input></Col>
 
-<Col><Input  handleChange={handleChange} type="number"   name ="Score" placeholder={Player.score} width="200px" ></Input></Col>
-</Row>
-</div>            <br />
-<DrpDown handleChange={handleChange}  value={category} name ="Category"   dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
-            <br />
-<div > 
-<h4 style={{textAlign: 'left' }}>Date de naissance: </h4>
-<Input   handleChange={handleChange} name ="Date" placeholder="Date de naissance" width="400px"type="date" ></Input>
-</div> 
 
-<br />
-<div>
-<Row>
 
-          <Col><DrpDown name="Gender" handleChange={handleChange} style={{width:"200px",zIndex: 5 }}  dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>  
-  
+                <br />
+                <div >
+                    <Row>
+                        <Col><Input handleChangeEvent={handleChange} type="number" name="Numero" placeholder={Player.number} width="200px" ></Input></Col>
 
-          <Col>     <Dropdown name="team" handleChange={handleChange} style={{width:"200px",zIndex: 5 }} >
+                        <Col><Input handleChangeEvent={handleChange} type="number" name="Score" placeholder={Player.score} width="200px" ></Input></Col>
+                    </Row>
+                </div>            <br />
+                <DrpDown handleChange={handleChange} value={category} name="Category" dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
+                <br />
+                <div >
+                    <h4 style={{ textAlign: 'left' }}>Date de naissance: </h4>
+                    <Input handleChangeEvent={handleChange} name="Date" placeholder="Date de naissance" width="400px" type="date" ></Input>
+                </div>
+
+                <br />
+                <div>
+                    <Row>
+
+                        <Col><DrpDown name="Gender" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>
+
+
+                        <Col>     <Dropdown name="team" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} >
                             <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
                                 {team.name || `Selectionner l'equipe `}
                             </Dropdown.Toggle>
@@ -334,15 +335,15 @@ const handleUpdate = (e) => {
                                 ))}
                             </Dropdown.Menu>
                         </Dropdown></Col>
-     
-            </Row>
-            </div>
-            <br />
-       
-            <br />
-            <Btn onClick={handleUpdate} style={{ width: 400 }}>Valider</Btn>
 
-        </div ></form>
+                    </Row>
+                </div>
+                <br />
+
+                <br />
+                <Btn onClick={handleUpdate} style={{ width: 400 }}>Valider</Btn>
+
+            </div ></form>
     )
 };
 export default Updatejouer;

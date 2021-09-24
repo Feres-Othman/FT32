@@ -122,7 +122,7 @@ const Ajoutequipe = () => {
                 <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute une equipe</h1>
 
                 <div >
-                    <Input handleChange={handleChange1} name="Nom" placeholder="Nom" width="400px" maxLength="9"
+                    <Input handleChangeEvent={handleChange1} name="Nom" placeholder="Nom" width="400px" maxLength="9"
                     ></Input>
 
                 </div>

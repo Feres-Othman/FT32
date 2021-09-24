@@ -167,7 +167,7 @@ const Updateequipe = () => {
                 <h1 style={{ textAlign: 'center', margin: 20 }}>Mise a jour d'une equipe</h1>
 
                 <div >
-                    <Input handleChange={handleChange1} name="Nom" placeholder={team.name} defaultValue={team.name} width="400px" maxLength="9" />
+                    <Input handleChangeEvent={handleChange1} name="Nom" placeholder={team.name} defaultValue={team.name} width="400px" maxLength="9" />
 
                 </div>
                 <br />
