@@ -6,8 +6,8 @@ const ajoutReducer = (state = { ajouthData: null }, action) => {
       localStorage.setItem('ajout', JSON.stringify({ ...action?.data }));
 
       return { ...state, ajouthData: action.data, loading: false, errors: null };
-      case actionType.DELETE:
-        return { ...state, items: state.items.filter((item) => item._id !== action.payload) };
+    case actionType.DELETE:
+      return { ...state, items: state.items.filter((item) => item._id !== action.payload) };
     default:
       return state;
 

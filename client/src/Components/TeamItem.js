@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-
+import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
 import { useHistory } from 'react-router-dom';
@@ -48,7 +48,15 @@ export default function TeamItem({ _id, name, rang, createdAt, isByTeam, isBanne
 
 
     let onOk = () => {
-        dispatch(deleteTeam(_id)); history.go(0)
+
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
+        dispatch(deleteTeam(_id, config)); history.go(0)
     };
     let onCancel = () => { };
 

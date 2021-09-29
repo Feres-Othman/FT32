@@ -1,20 +1,12 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://fttt.herokuapp.com' });
 
-API.interceptors.request.use((req) => {
-  if (localStorage.getItem('profile')) {
-    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
-  }
+export const Update = (formData, _id, config) => axios.post(`/api/player/update/${_id}`, formData, config);
+export const Ajoutequipe = (formData, config) => axios.post('/api/team/create', formData, config);
 
-  return req;
-});
-export const Update = (formData, _id) => API.post(`/api/player/update/${_id}`, formData);
-export const Ajoutequipe = (formData) => API.post('/api/team/create', formData);
-
-export const Ajout = (formData) => API.post('/api/player/Ajoutjouer', formData);
-export const Delete = (id) => API.delete(`/api/player/delete/${id}`);
-export const Deleteteam = (id) => API.delete(`/api/team/delete/${id}`);
+export const Ajout = (formData, config) => axios.post('/api/player/Ajoutjouer', formData, config);
+export const Delete = (id, config) => axios.delete(`/api/player/delete/${id}`, config);
+export const Deleteteam = (id, config) => axios.delete(`/api/team/delete/${id}`, config);
 
 
-export const Updateequipe = (formData, _id) => API.post(`/api/team/update/${_id}`, formData);
+export const Updateequipe = (formData, _id, config) => axios.post(`/api/team/update/${_id}`, formData, config);

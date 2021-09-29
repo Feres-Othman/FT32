@@ -68,13 +68,21 @@ const Ajoutequipe = () => {
     const onlyletter = e => (e.charCode >= 65 && e.charCode <= 90) || (e.charCode >= 97 && e.charCode <= 122);
     const ajoutequipe = (formData, router) => async (dispatch) => {
 
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
         try {
-            const { data } = await api.Ajoutequipe(formData);
+            const { data } = await api.Ajoutequipe(formData, config);
 
             if (data.samename == true) {
                 notifier.alert('léquipe existe déjà')
             } else if (data.success == true) {
                 notifier.success('Succès')
+                history.push("/teams");
             }
 
 

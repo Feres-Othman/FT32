@@ -162,7 +162,7 @@ const Updatejouer = () => {
             }
         }
 
-        axios.post("/api/team/read/all", {}, config)
+        axios.post("/api/team/read/all", { dontReadPlayers: true }, config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {
@@ -183,19 +183,29 @@ const Updatejouer = () => {
     }
 
     useEffect(() => {
+        getPlayer();
+    }, [])
+
+    useEffect(() => {
         getCategories();
     }, [])
     useEffect(() => {
         getTeams();
     }, [])
-    useEffect(() => {
-        getPlayer();
-    }, [])
+
 
     const update = (formData, router, _id) => async (dispatch) => {
 
         try {
-            const { data } = await api.Update(formData, _id);
+
+            var session = Ls.getObject('session', { 'isLoggedIn': false });
+            let config = {
+                headers: {
+                    "auth-token": session.token,
+                }
+            }
+
+            const { data } = await api.Update(formData, _id, config);
 
             dispatch({ type: AJOUT, data });
             if (data.success == false) {
@@ -276,22 +286,22 @@ const Updatejouer = () => {
                 textAlign: 'center',
                 // overflowY: "scroll"
             }} >
-                <h1 style={{ textAlign: 'center', margin: 20 }}>Mise a jour d'un jouer</h1>
+                <h1 style={{ textAlign: 'center', margin: 20 }}>Mise a jour d'un joueur</h1>
 
                 <div >
                     <Row>
 
-                        <Col><Input handleChangeEvent={handleChange1} name="Nom" placeholder={Player.firstName} w width="200px"  ></Input></Col>
-                        <Col><Input handleChangeEvent={handleChange1} name="Prenom" placeholder={Player.lastName} width="200px"></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="Nom" defaultValue={Player.firstName} width="200px"  ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="Prenom" defaultValue={Player.lastName} width="200px"></Input></Col>
                     </Row>
                 </div>
                 <br />
                 <div >
                     <Row>
 
-                        <Col><Input handleChangeEvent={handleChange1} name="Nationalité" placeholder={Player.nat} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="Nationalité" defaultValue={Player.nat} width="200px" ></Input></Col>
 
-                        <Col><Input handleChangeEvent={handleChange} name="UniqueNumber" placeholder={Player.UniqueNumber} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange} name="UniqueNumber" defaultValue={Player.UniqueNumber} width="200px" ></Input></Col>
                     </Row>
 
                 </div>
@@ -303,16 +313,16 @@ const Updatejouer = () => {
                 <br />
                 <div >
                     <Row>
-                        <Col><Input handleChangeEvent={handleChange} type="number" name="Numero" placeholder={Player.number} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange} type="number" name="Numero" defaultValue={Player.number} width="200px" ></Input></Col>
 
-                        <Col><Input handleChangeEvent={handleChange} type="number" name="Score" placeholder={Player.score} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange} type="number" name="Score" defaultValue={Player.score} width="200px" ></Input></Col>
                     </Row>
                 </div>            <br />
                 <DrpDown handleChange={handleChange} value={category} name="Category" dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
                 <br />
                 <div >
                     <h4 style={{ textAlign: 'left' }}>Date de naissance: </h4>
-                    <Input handleChangeEvent={handleChange} name="Date" placeholder="Date de naissance" width="400px" type="date" ></Input>
+                    <Input handleChangeEvent={handleChange} name="Date" defaultValue="Date de naissance" width="400px" type="date" ></Input>
                 </div>
 
                 <br />

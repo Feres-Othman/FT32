@@ -171,8 +171,15 @@ const Ajoutjouer = () => {
     const onlyletter = e => (e.charCode >= 65 && e.charCode <= 90) || (e.charCode >= 97 && e.charCode <= 122);
     const ajout = (formData, router) => async (dispatch) => {
 
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
         try {
-            const { data } = await api.Ajout(formData);
+            const { data } = await api.Ajout(formData, config);
 
             dispatch({ type: AJOUT, data });
             if (data.success == false) {
@@ -261,7 +268,7 @@ const Ajoutjouer = () => {
                 textAlign: 'center',
                 // overflowY: "scroll"
             }} >
-                <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute un jouer</h1>
+                <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute un joueur</h1>
 
                 <div >
                     <Row>
@@ -311,19 +318,21 @@ const Ajoutjouer = () => {
                         <Col><DrpDown name="Gender" handleChangeEvent={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>
 
 
-                        <Col>     <Dropdown name="team" handleChangeEvent={handleChange} style={{ width: "200px", zIndex: 5 }} >
-                            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                                {team.name || `Selectionner l'equipe `}
-                            </Dropdown.Toggle>
+                        <Col>
+                            <Dropdown name="team" handleChangeEvent={handleChange} drop="up" style={{ width: "200px", zIndex: 5 }} >
+                                <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                                    {team.name || `Selectionner l'equipe `}
+                                </Dropdown.Toggle>
 
-                            <Dropdown.Menu as={CustomMenu} >
-                                {teams.map((item, index) => (
-                                    <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam(item) }} >
-                                        {item.name}
-                                    </Dropdown.Item>
-                                ))}
-                            </Dropdown.Menu>
-                        </Dropdown></Col>
+                                <Dropdown.Menu as={CustomMenu} >
+                                    {teams.map((item, index) => (
+                                        <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam(item) }} >
+                                            {item.name}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Col>
 
                     </Row>
                 </div>

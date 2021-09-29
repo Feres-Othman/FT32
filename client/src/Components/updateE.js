@@ -26,7 +26,7 @@ const Updateequipe = () => {
 
     let { _id } = useParams();
 
-    console.log(_id)
+    // console.log(_id)s
 
 
     const { design } = useContext(DesignContext);
@@ -71,6 +71,17 @@ const Updateequipe = () => {
 
 
                     setTeam(res.team);
+
+                    setForm({ ...form, ['Nom']: res.team.name })
+
+                    setBanned(res.team.isBanned ? {
+                        _id: "O",
+                        name: "Oui"
+                    } : {
+                        _id: "F",
+                        name: "Non"
+                    })
+
                 } else {
                     return res.json({
                         success: false
@@ -98,13 +109,22 @@ const Updateequipe = () => {
 
         try {
             console.log(team._id)
-            const { data } = await api.Updateequipe(formData, team._id);
+
+            var session = Ls.getObject('session', { 'isLoggedIn': false });
+            let config = {
+                headers: {
+                    "auth-token": session.token,
+                }
+            }
+
+            const { data } = await api.Updateequipe(formData, team._id, config);
 
             dispatch({ type: AJOUT, data });
             if (data.samename == true) {
                 notifier.alert('l équipe existe déjà  ')
             } else if (data.success == true) {
                 notifier.success('Succès')
+                history.push("/teams")
             } else if (data.success == false) {
                 notifier.alert('Erreur')
             }
