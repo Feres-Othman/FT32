@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const MatchSchema = new Schema(
     {
-        type: { type: mongoose.Types.ObjectId, ref: 'Competition' },
+        type: { type: String },
         category: { type: mongoose.Types.ObjectId, ref: 'Category' },
         date: { type: Date, required: true },
         time: { type: String, required: true },

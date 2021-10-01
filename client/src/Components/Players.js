@@ -11,6 +11,9 @@ import { useHistory } from 'react-router-dom';
 
 export default function Players() {
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     const { design } = useContext(DesignContext);
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)

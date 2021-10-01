@@ -32,9 +32,10 @@ import PlayersByFilter from './Components/PlayersByFilter';
 import { slide as Menu } from 'react-burger-menu'
 
 import AddMatch from './Components/AddMatch';
-import Teams from './Components/teamslist';
+import Teams from './Components/team/teamslist';
 
 import logo from './Atoms/logo.png';
+import Profile from './Components/Profile';
 
 
 
@@ -123,7 +124,7 @@ function App() {
 
       if (isExpired) {
         setRender(true);
-        history.push("/login");
+        history.push("/players");
       } else {
         setRender(true);
         setIsLoggedIn(true);
@@ -202,9 +203,9 @@ function App() {
       setRender(true);
 
     } else if (!session.isLoggedIn) {
-      notifier.alert("Connectez-vous");
+      // notifier.alert("Connectez-vous");
       setRender(true);
-      history.push("/login");
+      history.push("/players");
 
     } else {
 
@@ -366,7 +367,7 @@ function App() {
                     <Route path="/teams" >
                       <Teams />
                     </Route>
-                    <Route path="/updatejouer/:_id" >
+                    <Route path="/updatejoueur/:_id" >
                       <Updatejouer />
                     </Route>
                     <Route path="/Updateequipe/:_id" >
@@ -386,6 +387,10 @@ function App() {
                       <ResetPassword />
                     </Route> */}
 
+                    <Route path="/player/:playerId" >
+                      <Profile />
+                    </Route>
+
                     <Route path="/players/:sex/:category" >
                       <PlayersByFilter />
                     </Route>
@@ -398,10 +403,10 @@ function App() {
                     <Route path="/players" >
                       <Players />
                     </Route>
-                    <Route path="/Ajouterjouer" >
+                    <Route path="/Ajouterjoueur" >
                       <Ajouterjouer />
                     </Route>
-                    <Route path="/equipejouer" >
+                    <Route path="/equipejoueur" >
                       <Ajouterequipe />
                     </Route>
 

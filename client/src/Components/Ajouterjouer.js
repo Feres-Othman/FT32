@@ -8,7 +8,6 @@ import { AJOUT, DELETE } from '../constants/actionTypes';
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
 import { Row, Col } from 'react-bootstrap';
-import TeamPlayers from './TeamPlayers';
 import { Dropdown, FormControl } from 'react-bootstrap'
 import { ajout } from "./actions/ajouterunjouer"
 import axios from 'axios'

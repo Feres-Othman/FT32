@@ -53,7 +53,7 @@ export default function Players() {
 
     const handleUpdate = (e, _id) => {
         e.preventDefault();
-        history.push(`/updatejouer/${_id}`);
+        history.push(`/updatejoueur/${_id}`);
     }
 
 
@@ -75,6 +75,18 @@ export default function Players() {
         }} >{row.team.name}</div>
     );
 
+    const CustomFirstName = ({ row }) => (
+        <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
+            history.push(`/player/${row._id}`);
+        }} >{row.firstName}</div>
+    );
+
+    const CustomLastName = ({ row }) => (
+        <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
+            history.push(`/player/${row._id}`);
+        }} >{row.lastName}</div>
+    );
+
 
     const columnsLoggedIn = [
         {
@@ -89,6 +101,7 @@ export default function Players() {
             selector: row => row.lastName,
             sortable: true,
             center: true,
+            cell: row => <CustomLastName row={row} />,
             maxWidth: '220px',
         },
         {
@@ -96,6 +109,7 @@ export default function Players() {
             selector: row => row.firstName,
             sortable: true,
             center: true,
+            cell: row => <CustomFirstName row={row} />,
             maxWidth: '220px',
         },
         {
@@ -140,6 +154,7 @@ export default function Players() {
             selector: row => row.lastName,
             sortable: true,
             center: true,
+            cell: row => <CustomLastName row={row} />,
             maxWidth: '220px',
         },
         {
@@ -147,6 +162,7 @@ export default function Players() {
             selector: row => row.firstName,
             sortable: true,
             center: true,
+            cell: row => <CustomFirstName row={row} />,
             maxWidth: '220px',
         },
         {
@@ -243,6 +259,11 @@ export default function Players() {
                     data={items}
                     pagination
                     paginationComponentOptions={paginationComponentOptions}
+                    noDataComponent={
+                        <div style={{ padding: 30, fontSize: 17 }}>
+                            il n'y a pas encore de joueurs à afficher
+                        </div>
+                    }
                 />
 
             </div >

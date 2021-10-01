@@ -29,8 +29,6 @@ body {
 
 .switch-wrapper {
     position: relative;
-    background-color: rgb(219, 219, 219) !important;
-    background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
 }
 
 /* input[type=number]::-webkit-inner-spin-button,
@@ -42,13 +40,9 @@ input[type=number]::-webkit-outer-spin-button {
 .switch-wrapper > div {
     position: absolute;
     width: 100%;
-    background-color: rgb(219, 219, 219) !important;
-    background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
-}
-
-.mainWrapper {
-    background-color: rgb(219, 219, 219) !important;
-    background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+    background-image: url("./Medias/background.png");
+    background-size: cover;
+    min-height: 100vh;
 }
 
 .lazy-load-image-background {
@@ -290,4 +284,9 @@ body {
     position: absolute;
     z-index: 1;
     content: "";
+}
+
+.rdt_Table {
+    overflow: hidden;
+    border-radius: 20px;
 }

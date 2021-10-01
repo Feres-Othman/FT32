@@ -45,7 +45,7 @@ export default function PlayerItem({ _id, firstName, lastName, number, score, se
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        history.push(`/updatejouer/${_id}`);
+        history.push(`/updatejoueur/${_id}`);
     }
 
     return (

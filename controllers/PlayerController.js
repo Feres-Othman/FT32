@@ -12029,87 +12029,99 @@ const resetDB = async (req, res, next) => {
 
 const createPlayer = async (req, res, next) => {
   console.log(req.body.UniqueNumber)
- const alreadyexist= await Player.findOne({UniqueNumber:req.body.UniqueNumber})
-  try{
-  const firstName = req.body.Nom;
-  const lastName = req.body.Prenom;
-  const number = req.body.Numero;
-  const day = req.body.Date.slice(8,10);
-  const month = req.body.Date.slice(5,7);
-  const year = req.body.Date.slice(0,4);
-  const category = req.body.Category1._id;
-  const score = req.body.Score;
-  const team = req.body.Team._id;
-  const sex = req.body.Gender._id;
-  const indGenre="1"
-  
-  const nat = req.body.Nationalité;
-  const UniqueNumber = req.body.UniqueNumber;
-if(!alreadyexist){
-  const newPlayer = new Player({
-    firstName,
-    lastName,
-    number,
-    day,
-    month,
-    year,
-    category,
-    score,
-    team,
-    indGenre,
-    sex,
-    nat,
-    UniqueNumber
-  });
+  const alreadyexist = await Player.findOne({ UniqueNumber: req.body.UniqueNumber })
+  try {
+    const firstName = req.body.Nom;
+    const lastName = req.body.Prenom;
+    const number = req.body.Numero;
+    const day = req.body.Date.slice(8, 10);
+    const month = req.body.Date.slice(5, 7);
+    const year = req.body.Date.slice(0, 4);
+    const category = req.body.Category1._id;
+    const score = req.body.Score;
+    const team = req.body.Team._id;
+    const sex = req.body.Gender._id;
+    const indGenre = "1"
 
-  newPlayer.save()
-  console.log(newPlayer)
-const team1=await Team.findOneAndUpdate({_id:req.body.Team._id},{$push:{players:newPlayer._id}})
-console.log (team1)
-console.log(req.body.Team._id)
-console.log(newPlayer._id)
+    const nat = req.body.Nationalité;
+    const UniqueNumber = req.body.UniqueNumber;
+    if (!alreadyexist) {
+      const newPlayer = new Player({
+        firstName,
+        lastName,
+        number,
+        day,
+        month,
+        year,
+        category,
+        score,
+        team,
+        indGenre,
+        sex,
+        nat,
+        UniqueNumber
+      });
+
+      newPlayer.save()
+      console.log(newPlayer)
+      const team1 = await Team.findOneAndUpdate({ _id: req.body.Team._id }, { $push: { players: newPlayer._id } })
+      console.log(team1)
+      console.log(req.body.Team._id)
+      console.log(newPlayer._id)
 
       res.json({
         success: true,
         newPlayer: newPlayer
       })
-}else if (alreadyexist){
-    res.json({
+    } else if (alreadyexist) {
+      res.json({
         success: false,
         message: " player with that UniqueNumber already exist"
       })
-}
     }
-    catch(error)  {
-      console.log(error)
-      res.json({
-        message: 'mongoose-error',
-        success: false
-      })
-    }
+  }
+  catch (error) {
+    console.log(error)
+    res.json({
+      message: 'mongoose-error',
+      success: false
+    })
+  }
 }
 
 const readPlayer = async (req, res, next) => {
-console.log(req.params._id)
-const { id } = req.params._id;
+  console.log(req.params._id)
+  const { id } = req.params._id;
   try {
 
-    const player0 = await Player.findOne({ _id: req.params._id })
-    console.log(player0)
+    const player = await Player.findOne({ _id: req.params._id })
+      .populate("category")
+      .populate({
+        path: "team",
+        populate: {
+          path: 'players',
+          populate: {
+            path: 'category'
+          }
+        }
+      })
+      .populate("history")
 
-    if (!player0) return res.json({
+    console.log(player)
+
+    if (!player) return res.json({
       success: false,
       message: "Player-not-found"
     })
-else if (player0){
-    return res.json({
-      success: true,
-      player: player0
-    })
+    else if (player) {
+      return res.json({
+        success: true,
+        player: player
+      })
 
-}
+    }
   } catch (error) {
-              console.log(error)
+    console.log(error)
 
     return res.json({
       success: false,
@@ -12118,16 +12130,19 @@ else if (player0){
     })
   }
 }
+
+
 const deletePlayers = async (req, res) => {
   const { id } = req.params;
-     console.log(id);
+  console.log(id);
 
-     await Player.findByIdAndRemove(id);
+  await Player.findByIdAndRemove(id);
 
 
 
   res.json({ message: "Player deleted successfully." });
 }
+
 
 const readPlayers = async (req, res, next) => {
 
@@ -12259,87 +12274,92 @@ const banPlayer = (req, res, next) => {
 }
 
 const updatePlayer = async (req, res) => {
-console.log(req.body)
-const { id } = req.params._id;
-const firstName = req.body.Nom;
+  console.log(req.body)
+  const { id } = req.params._id;
+  const firstName = req.body.Nom;
   const lastName = req.body.Prenom;
   const number = req.body.Numero;
-  const day = req.body.Date.slice(8,10);
-  const month = req.body.Date.slice(5,7);
-  const year = req.body.Date.slice(0,4);
+  const day = req.body.Date.slice(8, 10);
+  const month = req.body.Date.slice(5, 7);
+  const year = req.body.Date.slice(0, 4);
   const category = req.body.Category1._id;
   const score = req.body.Score;
   const team = req.body.Team._id;
   const sex = req.body.Gender._id;
-  const indGenre="1"
-  
+  const indGenre = "1"
+
   const nat = req.body.Nationalité;
   const UniqueNumber = req.body.UniqueNumber;
   try {
 
-    
-    const player2 =await  Player.findOne({ _id: req.params._id })
-console.log(req.body.UniqueNumber)
-console.log(player2.UniqueNumber)
+
+    const player2 = await Player.findOne({ _id: req.params._id })
+    console.log(req.body.UniqueNumber)
+    console.log(player2.UniqueNumber)
 
 
-if (UniqueNumber===player2.UniqueNumber){
-  console.log("here")
+    if (UniqueNumber === player2.UniqueNumber) {
+      console.log("here")
 
-  const player1 =await  Player.findOneAndUpdate({ _id: req.params._id },{$set:{ 
-     firstName,
-    lastName,
-    number,
-    day,
-    month,
-    year,
-    category,
-    score,
-    team,
-    indGenre,
-    sex,
-    nat,
-    }});
+      const player1 = await Player.findOneAndUpdate({ _id: req.params._id }, {
+        $set: {
+          firstName,
+          lastName,
+          number,
+          day,
+          month,
+          year,
+          category,
+          score,
+          team,
+          indGenre,
+          sex,
+          nat,
+        }
+      });
 
 
- return res.json({
-      success: true,
-      player: player1
-    })
-  }else if(!(req.body.UniqueNumber===player2.UniqueNumber)){
-    console.log("here2")
-
-    const player3 =await  Player.findOne({ UniqueNumber: req.body.UniqueNumber })
-    if(player3){
-      return res.json({
-        success: false,
-        message: "UniqueNumber already exist "
-      })
-    }else if (!player3){
-      console.log("here3")
-
-      const player4 =await  Player.findOneAndUpdate({ _id: req.params._id },{$set:{ 
-        firstName,
-       lastName,
-       number,
-       day,
-       month,
-       year,
-       category,
-       score,
-       team,
-       indGenre,
-       sex,
-       nat,
-       UniqueNumber
-       }});
-   
       return res.json({
         success: true,
-        player: player4      })
-    }
+        player: player1
+      })
+    } else if (!(req.body.UniqueNumber === player2.UniqueNumber)) {
+      console.log("here2")
 
-  }
+      const player3 = await Player.findOne({ UniqueNumber: req.body.UniqueNumber })
+      if (player3) {
+        return res.json({
+          success: false,
+          message: "UniqueNumber already exist "
+        })
+      } else if (!player3) {
+        console.log("here3")
+
+        const player4 = await Player.findOneAndUpdate({ _id: req.params._id }, {
+          $set: {
+            firstName,
+            lastName,
+            number,
+            day,
+            month,
+            year,
+            category,
+            score,
+            team,
+            indGenre,
+            sex,
+            nat,
+            UniqueNumber
+          }
+        });
+
+        return res.json({
+          success: true,
+          player: player4
+        })
+      }
+
+    }
   } catch (error) {
     return res.json({
       success: false,

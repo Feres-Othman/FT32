@@ -54,7 +54,7 @@ export default function PlayersByFilter() {
 
     const handleUpdate = (e, _id) => {
         e.preventDefault();
-        history.push(`/updatejouer/${_id}`);
+        history.push(`/updatejoueur/${_id}`);
     }
 
     const getProducts = async () => {
@@ -120,6 +120,18 @@ export default function PlayersByFilter() {
         }} >{row.team.name}</div>
     );
 
+    const CustomFirstName = ({ row }) => (
+        <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
+            history.push(`/player/${row._id}`);
+        }} >{row.firstName}</div>
+    );
+
+    const CustomLastName = ({ row }) => (
+        <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
+            history.push(`/player/${row._id}`);
+        }} >{row.lastName}</div>
+    );
+
 
     const columnsLoggedIn = [
         {
@@ -141,6 +153,7 @@ export default function PlayersByFilter() {
             selector: row => row.lastName,
             sortable: true,
             center: true,
+            cell: row => <CustomLastName row={row} />,
             maxWidth: '220px',
         },
         {
@@ -148,6 +161,7 @@ export default function PlayersByFilter() {
             selector: row => row.firstName,
             sortable: true,
             center: true,
+            cell: row => <CustomFirstName row={row} />,
             maxWidth: '220px',
         },
         {
@@ -193,12 +207,16 @@ export default function PlayersByFilter() {
             selector: row => row.lastName,
             sortable: true,
             center: true,
+            cell: row => <CustomLastName row={row} />,
+            maxWidth: '220px',
         },
         {
             name: 'Prenom',
             selector: row => row.firstName,
             sortable: true,
             center: true,
+            cell: row => <CustomFirstName row={row} />,
+            maxWidth: '220px',
         },
         {
             name: 'Club',
@@ -242,7 +260,7 @@ export default function PlayersByFilter() {
 
                 <Btn
                     onClick={() => {
-                        history.push(`/Ajouterjouer/`);
+                        history.push(`/Ajouterjoueur/`);
                     }}
                     style={{
                         float: 'right',
@@ -273,6 +291,11 @@ export default function PlayersByFilter() {
                     data={items}
                     pagination
                     paginationComponentOptions={paginationComponentOptions}
+                    noDataComponent={
+                        <div style={{ padding: 30, fontSize: 17 }}>
+                            il n'y a pas encore de joueurs à afficher
+                        </div>
+                    }
                 />
 
             </div >

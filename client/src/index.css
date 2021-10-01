@@ -10,7 +10,8 @@ body {
 
 #root {
   background-color: rgb(219, 219, 219) !important;
-  background: linear-gradient(80deg, rgba(219, 219, 219, 1) 0%, rgba(230, 230, 230, 1) 100%) !important;
+  background-image: url("./Medias/background.png");
+  background-size: cover;
   min-height: 100vh;
 }
 

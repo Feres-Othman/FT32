@@ -1,17 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { RContext } from '../RContext'
 import { useDispatch } from 'react-redux';
-import Dialog from 'react-bootstrap-dialog'
 import * as api from '../api/index';
-import { AJOUT, DELETE } from '../constants/actionTypes';
 
 import { DesignContext } from '../DesignContext';
-import PlayerItem from './PlayerItem';
-import { Row, Col } from 'react-bootstrap';
-import TeamPlayers from './TeamPlayers';
-import { Dropdown, FormControl } from 'react-bootstrap'
-import { ajout } from "./actions/ajouterunjouer"
-import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import DrpDown from '../Molecules/DrpDown';
 import Btn from '../Molecules/Btn';
