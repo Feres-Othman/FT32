@@ -95,7 +95,20 @@ const Updatejouer = () => {
         _id: "M",
         name: "Homme"
     }]
+
+    const isvalids = [{
+        _id: 0,
+        name: "oui"
+    },
+    {
+        _id: 1,
+        name: "non"
+    }]
+
+
     const [gender, setGender] = useState({})
+    const [isValid, setIsValid] = useState({})
+
     const getPlayer = async () => {
 
         var session = Ls.getObject('session', { 'isLoggedIn': false });
@@ -112,7 +125,50 @@ const Updatejouer = () => {
                     console.log(res)
 
 
-                    setPlayer(res.player);
+                    setPlayer({ ...res.player });
+                    setForm({
+                        ...res.player, Date: `${res.player.year}-0${res.player.month}-0${res.player.day}`, sex: res.player.sex == "M" ?
+                            {
+                                _id: "M",
+                                name: "Homme"
+                            } : {
+                                _id: "F",
+                                name: "Femme"
+                            }, isValid: res.player.isValid ?
+                                {
+                                    _id: 0,
+                                    name: "oui"
+                                } : {
+                                    _id: 1,
+                                    name: "non"
+                                }
+                    });
+
+                    setGender(
+                        res.player.sex == "M" ?
+                            {
+                                _id: "M",
+                                name: "Homme"
+                            } : {
+                                _id: "F",
+                                name: "Femme"
+                            })
+
+                    setIsValid(
+                        res.player.isValid ?
+                            {
+                                _id: 0,
+                                name: "oui"
+                            } : {
+                                _id: 1,
+                                name: "non"
+                            })
+
+                    setTeam(res.player.team)
+
+                    setCategory(res.player.category)
+
+
                 } else {
                     return res.json({
                         success: false
@@ -220,21 +276,40 @@ const Updatejouer = () => {
             console.log(error);
         }
     };
-    const initialState = { Nom: "", Prenom: '', Nationalité: '', UniqueNumber: '', Numero: '', Score: '', Category1: '', Gender: '', Date: '', Team: '' };
+    const initialState = { lastName: "", firstName: '', nat: '', UniqueNumber: '', number: '', score: '', category: '', sex: '', Date: '', team: '' };
     const [form, setForm] = useState(initialState);
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
     const handleChange1 = (e) => setForm({ ...form, [e.target.name]: e.target.value.replace(/[^A-Za-z]/ig, '') });
+
+    useEffect(() => {
+        setForm({ ...form, sex: gender })
+    }, [gender])
+
+    useEffect(() => {
+        setForm({ ...form, category: category })
+    }, [category])
+
+    useEffect(() => {
+        setForm({ ...form, team: team })
+    }, [team])
+
+    useEffect(() => {
+        setForm({ ...form, isValid: isValid })
+    }, [isValid])
 
     const handleUpdate = (e) => {
         e.preventDefault();
         form.Category1 = category
         form.Gender = gender
         form.Team = team
-        if (form.Nom == '') {
+
+        console.log(form);
+
+        if (form.lastName == '') {
             notifier.alert("Le champ Nom ne peut pas être vide et ne peut contenir que des lettres");
             return;
-        } if (form.Prenom == '') {
+        } if (form.firstName == '') {
             notifier.alert("Le champ Prenom ne peut pas être vide et ne peut contenir que des lettres");
             return;
         }
@@ -252,17 +327,17 @@ const Updatejouer = () => {
             notifier.alert("Le champ de date ne peut pas être vide");
             return;
         }
-        if (form.Score == '') {
+        if (form.score == '') {
             notifier.alert("Le champ Score ne peut pas être vide et ne peut contenir que des chiffres");
             return;
         } if (form.UniqueNumber == '') {
             notifier.alert("Le champ NuméroUnique ne peut pas être vide ");
             return;
         }
-        if (form.Nationalité == '') {
+        if (form.nat == '') {
             notifier.alert("le champ nationalité ne peut pas être vide et ne peut contenir que des lettres");
             return;
-        } if (form.Numero == '') {
+        } if (form.number == '') {
             notifier.alert("Le champ Numero ne peut pas être vide et ne peut contenir que des chiffre");
             return;
         }
@@ -291,15 +366,15 @@ const Updatejouer = () => {
                 <div >
                     <Row>
 
-                        <Col><Input handleChangeEvent={handleChange1} name="Nom" defaultValue={Player.firstName} width="200px"  ></Input></Col>
-                        <Col><Input handleChangeEvent={handleChange1} name="Prenom" defaultValue={Player.lastName} width="200px"></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="firstName" defaultValue={Player.firstName} width="200px"  ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="lastName" defaultValue={Player.lastName} width="200px"></Input></Col>
                     </Row>
                 </div>
                 <br />
                 <div >
                     <Row>
 
-                        <Col><Input handleChangeEvent={handleChange1} name="Nationalité" defaultValue={Player.nat} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="nat" defaultValue={Player.nat} width="200px" ></Input></Col>
 
                         <Col><Input handleChangeEvent={handleChange} name="UniqueNumber" defaultValue={Player.UniqueNumber} width="200px" ></Input></Col>
                     </Row>
@@ -313,41 +388,46 @@ const Updatejouer = () => {
                 <br />
                 <div >
                     <Row>
-                        <Col><Input handleChangeEvent={handleChange} type="number" name="Numero" defaultValue={Player.number} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange} type="number" name="number" defaultValue={Player.number} width="200px" ></Input></Col>
 
-                        <Col><Input handleChangeEvent={handleChange} type="number" name="Score" defaultValue={Player.score} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange} type="number" name="score" defaultValue={Player.score} width="200px" ></Input></Col>
                     </Row>
                 </div>            <br />
-                <DrpDown handleChange={handleChange} value={category} name="Category" dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
+                <DrpDown handleChange={handleChange} value={category} name="category" dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
                 <br />
                 <div >
                     <h4 style={{ textAlign: 'left' }}>Date de naissance: </h4>
-                    <Input handleChangeEvent={handleChange} name="Date" defaultValue="Date de naissance" width="400px" type="date" ></Input>
+                    <Input handleChangeEvent={handleChange} name="Date" defaultValue={`${Player.year}-0${Player.month}-0${Player.day}`} width="400px" type="date" ></Input>
                 </div>
 
                 <br />
                 <div>
                     <Row>
 
-                        <Col><DrpDown name="Gender" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>
+                        <Col><DrpDown name="sex" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>
 
 
-                        <Col>     <Dropdown name="team" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} >
-                            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                                {team.name || `Selectionner l'equipe `}
-                            </Dropdown.Toggle>
+                        <Col>
+                            <Dropdown name="team" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} >
+                                <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                                    {team.name || `Selectionner l'equipe `}
+                                </Dropdown.Toggle>
 
-                            <Dropdown.Menu as={CustomMenu} >
-                                {teams.map((item, index) => (
-                                    <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam(item) }} >
-                                        {item.name}
-                                    </Dropdown.Item>
-                                ))}
-                            </Dropdown.Menu>
-                        </Dropdown></Col>
+                                <Dropdown.Menu as={CustomMenu} >
+                                    {teams.map((item, index) => (
+                                        <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam(item) }} >
+                                            {item.name}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Col>
 
                     </Row>
+                    <br />
                 </div>
+                <h4 style={{ textAlign: 'left' }}>le joueur a payé: </h4>
+                <DrpDown name="isValid" handleChange={handleChange} style={{ width: "400px", zIndex: 5 }} dataset={isvalids} setData={setIsValid} data={isValid} > Selectionner une Genre </DrpDown>
                 <br />
 
                 <br />

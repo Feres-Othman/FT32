@@ -75,7 +75,9 @@ export default function Contest({ player1, player2, player1Order, player2Order, 
     }
 
     return (
-        <div style={{ width: "45%", backgroundColor: "#fff", marginBottom: 10, padding: 10, borderRadius: 15, display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
+        <div style={{ width: "45%", backgroundColor: "#fff", marginBottom: 10, padding: 10, borderRadius: 15, display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center", position: "relative" }}>
+
+            <div style={{ position: 'absolute', top: 10, left: 10, width: 25, height: 25, borderRadius: 50, border: "1px solid black" }} >{contestIndex + 1}</div>
 
             <div style={{ width: 200, height: "100%" }} ><b>{player1Order} </b> - {player1.firstName} {player1.lastName}</div>
             <div style={{ width: 50, height: "100%" }} ><b>{playerScore(matches, 1)}</b></div>

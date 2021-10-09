@@ -28,6 +28,10 @@ export default function Players() {
     {
         _id: "M",
         name: "Homme"
+    },
+    {
+        _id: "X",
+        name: "Tout"
     }]
     const [gender, setGender] = useState({})
 
@@ -47,7 +51,17 @@ export default function Players() {
                     console.log(res)
 
 
-                    setCategories(res.categories);
+                    let tempCategories = res.categories;
+
+                    tempCategories.push({
+                        _id: "X",
+                        name: "Tout",
+                        ages: "tout ages"
+                    })
+
+                    setCategories(tempCategories);
+
+
                 } else {
                     return res.json({
                         success: false

@@ -60,10 +60,10 @@ export default function Players() {
     const CustomTitle = ({ row }) => (
         <div>
             <Btn onClick={e => handleUpdate(e, row._id)} style={{ margin: "10px" }}>
-                {isSmall ? <Icon icon={faEdit} className="hoverScale" size="sm" /> : "mettre à jour"}
+                {true ? <Icon icon={faEdit} className="hoverScale" size="sm" /> : "mettre à jour"}
             </Btn>
             <Btn onClick={e => handleDelete(e, row._id)} style={{ backgroundColor: "red", margin: "10px" }}>
-                {isSmall ? <Icon icon={faTrash} className="hoverScale" size="sm" /> : "Supprimer"}
+                {true ? <Icon icon={faTrash} className="hoverScale" size="sm" /> : "Supprimer"}
 
             </Btn>
         </div>

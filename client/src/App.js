@@ -85,7 +85,7 @@ function App() {
   const [user, setUser] = useState({})
 
   const [design, setDesign] = useState({
-    primaryColor: "#1a7eb4",
+    primaryColor: "#86bf34",
     accentColor: "#ccc",//"#0D9BA3",
     backgroundColor: "#fff",
     mainTextColor: "#333",
@@ -297,7 +297,7 @@ function App() {
                       {/* <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/parcours">PARCOURS</NavLink> */}
                       <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/players">JOUEURS</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/teams">EQUIPES</NavLink>
-                      <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/match/add">AJOUTER UN MATCH</NavLink>
+                      {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/match/add">AJOUTER UN MATCH</NavLink>}
                       {/* <NavLink onClick={() => {setIsOpen(false)}} id="contact" style={{ color: "white" }} className="menu-item" to="/presse">PRESSE</NavLink> */}
                       <div style={{ width: 100, height: "27vh", marginBottom: 25, borderBottom: "1px solid white" }} ></div>
 
@@ -408,6 +408,10 @@ function App() {
                     </Route>
                     <Route path="/equipejoueur" >
                       <Ajouterequipe />
+                    </Route>
+
+                    <Route path="/match/add/:comp/:cat" >
+                      <AddMatch />
                     </Route>
 
                     <Route path="/match/add" >

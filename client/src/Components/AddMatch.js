@@ -7,7 +7,7 @@ import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import DrpDown from '../Molecules/DrpDown';
 import Btn from '../Molecules/Btn';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import TeamPlayers from './team/TeamPlayers';
 import Contest from './team/Contest';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
@@ -20,18 +20,30 @@ export default function AddMatch() {
 
     const history = useHistory();
 
+    const { comp, cat } = useParams();
+
     const { design } = useContext(DesignContext);
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
 
     const types = [
         {
             _id: 1,
-            name: "Championnat individuel – phase nationale + TOP 6",
+            name: "Championnat individuel – phase nationale + TOP 5",
             isTeam: false
         },
         {
             _id: 2,
             name: "Championnat individuel – phase régionale ",
+            isTeam: false
+        },
+        {
+            _id: 10,
+            name: "Super Championnat individuel",
+            isTeam: false
+        },
+        {
+            _id: 11,
+            name: "Coupe des individuelles",
             isTeam: false
         },
         {
@@ -75,7 +87,7 @@ export default function AddMatch() {
     const [categories, setCategories] = useState([])
     const [selectedCategories, setSelectedCategories] = useState([])
     const [category, setCategory] = useState({})
-    const [competition, setCompetition] = useState({})
+    const [competition, setCompetition] = useState(types.filter(type => type._id == comp)[0] || {})
 
 
 
@@ -93,7 +105,279 @@ export default function AddMatch() {
 
     const [isValidated, setIsValidated] = useState(false)
 
+    const [teamContests, setTeamContests] = useState([
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+    ])
+
     const [contests, setContests] = useState([
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
+        {
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
+
         {
             player1Score: 0,
             player2Score: 0,
@@ -258,6 +542,18 @@ export default function AddMatch() {
     ])
 
 
+    const setTeamMatches = (array, index, sc1, sc2) => {
+
+        let temp = teamContests;
+
+        temp[index].matches = array;
+        temp[index].player1Score = sc1;
+        temp[index].player2Score = sc2;
+
+        setTeamContests([...temp]);
+
+    }
+
     const setMatches = (array, index, sc1, sc2) => {
 
         let temp = contests;
@@ -311,7 +607,66 @@ export default function AddMatch() {
                     console.log(res)
 
 
+
                     setCategories(res.categories);
+
+                    if (cat) {
+                        setCategory(res.categories.filter(categ => categ._id == cat)[0])
+                    }
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
+
+    const submit = async (isTeam) => {
+
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
+        let content = {
+            competition,
+            category,
+            team1,
+            team2,
+            isTeam,
+
+            playerA,
+            playerB,
+            playerC,
+
+            playerX,
+            playerY,
+            playerZ,
+
+            contests,
+            teamContests,
+
+        }
+
+        axios.post("/api/match/create", content, config)
+            .then((response) => {
+                let res = response.data;
+                if (res.success) {
+
+                    if (isTeam) {
+                        notifier.success("match ajoutee");
+                        history.push("/players");
+                    } else {
+                        notifier.success("match ajoutee");
+                        history.push(`/match/add/${competition._id}/${category._id}`);
+                        history.go(0)
+                    }
+
                 } else {
                     console.log(res)
                 }
@@ -385,7 +740,7 @@ export default function AddMatch() {
         console.log(finalCategories)
         setSelectedCategories([...finalCategories]);
 
-        if (!competition._id) {
+        if (!competition?._id) {
             notifier.info("veuillez sélectionner un type de compétition")
         }
 
@@ -414,7 +769,7 @@ export default function AddMatch() {
 
                     <Dropdown.Toggle variant="success" variant="Primary"
                         style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
-                        {competition.name || "Selectionner une type de compétition"}
+                        {competition?.name || "Selectionner une type de compétition"}
                     </Dropdown.Toggle>
 
                     <div style={{ borderRadius: 15, zIndex: 100 }}>
@@ -472,7 +827,7 @@ export default function AddMatch() {
                                     setPlayer3={setPlayerC}
                                     categories={selectedCategories}
                                     isValidated={isValidated}
-                                    teamScore={teamScore(contests, 1)}
+                                    teamScore={teamScore(teamContests, 1)}
                                 />
                                 <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                                     {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
@@ -491,7 +846,7 @@ export default function AddMatch() {
                                     setPlayer3={setPlayerZ}
                                     categories={selectedCategories}
                                     isValidated={isValidated}
-                                    teamScore={teamScore(contests, 2)}
+                                    teamScore={teamScore(teamContests, 2)}
                                 />
                             </div >
                         }
@@ -522,8 +877,8 @@ export default function AddMatch() {
                                     player1Order={"A"}
                                     player2Order={"X"}
                                     contestIndex={0}
-                                    matches={contests[0].matches}
-                                    setMatches={setMatches}
+                                    matches={teamContests[0].matches}
+                                    setMatches={setTeamMatches}
                                 />
 
                                 <Contest
@@ -532,8 +887,8 @@ export default function AddMatch() {
                                     player1Order={"B"}
                                     player2Order={"Y"}
                                     contestIndex={1}
-                                    matches={contests[1].matches}
-                                    setMatches={setMatches}
+                                    matches={teamContests[1].matches}
+                                    setMatches={setTeamMatches}
                                 />
 
                                 <Contest
@@ -542,8 +897,8 @@ export default function AddMatch() {
                                     player1Order={"C"}
                                     player2Order={"Z"}
                                     contestIndex={2}
-                                    matches={contests[2].matches}
-                                    setMatches={setMatches}
+                                    matches={teamContests[2].matches}
+                                    setMatches={setTeamMatches}
                                 />
 
                                 <Contest
@@ -552,8 +907,8 @@ export default function AddMatch() {
                                     player1Order={"B"}
                                     player2Order={"X"}
                                     contestIndex={3}
-                                    matches={contests[3].matches}
-                                    setMatches={setMatches}
+                                    matches={teamContests[3].matches}
+                                    setMatches={setTeamMatches}
                                 />
 
                                 <Contest
@@ -562,8 +917,8 @@ export default function AddMatch() {
                                     player1Order={"A"}
                                     player2Order={"Z"}
                                     contestIndex={4}
-                                    matches={contests[4].matches}
-                                    setMatches={setMatches}
+                                    matches={teamContests[4].matches}
+                                    setMatches={setTeamMatches}
                                 />
 
                                 <Contest
@@ -572,15 +927,35 @@ export default function AddMatch() {
                                     player1Order={"C"}
                                     player2Order={"Y"}
                                     contestIndex={5}
-                                    matches={contests[5].matches}
-                                    setMatches={setMatches}
+                                    matches={teamContests[5].matches}
+                                    setMatches={setTeamMatches}
+                                />
+
+                                <Contest
+                                    player1={playerB}
+                                    player2={playerZ}
+                                    player1Order={"B"}
+                                    player2Order={"Z"}
+                                    contestIndex={6}
+                                    matches={teamContests[6].matches}
+                                    setMatches={setTeamMatches}
+                                />
+
+                                <Contest
+                                    player1={playerA}
+                                    player2={playerY}
+                                    player1Order={"A"}
+                                    player2Order={"Y"}
+                                    contestIndex={7}
+                                    matches={teamContests[7].matches}
+                                    setMatches={setTeamMatches}
                                 />
                             </div >
                         }
 
                         {
                             (playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number) &&
-                            <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { notifier.success("match ajoutee"); history.push("/players"); }} >
+                            <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { submit(true); }} >
                                 Valider
                             </Btn>
 
@@ -588,82 +963,88 @@ export default function AddMatch() {
                     </> :
 
                     <>
-                        {
-                            selectedCategories.length > 0 && competition.isTeam === false &&
 
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                alignItems: "stretch",
-                                flexWrap: "wrap",
-                                width: "90%",
-                                // backgroundColor: "red",
-                                marginLeft: "5%",
-                                textAlign: 'center',
-                                gap: 20,
-                                marginTop: 20
-                                // overflowY: "scroll"
-                            }} >
+                        <>
+                            {
+                                selectedCategories.length > 0 && competition.isTeam === false &&
 
-                                <IndivPlayers
-                                    number={1}
-                                    teams={teams}
-                                    player1={playerA}
-                                    setPlayer1={setPlayerA}
-                                    categories={selectedCategories}
-                                    isValidated={isValidated}
-                                    teamScore={teamScore(contests, 1)}
-                                />
-                                <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-                                    {(playerA.number && playerX.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
-                                    {(playerA.number && playerX.number && isValidated) && <Icon onClick={() => { setIsValidated(false) }} icon={faTimesCircle} size="lg" />}
-                                </div>
-                                <IndivPlayers
-                                    number={2}
-                                    teams={teams}
-                                    player1={playerX}
-                                    setPlayer1={setPlayerX}
-                                    categories={selectedCategories}
-                                    isValidated={isValidated}
-                                    teamScore={teamScore(contests, 2)}
-                                />
-                            </div >
-                        }
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    alignItems: "stretch",
+                                    flexWrap: "wrap",
+                                    width: "90%",
+                                    // backgroundColor: "red",
+                                    marginLeft: "5%",
+                                    textAlign: 'center',
+                                    gap: 20,
+                                    marginTop: 20
+                                    // overflowY: "scroll"
+                                }} >
 
+                                    <IndivPlayers
+                                        number={1}
+                                        teams={teams}
+                                        player1={playerA}
+                                        setPlayer1={setPlayerA}
+                                        categories={selectedCategories}
+                                        isValidated={isValidated}
+                                        teamScore={teamScore(contests, 1)}
+                                    />
+
+                                    <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                                        {(playerA.number && playerX.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
+                                        {(playerA.number && playerX.number && isValidated) && <Icon onClick={() => { setIsValidated(false) }} icon={faTimesCircle} size="lg" />}
+                                    </div>
+
+                                    <IndivPlayers
+                                        number={2}
+                                        teams={teams}
+                                        player1={playerX}
+                                        setPlayer1={setPlayerX}
+                                        categories={selectedCategories}
+                                        isValidated={isValidated}
+                                        teamScore={teamScore(contests, 2)}
+                                    />
+                                </div >
+                            }
+
+
+                            {
+                                (playerA.number && playerX.number) &&
+
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    width: "90%",
+                                    marginLeft: "5%",
+                                    textAlign: 'center',
+                                    gap: 20,
+                                    marginTop: 20,
+                                    flexWrap: "wrap"
+                                    // overflowY: "scroll"
+                                }} >
+
+                                    <IndivContest
+                                        player1={playerA}
+                                        player2={playerX}
+                                        player1Order={"1"}
+                                        player2Order={"2"}
+                                        contestIndex={0}
+                                        matches={contests[0].matches}
+                                        setMatches={setMatches}
+                                    />
+                                </div >
+                            }
+
+                        </>
 
                         {
                             (playerA.number && playerX.number) &&
-
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                width: "90%",
-                                marginLeft: "5%",
-                                textAlign: 'center',
-                                gap: 20,
-                                marginTop: 20,
-                                flexWrap: "wrap"
-                                // overflowY: "scroll"
-                            }} >
-
-                                <IndivContest
-                                    player1={playerA}
-                                    player2={playerX}
-                                    player1Order={"1"}
-                                    player2Order={"2"}
-                                    contestIndex={0}
-                                    matches={contests[0].matches}
-                                    setMatches={setMatches}
-                                />
-                            </div >
-                        }
-
-                        {
-                            (playerA.number && playerX.number) &&
-                            <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { notifier.success("match ajoutee"); history.push("/players"); }} >
+                            <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { submit(false) }} >
                                 Valider
                             </Btn>
 

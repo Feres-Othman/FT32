@@ -3,7 +3,7 @@ import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrash, faCircle } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import { useParams } from 'react-router-dom';
@@ -105,11 +105,10 @@ export default function PlayersByFilter() {
     const CustomTitle = ({ row }) => (
         <div>
             <Btn onClick={e => handleUpdate(e, row._id)} style={{ margin: "10px" }}>
-                {isSmall ? <Icon icon={faEdit} className="hoverScale" size="sm" /> : "mettre à jour"}
+                {true ? <Icon icon={faEdit} className="hoverScale" size="sm" /> : "mettre à jour"}
             </Btn>
             <Btn onClick={e => handleDelete(e, row._id)} style={{ backgroundColor: "red", margin: "10px" }}>
-                {isSmall ? <Icon icon={faTrash} className="hoverScale" size="sm" /> : "Supprimer"}
-
+                {true ? <Icon icon={faTrash} className="hoverScale" size="sm" /> : "Supprimer"}
             </Btn>
         </div>
     );
@@ -130,6 +129,17 @@ export default function PlayersByFilter() {
         <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
             history.push(`/player/${row._id}`);
         }} >{row.lastName}</div>
+    );
+
+    const CustomState = ({ row }) => (
+        <div style={{ cursor: "pointer" }} className="hoverScale" >
+
+            {row.isValid ? <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> : <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} />}
+
+
+            {new Date() - new Date(row.changedTeam) < (1000 * 60 * 60 * 24 * 365 * 2) && <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} />}
+
+        </div>
     );
 
 
@@ -173,6 +183,20 @@ export default function PlayersByFilter() {
             maxWidth: '220px',
         },
         {
+            name: 'Categorie',
+            selector: row => row.category.name,
+            sortable: true,
+            center: true,
+            // cell: row => <CustomName row={row} />,
+        },
+        {
+            name: 'Etat',
+            selector: row => row.isValid,
+            sortable: true,
+            center: true,
+            cell: row => <CustomState row={row} />,
+        },
+        {
             name: 'Points',
             selector: row => row.score,
             sortable: true,
@@ -180,7 +204,7 @@ export default function PlayersByFilter() {
         },
         {
             name: "actions",
-            maxWidth: '600px',
+            maxWidth: '170px',
             cell: row => <CustomTitle row={row} />,
             center: true
         },
@@ -226,6 +250,20 @@ export default function PlayersByFilter() {
             cell: row => <CustomName row={row} />,
         },
         {
+            name: 'Categorie',
+            selector: row => row.category.name,
+            sortable: true,
+            center: true,
+            // cell: row => <CustomName row={row} />,
+        },
+        {
+            name: 'Etat',
+            selector: row => row.isValid,
+            sortable: true,
+            center: true,
+            cell: row => <CustomState row={row} />,
+        },
+        {
             name: 'Points',
             selector: row => row.score,
             sortable: true,
@@ -255,7 +293,7 @@ export default function PlayersByFilter() {
 
     return (
         <>
-            <h1 style={{ textAlign: 'center', marginTop: 60, marginBottom: 20 }} >{sex.toUpperCase() == "M" ? "Homme" : "Femme"} : {category.toLowerCase()[0].toUpperCase() + category.toLowerCase().substring(1)}</h1>
+            <h1 style={{ textAlign: 'center', marginTop: 60, marginBottom: 20 }} >{sex.toUpperCase() == "M" ? "Homme" : sex.toUpperCase() == "F" ? "Femme" : ""} {category.toUpperCase().includes("TOUT") ? "" : <>: {category.toLowerCase()[0].toUpperCase() + category.toLowerCase().substring(1)}</>}</h1>
             {isLoggedIn &&
 
                 <Btn
@@ -273,6 +311,21 @@ export default function PlayersByFilter() {
                     }}>Ajouter un joueur</Btn>
             }
 
+            <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 105, backgroundColor: "white", borderRadius: 20, padding: 20, fontSize: 12 }} >
+
+                <div>
+                    <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> le joueur a payé sa licence
+                </div>
+
+                <div>
+                    <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} /> le joueur n'a pas payé sa licence
+                </div>
+
+                <div>
+                    <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} /> le joueur n'a pas passé deux saisons dans son équipe
+                </div>
+
+            </div>
 
             <div style={{
                 display: "flex",
@@ -300,66 +353,6 @@ export default function PlayersByFilter() {
 
             </div >
 
-            {/* <div style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "start",
-                alignItems: "start",
-                width: "90%",
-                height: "75vh",
-                backgroundColor: design.accentColor,
-                marginLeft: "5%",
-                textAlign: 'center',
-                overflowY: "scroll"
-            }} >
-
-                {
-                    isLoggedIn ?
-
-
-                        <>
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: "white", width: "100%", height: 50, marginBottom: 10, paddingTop: 20, paddingBottom: 20 }} >
-
-                                <div style={{ width: "10%" }} >rang</div>
-                                <div style={{ width: "10%" }} >Num</div>
-                                <div style={{ width: "15%" }} >Nom</div>
-                                <div style={{ width: "15%" }} >Prenom</div>
-                                <div style={{ width: "15%" }} >Club</div>
-                                <div style={{ width: "10%" }} >Points</div>
-
-                            </div>
-                            {items.map((item, index) => {
-                                // remove the last filtered item
-                                return <PlayerItem isLoggedIn={true} isByFilter={true} key={item._id} rang={index} {...item} filteredScore={item[`${category}Score`]} filteredScore={item[`score`]} />
-                            })}
-                        </>
-
-                        :
-
-                        <>
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", alignItems: 'center', color: design.mainTextColor, backgroundColor: "white", width: "100%", height: 50, marginBottom: 10, paddingTop: 20, paddingBottom: 20 }} >
-
-                                <div style={{ width: "10%" }} >rang</div>
-                                <div style={{ width: "15%" }} >Num</div>
-                                <div style={{ width: "20%" }} >Nom</div>
-                                <div style={{ width: "20%" }} >Prenom</div>
-                                <div style={{ width: "20%" }} >Club</div>
-                                <div style={{ width: "15%" }} >Points</div>
-
-                            </div>
-                            {items.map((item, index) => {
-                                // remove the last filtered item
-                                return <PlayerItem isLoggedIn={false} isByFilter={true} key={item._id} rang={index} {...item} filteredScore={item[`${category}Score`]} filteredScore={item[`score`]} />
-                            })}
-
-                        </>
-
-                }
-
-
-
-
-            </div> */}
         </>
     )
 }

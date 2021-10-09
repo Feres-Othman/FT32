@@ -56,10 +56,10 @@ export default function Teams() {
     const CustomTitle = ({ row }) => (
         <div>
             <Btn onClick={e => handleUpdate(e, row._id)} style={{ margin: "10px" }}>
-                {isSmall ? <Icon icon={faEdit} className="hoverScale" size="sm" /> : "mettre à jour"}
+                {true ? <Icon icon={faEdit} className="hoverScale" size="sm" /> : "mettre à jour"}
             </Btn>
             <Btn onClick={e => handleDelete(e, row._id)} style={{ backgroundColor: "red", margin: "10px" }}>
-                {isSmall ? <Icon icon={faTrash} className="hoverScale" size="sm" /> : "Supprimer"}
+                {true ? <Icon icon={faTrash} className="hoverScale" size="sm" /> : "Supprimer"}
 
             </Btn>
         </div>
@@ -87,23 +87,25 @@ export default function Teams() {
             }
         }
 
-        axios.post("/api/team/read/all", { dontReadPlayers: true }, config)
+        axios.post("/api/team/read/all", { dontReadPlayers: false }, config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {
                     console.log(res)
 
-                    let teams = res.teams;
+                    // let teams = res.teams;
 
-                    let formattedTeams = [];
+                    // let formattedTeams = [];
 
-                    for (const team of teams) {
-                        let formattedTeam = { ...team, players: team.players.length, isBanned: team.isBanned ? "oui" : "non" }
-                        formattedTeams.push(formattedTeam);
-                    }
+                    // for (const team of teams) {
+                    //     let formattedTeam = { ...team, players: team.players.length, isBanned: team.isBanned ? "oui" : "non" }
+                    //     formattedTeams.push(formattedTeam);
+                    // }
 
 
-                    setItems(formattedTeams);
+                    // setItems(formattedTeams);
+
+                    setItems(res.teams);
 
 
 
@@ -134,20 +136,63 @@ export default function Teams() {
             cell: row => <CustomName row={row} />,
         },
         {
+            name: 'Poussins',
+            selector: row => row.players.filter(player => player.category == "615c7c026a276c684c988b61").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Pupilles',
+            selector: row => row.players.filter(player => player.category == "615c7c036a276c684c988e9e").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Minimes',
+            selector: row => row.players.filter(player => player.category == "615c7bfd6a276c684c9884b9").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Cadets',
+            selector: row => row.players.filter(player => player.category == "615c7bfe6a276c684c988553").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Juniors',
+            selector: row => row.players.filter(player => player.category == "615c7c006a276c684c988858").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Seniors',
+            selector: row => row.players.filter(player => player.category == "615c7c006a276c684c988938").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
             name: 'Nombre de Joueurs',
-            selector: row => row.players,
+            selector: row => row.players.length,
             sortable: true,
             center: true
         },
         {
             name: "l'equipe est bannie",
-            selector: row => row.isBanned,
+            selector: row => row.isBanned ? "oui" : "non",
             center: true,
-            hide: "sm"
+            hide: "sm",
+            maxWidth: '130px'
         },
         {
             name: "actions",
-            maxWidth: '600px',
+            maxWidth: '180px',
             cell: row => <CustomTitle row={row} />,
             center: true
         },
@@ -162,8 +207,51 @@ export default function Teams() {
             center: true
         },
         {
+            name: 'Poussins',
+            selector: row => row.players.filter(player => player.category == "615c7c026a276c684c988b61").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Pupilles',
+            selector: row => row.players.filter(player => player.category == "615c7c036a276c684c988e9e").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Minimes',
+            selector: row => row.players.filter(player => player.category == "615c7bfd6a276c684c9884b9").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Cadets',
+            selector: row => row.players.filter(player => player.category == "615c7bfe6a276c684c988553").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Juniors',
+            selector: row => row.players.filter(player => player.category == "615c7c006a276c684c988858").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+        {
+            name: 'Seniors',
+            selector: row => row.players.filter(player => player.category == "615c7c006a276c684c988938").length,
+            sortable: true,
+            center: true,
+            maxWidth: '130px'
+        },
+
+        {
             name: 'Nombre de Joueurs',
-            selector: row => row.players,
+            selector: row => row.players.length,
             sortable: true,
             center: true
         }

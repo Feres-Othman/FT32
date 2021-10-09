@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import { useParams } from 'react-router'
 import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
@@ -12,11 +13,11 @@ import { Line } from 'react-chartjs-2';
 import DataTable from 'react-data-table-component';
 
 const state = {
-    labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+    labels: ['septembre', 'octobre', 'novembre', 'décembre', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août'],
     datasets: [
         {
             display: false,
-            label: 'JUNIORS',
+            label: 'Cadets',
             fill: false,
             lineTension: 0.3,
             backgroundColor: 'rgba(75,192,192,1)',
@@ -26,23 +27,23 @@ const state = {
         },
         {
             display: false,
-            label: 'ESPOIRES',
+            label: 'Juniors',
             fill: false,
             lineTension: 0.3,
             backgroundColor: 'rgba(192,75,192,1)',
             borderColor: 'rgba(0,0,0,1)',
             borderWidth: 2,
-            data: [500, 480, 550, 600, 790, 750, 600, 720, 780, 750, 540, 490]
+            data: [500, 480, 550, 600, 790, 750, 600, 720, 780, 750, 540, 590]
         },
         {
             display: false,
-            label: 'SENIORES',
+            label: 'Seniors',
             fill: false,
             lineTension: 0.3,
             backgroundColor: 'rgba(192,192,75,1)',
             borderColor: 'rgba(0,0,0,1)',
             borderWidth: 2,
-            data: [500, 580, 650, 700, 690, 720, 650, 620, 600, 550, 580, 590]
+            data: [500, 520, 550, 530, 500, 500, 500, 480, 470, 490, 500, 500]
         }
     ]
 }
@@ -51,7 +52,87 @@ export default function Profile() {
 
     const { playerId } = useParams();
     let history = useHistory();
-    const [player, setPlayer] = useState({})
+    const [player, setPlayer] = useStateWithCallbackLazy({})
+
+    const [scores, setScores] = useState({})
+
+    const [categories, setCategories] = useState([])
+
+    const getCategories = async (playerTemp) => {
+
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
+        axios.post("/api/category/read/all", {}, config)
+            .then((response) => {
+                let res = response.data;
+                if (res.success) {
+                    console.log(res)
+
+
+                    let tempCategories = [];
+
+                    let startCount = false;
+
+                    console.log(player);
+
+                    let TempScores = {};
+
+
+                    for (const categ of res.categories) {
+
+                        if (categ._id == playerTemp.category._id) {
+                            startCount = true;
+                        }
+
+                        if (startCount) {
+                            tempCategories.push({
+                                name: categ.name,
+                                center: true,
+                                selector: row => row[categ.name],
+                            })
+
+                        }
+
+                    }
+
+                    tempCategories.reverse();
+
+                    let tempScoresReversed = playerTemp.scores;
+                    tempScoresReversed.reverse();
+
+                    let index = 0;
+
+                    for (const categ of tempCategories) {
+                        TempScores[categ.name] = tempScoresReversed[index].score;
+                        index++;
+                    }
+
+                    setScores([TempScores])
+
+
+                    tempCategories.reverse();
+
+                    setCategories(tempCategories);
+
+
+                } else {
+                    return res.json({
+                        success: false
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
+
 
     const getProducts = async () => {
 
@@ -70,6 +151,10 @@ export default function Profile() {
                     console.log(res)
 
                     setPlayer(res.player);
+
+                    getCategories(res.player);
+
+
 
                 } else {
                     console.log(res)
@@ -100,6 +185,42 @@ export default function Profile() {
         }} >{row.lastName}</div>
     );
 
+    const matchColumns = [
+        {
+            name: 'Competition',
+            selector: row => row.competition.name,
+            sortable: true,
+            center: true,
+            maxWidth: '220px',
+        },
+        {
+            name: 'Categorie',
+            selector: row => row.category.name,
+            sortable: true,
+            center: true,
+            maxWidth: '220px',
+        },
+        {
+            name: 'Vs',
+            selector: row => player._id == row.winner._id ? `${row.looser.firstName} ${row.looser.lastName}` : `${row.winner.firstName} ${row.winner.lastName}`,
+            sortable: true,
+            center: true
+        },
+        {
+            name: 'Points',
+            selector: row => player._id == row.winner?._id ? row.winnerPoints : row.looserPoints,
+            sortable: true,
+            center: true
+        },
+        {
+            name: 'date',
+            selector: row => (new Date(row.date)).toLocaleDateString("fr-FR"),
+            sortable: true,
+            center: true
+        }
+
+    ];
+
     const columns = [
         {
             name: 'Nom',
@@ -125,39 +246,7 @@ export default function Profile() {
         },
         {
             name: 'Points',
-            selector: row => row.score,
-            sortable: true,
-            center: true
-        }
-
-    ];
-
-    const matchColumns = [
-        {
-            name: 'Nom',
-            selector: row => row.lastName,
-            sortable: true,
-            center: true,
-            cell: row => <CustomLastName row={row} />,
-            maxWidth: '220px',
-        },
-        {
-            name: 'Prenom',
-            selector: row => row.firstName,
-            sortable: true,
-            center: true,
-            cell: row => <CustomFirstName row={row} />,
-            maxWidth: '220px',
-        },
-        {
-            name: 'Sexe',
-            selector: row => row.sex,
-            sortable: true,
-            center: true
-        },
-        {
-            name: 'Points',
-            selector: row => row.score,
+            selector: row => row.scores[player.category.__v - 1].score,
             sortable: true,
             center: true
         }
@@ -172,7 +261,7 @@ export default function Profile() {
     return (
         <>
 
-            {player.number ?
+            {player.number && categories.length != 0 ?
                 <div>
                     <div style={{
                         display: "flex",
@@ -196,8 +285,24 @@ export default function Profile() {
 
                             </div>
 
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", marginTop: 20 }}>
-                                <div style={{ fontSize: 20, fontWeight: "bold" }}>Score : {player.score}</div>
+                            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%", marginTop: 20, height: 110, borderRadius: 20 }}>
+
+                                {/* <div style={{ fontSize: 20, fontWeight: "bold" }}>Score : {player.score}</div> */}
+
+                                <DataTable
+                                    columns={categories}
+                                    data={scores}
+                                    style={{ borderRadius: 20 }}
+                                    paginationComponent={<></>}
+                                    noHeader
+                                    paginationComponentOptions={paginationComponentOptions}
+                                    noDataComponent={
+                                        <div style={{ padding: 30, fontSize: 17 }}>
+                                            il n'y a pas encore de joueurs à afficher
+                                        </div>
+                                    }
+                                />
+
                             </div>
 
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", marginTop: 20 }}>
