@@ -3,7 +3,7 @@ import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrash, faMap, faPhone } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import { useParams, useHistory } from 'react-router-dom';
@@ -240,7 +240,19 @@ export default function Players() {
 
     return (
         <>
-            <h1 style={{ textAlign: 'center', margin: 20 }} >{clubName}</h1>
+            <div style={{ display: 'flex', flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
+
+                <h1 style={{ textAlign: 'center', margin: 20, flex: 1 }} >{clubName}</h1>
+
+                <div style={{ width: "20%" }}>
+
+                    <Icon icon={faMap} className="hoverScale" size="lg" style={{ marginRight: 20, cursor: 'pointer' }} />
+                    <Icon icon={faPhone} className="hoverScale" size="lg" style={{ cursor: 'pointer' }} />
+
+                </div>
+
+            </div>
+
 
             <div style={{
                 display: "flex",

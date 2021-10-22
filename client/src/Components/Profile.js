@@ -11,6 +11,7 @@ import Btn from '../Molecules/Btn'
 import { useHistory } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import DataTable from 'react-data-table-component';
+import profile from '../Medias/avatar.jpg'
 
 const state = {
     labels: ['septembre', 'octobre', 'novembre', 'décembre', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août'],
@@ -278,6 +279,10 @@ export default function Profile() {
                     }}>
                         <div>
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", marginTop: 50 }}>
+
+                                <div style={{ width: 150, height: 150, borderRadius: 15, overflow: "hidden", marginRight: 20 }}>
+                                    <img src={profile} style={{ width: 150, height: 150 }} />
+                                </div>
 
                                 <div style={{ fontSize: 60, marginRight: 25 }}>{player.sex === "M" ? <Icon icon={faMale} /> : <Icon icon={faFemale} />}</div>
 

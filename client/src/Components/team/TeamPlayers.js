@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Dropdown, FormControl } from 'react-bootstrap'
 
-export default function TeamPlayers({ number, team, setTeam, teams, player1, setPlayer1, player2, setPlayer2, player3, setPlayer3, categories, isValidated, teamScore }) {
+export default function TeamPlayers({ number, team, setTeam, teams, player1, setPlayer1, player2, setPlayer2, player3, setPlayer3, categories, isValidated, teamScore, gender }) {
 
 
     // The forwardRef is important!!
@@ -73,7 +73,7 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
         setPlayer1({});
         setPlayer2({});
         setPlayer3({});
-    }, [categories])
+    }, [categories, gender])
 
     return (
         <>

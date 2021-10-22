@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Dropdown, FormControl } from 'react-bootstrap'
 
-export default function IndivPlayers({ number, teams, player1, setPlayer1, categories, isValidated, teamScore }) {
+export default function IndivPlayers({ number, teams, player1, setPlayer1, categories, isValidated, teamScore, gender }) {
 
 
     // The forwardRef is important!!
@@ -61,7 +61,9 @@ export default function IndivPlayers({ number, teams, player1, setPlayer1, categ
         for (const team of teams) {
             for (const player of team.players) {
                 if (categories.includes(player.category)) {
-                    selectedPlayers.push(player)
+                    if ((player.sex === gender._id) || (gender._id === "X")) {
+                        selectedPlayers.push(player)
+                    }
                 }
             }
         }
@@ -73,7 +75,7 @@ export default function IndivPlayers({ number, teams, player1, setPlayer1, categ
 
     useEffect(() => {
         setPlayer1({});
-    }, [categories])
+    }, [categories, gender])
 
     return (
         <>

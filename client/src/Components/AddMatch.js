@@ -748,6 +748,20 @@ export default function AddMatch() {
 
     // let history = useHistory();
 
+    const genders = [{
+        _id: "F",
+        name: "Femme"
+    },
+    {
+        _id: "M",
+        name: "Homme"
+    },
+    {
+        _id: "X",
+        name: "Tout"
+    }]
+    const [gender, setGender] = useState({})
+
     return (
         <div>
             <div style={{
@@ -765,7 +779,7 @@ export default function AddMatch() {
                 gap: 20
                 // overflowY: "scroll"
             }} >
-                <Dropdown style={{ maxWidth: 600, minWidth: 400 }}>
+                <Dropdown style={{ width: "30%", minWidth: 350 }}>
 
                     <Dropdown.Toggle variant="success" variant="Primary"
                         style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
@@ -786,11 +800,9 @@ export default function AddMatch() {
 
                 </Dropdown>
 
-                <div style={{ maxWidth: 100, minWidth: 50 }}>
-
-                </div>
-
-                <DrpDown style={{ maxWidth: 600, minWidth: 400 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
+                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
+                {/* <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown> */}
+                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
 
             </div >
 
@@ -828,6 +840,7 @@ export default function AddMatch() {
                                     categories={selectedCategories}
                                     isValidated={isValidated}
                                     teamScore={teamScore(teamContests, 1)}
+                                    gender={gender}
                                 />
                                 <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                                     {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
@@ -847,6 +860,7 @@ export default function AddMatch() {
                                     categories={selectedCategories}
                                     isValidated={isValidated}
                                     teamScore={teamScore(teamContests, 2)}
+                                    gender={gender}
                                 />
                             </div >
                         }
@@ -991,6 +1005,7 @@ export default function AddMatch() {
                                         categories={selectedCategories}
                                         isValidated={isValidated}
                                         teamScore={teamScore(contests, 1)}
+                                        gender={gender}
                                     />
 
                                     <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
@@ -1006,6 +1021,7 @@ export default function AddMatch() {
                                         categories={selectedCategories}
                                         isValidated={isValidated}
                                         teamScore={teamScore(contests, 2)}
+                                        gender={gender}
                                     />
                                 </div >
                             }

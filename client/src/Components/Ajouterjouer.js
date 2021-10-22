@@ -15,6 +15,7 @@ import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import DrpDown from '../Molecules/DrpDown';
 import Btn from '../Molecules/Btn';
 import Input from '../Molecules/Input';
+import ImageInput from './ImageInput'
 
 
 import { useHistory } from 'react-router-dom';
@@ -260,7 +261,7 @@ const Ajoutjouer = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 width: "90%",
-                height: "87vh",
+                padding: 100,
                 //paddingTop: "20vh",
                 // backgroundColor: design.backgroundColor,
                 marginLeft: "5%",
@@ -269,7 +270,9 @@ const Ajoutjouer = () => {
             }} >
                 <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute un joueur</h1>
 
-                <div >
+                <ImageInput />
+
+                <div style={{ marginTop: 20 }} >
                     <Row>
 
                         <Col>

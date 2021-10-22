@@ -27,6 +27,7 @@ import Login from './Components/auth/Login';
 // import ResetPassword from './Components/auth/ResetPassword';
 
 import Players from './Components/Players';
+import Help from './Components/Help';
 import PlayersByTeam from './Components/PlayersByTeam';
 import PlayersByFilter from './Components/PlayersByFilter';
 import { slide as Menu } from 'react-burger-menu'
@@ -297,9 +298,10 @@ function App() {
                       {/* <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/parcours">PARCOURS</NavLink> */}
                       <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/players">JOUEURS</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/teams">EQUIPES</NavLink>
+                      <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/help">COMMENT CA MARCHE</NavLink>
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/match/add">AJOUTER UN MATCH</NavLink>}
                       {/* <NavLink onClick={() => {setIsOpen(false)}} id="contact" style={{ color: "white" }} className="menu-item" to="/presse">PRESSE</NavLink> */}
-                      <div style={{ width: 100, height: "27vh", marginBottom: 25, borderBottom: "1px solid white" }} ></div>
+                      <div style={{ width: 100, height: "24vh", marginBottom: 25, borderBottom: "1px solid white" }} ></div>
 
                       <a target="blank" href="https://www.google.com/maps/dir/?api=1&destination=36.8%2C10.1833&fbclid=IwAR1UuOjlFCVSWEaluFADgfByp9d6Got1kJPTwMN0MnWjV5rhoo_5snn4u7o" onClick={() => { setIsOpen(false) }} id="location" style={{ color: "white", cursor: "pointer" }} className="menu-item" >LOCALISATION</a>
                       <a href="tel:+21671238722" onClick={() => { setIsOpen(false) }} id="phone" style={{ color: "white", cursor: "pointer" }} className="menu-item" >TELEPHONE</a>
@@ -403,9 +405,15 @@ function App() {
                     <Route path="/players" >
                       <Players />
                     </Route>
+
+                    <Route path="/help" >
+                      <Help />
+                    </Route>
+
                     <Route path="/Ajouterjoueur" >
                       <Ajouterjouer />
                     </Route>
+
                     <Route path="/equipejoueur" >
                       <Ajouterequipe />
                     </Route>
