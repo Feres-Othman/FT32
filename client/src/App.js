@@ -358,8 +358,8 @@ function App() {
                     location={location}>
 
                     <Route path="/" exact >
-                      {/* <Home /> */}
-                      <Redirect to="/players" />
+                      <Home />
+                      {/* <Redirect to="/players" /> */}
                     </Route>
 
                     {/* AUTH */}

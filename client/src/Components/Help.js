@@ -16,23 +16,28 @@ export default function Players() {
 
 
     return (
-        <div style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "90%",
-            height: "87vh",
-            // paddingTop: "20vh",
-            // backgroundColor: design.backgroundColor,
-            marginLeft: "5%",
-            textAlign: 'center',
-            // overflowY: "scroll"
-        }} >
+        <div>
+            <h1 style={{ marginTop: 20, textAlign: 'center' }} >Aide</h1>
+            <div style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "90%",
+                height: "87vh",
+                // paddingTop: "20vh",
+                // backgroundColor: design.backgroundColor,
+                marginLeft: "4%",
+                textAlign: 'center',
+                gap: 10
+                // overflowY: "scroll"
+            }} >
 
-            <img src={image1} style={{ height: "50vh" }} />
-            <img src={image2} style={{ height: "50vh" }} />
+                <img src={image1} style={{ height: "50vh", borderRadius: 20 }} />
+                <img src={image2} style={{ height: "50vh", borderRadius: 20 }} />
 
-        </div >
+            </div >
+        </div>
+
     )
 }
