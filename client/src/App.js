@@ -297,6 +297,7 @@ function App() {
                       <NavLink onClick={() => { setIsOpen(false) }} id="accueil" style={{ color: "white" }} className="menu-item" to="/">ACCUEIL</NavLink>
                       {/* <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/parcours">PARCOURS</NavLink> */}
                       <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/players">JOUEURS</NavLink>
+                      <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/classement/indiv">CLASSEMENT INDIV</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/teams">EQUIPES</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/help">COMMENT CA MARCHE</NavLink>
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/match/add">AJOUTER UN MATCH</NavLink>}
@@ -403,6 +404,10 @@ function App() {
                     </Route>
 
                     <Route path="/players" >
+                      <Players />
+                    </Route>
+
+                    <Route path="/classement/indiv" >
                       <Players />
                     </Route>
 

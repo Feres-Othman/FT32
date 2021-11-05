@@ -311,7 +311,7 @@ export default function PlayersByFilter() {
                     }}>Ajouter un joueur</Btn>
             }
 
-            <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 105, backgroundColor: "white", borderRadius: 20, padding: 20, fontSize: 12 }} >
+            <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 80, backgroundColor: "white", borderRadius: 20, padding: 10, fontSize: 12 }} >
 
                 <div>
                     <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> le joueur a payé sa licence
@@ -322,7 +322,7 @@ export default function PlayersByFilter() {
                 </div>
 
                 <div>
-                    <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} /> le joueur n'a pas passé deux saisons dans son équipe
+                    <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} /> le joueur est mutee
                 </div>
 
             </div>
