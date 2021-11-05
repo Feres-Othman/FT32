@@ -57,6 +57,7 @@ export default function Home() {
             alignItems: 'center',
             width: "100vw",
             height: "100vh",
+            backgroundSize: "cover",
             backgroundImage: `url(${bg})`,
             gap: 30
         }}>
@@ -70,7 +71,7 @@ export default function Home() {
 
             </div>
 
-            <div style={{ width: '50vw', height: '60vh', backgroundColor: "#333b", borderRadius: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20, overflow:"hidden" }}>
+            <div style={{ width: '50vw', height: '60vh', backgroundColor: "#333b", borderRadius: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20, overflow: "hidden" }}>
                 <Carousel images={images} hasIndexBoard={false} style={{ height: "100%", width: "100%" }} />
             </div>
 
