@@ -36,16 +36,20 @@ export default function IndivContest({ player1, player2, player1Order, player2Or
         temp[index] = newMatch;
 
         for (const item of temp) {
-            if (item.player1Score == 11) {
+            if (item.player1Score >= 11 && (item.player1Score - item.player2Score) > 1) {
                 score1++;
             }
-        }
 
-        for (const item of temp) {
-            if (item.player2Score == 11) {
+            if (item.player2Score >= 11 && (item.player2Score - item.player1Score) > 1) {
                 score2++;
             }
         }
+
+        // for (const item of temp) {
+        //     if (item.player2Score == 11) {
+        //         score2++;
+        //     }
+        // }
 
 
         setMatches([...temp], contestIndex, score1, score2);
@@ -57,14 +61,15 @@ export default function IndivContest({ player1, player2, player1Order, player2Or
 
         if (side == 1) {
             for (const item of array) {
-                if (item.player1Score == 11) {
+
+                if (item.player1Score >= 11 && (item.player1Score - item.player2Score) > 1) {
                     score++;
                 }
             }
 
         } else {
             for (const item of array) {
-                if (item.player2Score == 11) {
+                if (item.player2Score >= 11 && (item.player2Score - item.player1Score) > 1) {
                     score++;
                 }
             }

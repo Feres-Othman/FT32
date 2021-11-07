@@ -9,22 +9,21 @@ export default function IndivLineContest({ match, setMatch }) {
             <input
                 type="number"
                 min="0"
-                max="11"
                 placeholder="00"
                 value={match.player1Score}
                 step="1"
                 onChange={(e) => {
 
-                    if (match.player2Score == 11) {
-                        if (e.target.value == 11) {
-                            setMatch({
-                                ...match,
-                                player1Score: e.target.value,
-                                player2Score: 10
-                            });
-                            return;
-                        }
-                    }
+                    // if (match.player2Score == 11) {
+                    //     if (e.target.value == 11) {
+                    //         setMatch({
+                    //             ...match,
+                    //             player1Score: e.target.value,
+                    //             player2Score: 10
+                    //         });
+                    //         return;
+                    //     }
+                    // }
 
                     setMatch({
                         ...match,
@@ -39,22 +38,21 @@ export default function IndivLineContest({ match, setMatch }) {
             <input
                 type="number"
                 min="0"
-                max="11"
                 placeholder="00"
                 value={match.player2Score}
                 step="1"
                 onChange={(e) => {
 
-                    if (match.player1Score == 11) {
-                        if (e.target.value == 11) {
-                            setMatch({
-                                ...match,
-                                player1Score: 10,
-                                player2Score: e.target.value
-                            });
-                            return;
-                        }
-                    }
+                    // if (match.player1Score == 11) {
+                    //     if (e.target.value == 11) {
+                    //         setMatch({
+                    //             ...match,
+                    //             player1Score: 10,
+                    //             player2Score: e.target.value
+                    //         });
+                    //         return;
+                    //     }
+                    // }
 
                     setMatch({
                         ...match,

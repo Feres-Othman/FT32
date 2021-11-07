@@ -626,6 +626,25 @@ export default function AddMatch() {
 
     const submit = async (isTeam) => {
 
+        if (!isTeam) {
+            if (contests[0].player1Score === 0 && contests[0].player2Score === 0) {
+                notifier.warning("aucun des joueurs n'a gagné");
+                return;
+            }
+
+            if (contests[0].player1Score < 3 && contests[0].player2Score < 3) {
+                notifier.warning("aucun des joueurs n'a gagné");
+                return;
+            }
+        } else {
+            if (teamScore(teamContests, 1) === 0 && teamScore(teamContests, 2) === 0) {
+                notifier.warning("aucun des equipes n'a gagné");
+                return;
+            }
+
+        }
+
+
         var session = Ls.getObject('session', { 'isLoggedIn': false });
         let config = {
             headers: {

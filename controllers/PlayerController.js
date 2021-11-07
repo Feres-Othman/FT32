@@ -12028,8 +12028,8 @@ const resetDB = async (req, res, next) => {
 
 
 const createPlayer = async (req, res, next) => {
-  console.log(req.body.UniqueNumber)
-  const alreadyexist = await Player.findOne({ UniqueNumber: req.body.UniqueNumber })
+  // console.log(req.body.UniqueNumber)
+  const alreadyexist = await Player.findOne({ number: req.body.number })
   try {
     const firstName = req.body.Nom;
     const lastName = req.body.Prenom;
@@ -12044,7 +12044,7 @@ const createPlayer = async (req, res, next) => {
     const indGenre = "1"
 
     const nat = req.body.Nationalité;
-    const UniqueNumber = req.body.UniqueNumber;
+    // const UniqueNumber = req.body.UniqueNumber;
     if (!alreadyexist) {
       const newPlayer = new Player({
         firstName,
@@ -12059,7 +12059,7 @@ const createPlayer = async (req, res, next) => {
         indGenre,
         sex,
         nat,
-        UniqueNumber
+        // UniqueNumber
       });
 
       newPlayer.save()
@@ -12076,7 +12076,7 @@ const createPlayer = async (req, res, next) => {
     } else if (alreadyexist) {
       res.json({
         success: false,
-        message: " player with that UniqueNumber already exist"
+        message: " player with that number already exist"
       })
     }
   }

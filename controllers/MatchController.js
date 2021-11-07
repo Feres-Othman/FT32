@@ -72,129 +72,192 @@ const createMatch = async (req, res, next) => {
     if (isTeam) {
 
 
-
-        let forWinner = 0;
-        let forLooser = 0;
-
-        let difference = winnerPreviousPoints - looserPreviousPoints;
-
-        switch (true) {
-            //victoire anormale
-            case (difference <= -500):
-                forWinner = 40;
-                forLooser = -29;
-                break;
-            //victoire anormale
-            case (difference <= -400):
-                forWinner = 28;
-                forLooser = -20;
-                break;
-
-            //victoire anormale
-            case (difference <= -300):
-                forWinner = 22;
-                forLooser = -16;
-                break;
-
-            //victoire anormale
-            case (difference <= -200):
-                forWinner = 17;
-                forLooser = -12.5;
-                break;
-
-            //victoire anormale
-            case (difference <= -150):
-                forWinner = 13;
-                forLooser = -10;
-                break;
-
-            //victoire anormale
-            case (difference <= -100):
-                forWinner = 10;
-                forLooser = -8;
-                break;
-
-            //victoire anormale
-            case (difference <= -50):
-                forWinner = 8;
-                forLooser = -7;
-                break;
-
-            //victoire anormale
-            case (difference <= -25):
-                forWinner = 7;
-                forLooser = -6;
-                break;
-
-            //victoire anormale
-            case (difference <= 0):
-                forWinner = 6;
-                forLooser = -5;
-                break;
+        for (const i in teamContests) {
+            // const element = teamContest[i];
 
 
+            let forWinner = 0;
+            let forLooser = 0;
 
+            let scoreIndex = category.__v - 1;
 
+            let winner = {};
+            let looser = {};
+            let contest = teamContests[i];
 
-            //victoire normale
-            case (difference < 25):
-                forWinner = 6;
-                forLooser = -5;
-                break;
-            //victoire normale
-            case (difference < 50):
-                forWinner = 5.5;
-                forLooser = -4.5;
-                break;
+            if (teamContests[i].player1Score > teamContests[i].player2Score) {
+                winner = playerA;
+                looser = playerX;
+            } else {
+                winner = playerX;
+                looser = playerA;
+            }
 
-            //victoire normale
-            case (difference < 100):
-                forWinner = 5;
-                forLooser = -4;
-                break;
+            let difference = teamContests[i].player1Score > teamContests[i].player2Score ? playerA.scores[scoreIndex].score - playerX.scores[scoreIndex].score : playerX.scores[scoreIndex].score - playerA.scores[scoreIndex].score;
 
-            //victoire normale
-            case (difference < 150):
-                forWinner = 4;
-                forLooser = -3;
-                break;
-
-            //victoire normale
-            case (difference < 200):
-                forWinner = 3;
-                forLooser = -2;
-                break;
-
-            //victoire normale
-            case (difference < 300):
-                forWinner = 2;
-                forLooser = -1;
-                break;
-
-            //victoire normale
-            case (difference < 400):
-                forWinner = 1;
-                forLooser = -0.5;
-                break;
-
-            //victoire normale
-            case (difference < 500):
-                forWinner = 0.5;
-                forLooser = -0;
-                break;
-
-
-            //victoire normale +500
-            default:
+            if (teamContests[i].player1Score === teamContests[i].player2Score && teamContests[i].player1Score === 0) {
                 forWinner = 0;
                 forLooser = 0;
-                break;
+            } else {
+                switch (true) {
+                    //victoire anormale
+                    case (difference <= -500):
+                        forWinner = 40;
+                        forLooser = -29;
+                        break;
+                    //victoire anormale
+                    case (difference <= -400):
+                        forWinner = 28;
+                        forLooser = -20;
+                        break;
+
+                    //victoire anormale
+                    case (difference <= -300):
+                        forWinner = 22;
+                        forLooser = -16;
+                        break;
+
+                    //victoire anormale
+                    case (difference <= -200):
+                        forWinner = 17;
+                        forLooser = -12.5;
+                        break;
+
+                    //victoire anormale
+                    case (difference <= -150):
+                        forWinner = 13;
+                        forLooser = -10;
+                        break;
+
+                    //victoire anormale
+                    case (difference <= -100):
+                        forWinner = 10;
+                        forLooser = -8;
+                        break;
+
+                    //victoire anormale
+                    case (difference <= -50):
+                        forWinner = 8;
+                        forLooser = -7;
+                        break;
+
+                    //victoire anormale
+                    case (difference <= -25):
+                        forWinner = 7;
+                        forLooser = -6;
+                        break;
+
+                    //victoire anormale
+                    case (difference <= 0):
+                        forWinner = 6;
+                        forLooser = -5;
+                        break;
+
+
+
+
+
+                    //victoire normale
+                    case (difference < 25):
+                        forWinner = 6;
+                        forLooser = -5;
+                        break;
+                    //victoire normale
+                    case (difference < 50):
+                        forWinner = 5.5;
+                        forLooser = -4.5;
+                        break;
+
+                    //victoire normale
+                    case (difference < 100):
+                        forWinner = 5;
+                        forLooser = -4;
+                        break;
+
+                    //victoire normale
+                    case (difference < 150):
+                        forWinner = 4;
+                        forLooser = -3;
+                        break;
+
+                    //victoire normale
+                    case (difference < 200):
+                        forWinner = 3;
+                        forLooser = -2;
+                        break;
+
+                    //victoire normale
+                    case (difference < 300):
+                        forWinner = 2;
+                        forLooser = -1;
+                        break;
+
+                    //victoire normale
+                    case (difference < 400):
+                        forWinner = 1;
+                        forLooser = -0.5;
+                        break;
+
+                    //victoire normale
+                    case (difference < 500):
+                        forWinner = 0.5;
+                        forLooser = -0;
+                        break;
+
+
+                    //victoire normale +500
+                    default:
+                        forWinner = 0;
+                        forLooser = 0;
+                        break;
+                }
+
+            }
+
+            let winnerPoints = coef * forWinner;
+            let looserPoints = coef * forLooser;
+
+            console.log({ winnerPoints, looserPoints })
+
+            winnerPoints = Math.round(winnerPoints);
+            looserPoints = Math.round(looserPoints);
+
+            let winnerPreviousPoints = winner.scores[scoreIndex].score;
+            let looserPreviousPoints = looser.scores[scoreIndex].score;
+
+            const newMatch = new Match({
+                competition,
+                category: category._id,
+
+                winner: winner._id,
+                looser: looser._id,
+
+                winnerPoints,
+                looserPoints,
+
+                winnerPreviousPoints,
+                looserPreviousPoints,
+
+                contest
+            });
+
+            winner.scores[scoreIndex].score += winnerPoints;
+            looser.scores[scoreIndex].score += looserPoints;
+
+            await newMatch.save();
+
+            if (newMatch) {
+                await Player.findOneAndUpdate({ _id: winner._id }, { $push: { history: newMatch._id }, scores: winner.scores }, {}).exec();
+                await Player.findOneAndUpdate({ _id: looser._id }, { $push: { history: newMatch._id }, scores: looser.scores }, {}).exec();
+            }
+
         }
 
-        let winnerPoints = coef * forWinner;
-        let looserPoints = coef * forLooser;
+        res.json({
+            success: true,
+            // newMatch: newMatch
+        })
 
-        console.log({ winnerPoints, looserPoints })
 
     } else {
 

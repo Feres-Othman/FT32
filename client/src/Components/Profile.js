@@ -262,6 +262,41 @@ export default function Profile() {
         rangeSeparatorText: 'de',
     };
 
+
+    const conditionalRowStyles = [
+        {
+            when: row => (player._id == row.winner?._id ? row.winnerPoints : row.looserPoints) > 0,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.3)',
+                color: 'black',
+                '&:hover': {
+                    cursor: 'pointer',
+                },
+            },
+        },
+        {
+            when: row => (player._id == row.winner?._id ? row.winnerPoints : row.looserPoints) < 0,
+            style: {
+                backgroundColor: 'rgba(248, 148, 6, 0.3)',
+                color: 'black',
+                '&:hover': {
+                    cursor: 'pointer',
+                },
+            },
+        },
+        // {
+        //     when: row => (player._id == row.winner?._id ? row.winnerPoints : row.looserPoints) == 0,
+        //     style: {
+        //         backgroundColor: 'rgba(242, 38, 19, 0.9)',
+        //         color: 'white',
+        //         '&:hover': {
+        //             cursor: 'not-allowed',
+        //         },
+        //     },
+        // },
+    ];
+
+
     return (
         <>
 
@@ -359,11 +394,12 @@ export default function Profile() {
                             columns={matchColumns}
                             data={player.history}
                             style={{ borderRadius: 20 }}
+                            conditionalRowStyles={conditionalRowStyles}
                             pagination
                             paginationComponentOptions={paginationComponentOptions}
                             noDataComponent={
                                 <div style={{ padding: 30, fontSize: 17 }}>
-                                    il n'y a pas encore de matchs à afficher
+                                    il n'y a pas encore de matches à afficher
                                 </div>
                             }
                         />
