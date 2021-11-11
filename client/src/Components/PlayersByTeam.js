@@ -102,7 +102,6 @@ export default function Players() {
             sortable: true,
             center: true,
             cell: row => <CustomLastName row={row} />,
-            maxWidth: '220px',
         },
         {
             name: 'Prenom',
@@ -110,7 +109,6 @@ export default function Players() {
             sortable: true,
             center: true,
             cell: row => <CustomFirstName row={row} />,
-            maxWidth: '220px',
         },
         {
             name: 'Categorie',
@@ -126,15 +124,14 @@ export default function Players() {
             center: true,
             maxWidth: '150px',
         },
-        {
-            name: 'Points',
-            selector: row => row.score,
-            sortable: true,
-            center: true
-        },
+        // {
+        //     name: 'Points',
+        //     selector: row => row.score,
+        //     sortable: true,
+        //     center: true
+        // },
         {
             name: "actions",
-            maxWidth: '600px',
             cell: row => <CustomTitle row={row} />,
             center: true
         },
@@ -155,7 +152,6 @@ export default function Players() {
             sortable: true,
             center: true,
             cell: row => <CustomLastName row={row} />,
-            maxWidth: '220px',
         },
         {
             name: 'Prenom',
@@ -163,7 +159,6 @@ export default function Players() {
             sortable: true,
             center: true,
             cell: row => <CustomFirstName row={row} />,
-            maxWidth: '220px',
         },
         {
             name: 'Categorie',
@@ -178,12 +173,12 @@ export default function Players() {
             sortable: true,
             center: true
         },
-        {
-            name: 'Points',
-            selector: row => row.score,
-            sortable: true,
-            center: true
-        }
+        // {
+        //     name: 'Points',
+        //     selector: row => row.score,
+        //     sortable: true,
+        //     center: true
+        // }
 
     ];
 

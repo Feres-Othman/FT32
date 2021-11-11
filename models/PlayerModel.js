@@ -12,15 +12,15 @@ const PlayerSchema = new Schema(
         year: { type: Number, required: true },
         category: { type: mongoose.Types.ObjectId, ref: 'Category' },
 
-        score: { type: Number, required: true },
+        score: { type: Number },
         scores: { type: Array },
         indivBonuses: { type: Array },
 
         team: { type: mongoose.Types.ObjectId, ref: 'Team' },
         sex: { type: String, required: true },
-        indGenre: { type: Number, required: true },
+        indGenre: { type: Number },
         nat: { type: String, required: true },
-        UniqueNumber: { type: String, required: true },
+        UniqueNumber: { type: String },
         history: {
             type: [{ type: mongoose.Types.ObjectId, ref: 'Match' }],
         },

@@ -79,6 +79,7 @@ export default function PlayersByFilter() {
                     for (const index in players) {
                         let player = players[index];
 
+
                         let chosenScore = player.scores.filter(scoreItem => scoreItem.category === res.chosenCategory._id)[0].score
 
                         let formattedPlayer = { ...player, score: chosenScore }
