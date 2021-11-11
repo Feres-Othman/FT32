@@ -1,5 +1,6 @@
 const Match = require('../models/MatchModel')
-const Player = require('../models/PlayerModel')
+const Player = require('../models/PlayerModel');
+const TeamMatch = require('../models/TeamMatchModel');
 
 const createMatch = async (req, res, next) => {
 
@@ -71,6 +72,11 @@ const createMatch = async (req, res, next) => {
 
     if (isTeam) {
 
+        let teamMatch = new TeamMatch({
+            team1: team1._id, team2: team2._id
+        })
+
+        await teamMatch.save();
 
         for (const i in teamContests) {
             // const element = teamContest[i];
@@ -86,14 +92,14 @@ const createMatch = async (req, res, next) => {
             let contest = teamContests[i];
 
             if (teamContests[i].player1Score > teamContests[i].player2Score) {
-                winner = playerA;
-                looser = playerX;
+                winner = (i == 0 || i == 4 || i == 7) ? playerA : (i == 1 || i == 3 || i == 6) ? playerB : (i == 2 || i == 5) ? playerC : playerA;
+                looser = (i == 0 || i == 3) ? playerX : (i == 1 || i == 5 || i == 7) ? playerY : (i == 2 || i == 4 || i == 6) ? playerZ : playerX;
             } else {
-                winner = playerX;
-                looser = playerA;
+                winner = (i == 0 || i == 3) ? playerX : (i == 1 || i == 5 || i == 7) ? playerY : (i == 2 || i == 4 || i == 6) ? playerZ : playerX;
+                looser = (i == 0 || i == 4 || i == 7) ? playerA : (i == 1 || i == 3 || i == 6) ? playerB : (i == 2 || i == 5) ? playerC : playerA;
             }
 
-            let difference = teamContests[i].player1Score > teamContests[i].player2Score ? playerA.scores[scoreIndex].score - playerX.scores[scoreIndex].score : playerX.scores[scoreIndex].score - playerA.scores[scoreIndex].score;
+            let difference = winner.scores[scoreIndex].score - looser.scores[scoreIndex].score;
 
             if (teamContests[i].player1Score === teamContests[i].player2Score && teamContests[i].player1Score === 0) {
                 forWinner = 0;
@@ -227,7 +233,16 @@ const createMatch = async (req, res, next) => {
 
             const newMatch = new Match({
                 competition,
+                isTeam: true,
                 category: category._id,
+                isDouble: contest.isDouble,
+
+                team1Player1: req.body.team1Player1._id,
+                team1Player2: req.body.team1Player2._id,
+                team2Player1: req.body.team2Player1._id,
+                team2Player2: req.body.team2Player2._id,
+
+                teamMatch,
 
                 winner: winner._id,
                 looser: looser._id,
@@ -246,7 +261,7 @@ const createMatch = async (req, res, next) => {
 
             await newMatch.save();
 
-            if (newMatch) {
+            if (newMatch && !contest.isDouble) {
                 await Player.findOneAndUpdate({ _id: winner._id }, { $push: { history: newMatch._id }, scores: winner.scores }, {}).exec();
                 await Player.findOneAndUpdate({ _id: looser._id }, { $push: { history: newMatch._id }, scores: looser.scores }, {}).exec();
             }
@@ -406,7 +421,9 @@ const createMatch = async (req, res, next) => {
 
         const newMatch = new Match({
             competition,
+            isTeam: true,
             category: category._id,
+            isDouble: false,
 
             winner: winner._id,
             looser: looser._id,

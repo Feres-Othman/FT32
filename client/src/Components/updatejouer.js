@@ -330,9 +330,6 @@ const Updatejouer = () => {
         if (form.score == '') {
             notifier.alert("Le champ Score ne peut pas être vide et ne peut contenir que des chiffres");
             return;
-        } if (form.UniqueNumber == '') {
-            notifier.alert("Le champ NuméroUnique ne peut pas être vide ");
-            return;
         }
         if (form.nat == '') {
             notifier.alert("le champ nationalité ne peut pas être vide et ne peut contenir que des lettres");
@@ -374,9 +371,8 @@ const Updatejouer = () => {
                 <div >
                     <Row>
 
-                        <Col><Input handleChangeEvent={handleChange1} name="nat" defaultValue={Player.nat} width="200px" ></Input></Col>
+                        <Col><Input handleChangeEvent={handleChange1} name="nat" defaultValue={Player.nat} width="400px" ></Input></Col>
 
-                        <Col><Input handleChangeEvent={handleChange} name="UniqueNumber" defaultValue={Player.UniqueNumber} width="200px" ></Input></Col>
                     </Row>
 
                 </div>

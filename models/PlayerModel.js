@@ -14,6 +14,7 @@ const PlayerSchema = new Schema(
 
         score: { type: Number, required: true },
         scores: { type: Array },
+        indivBonuses: { type: Array },
 
         team: { type: mongoose.Types.ObjectId, ref: 'Team' },
         sex: { type: String, required: true },

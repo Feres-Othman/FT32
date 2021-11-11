@@ -15,6 +15,11 @@ import i4 from "../../Medias/4.jpg"
 import i5 from "../../Medias/5.jpg"
 import i6 from "../../Medias/6.jpg"
 import i7 from "../../Medias/7.jpg"
+import i8 from "../../Medias/8.jpg"
+import i9 from "../../Medias/9.jpg"
+import i10 from "../../Medias/10.jpg"
+import i11 from "../../Medias/11.jpg"
+import i12 from "../../Medias/12.jpg"
 // import Menu from './Menu'
 // import Filtering from './Filtering'
 import Carousel from 'react-gallery-carousel';
@@ -46,6 +51,21 @@ export default function Home() {
         },
         {
             src: i7
+        },
+        {
+            src: i8
+        },
+        {
+            src: i9
+        },
+        {
+            src: i10
+        },
+        {
+            src: i11
+        },
+        {
+            src: i12
         }
     ]
 
@@ -65,8 +85,8 @@ export default function Home() {
 
                 <img src={logo} style={{ width: 100 }} />
                 <div style={{ textAlign: 'center', fontSize: 17, fontWeight: 'bolder', color: "#fff" }}>
-                    platforme de ranking de
-                    <br />Federation Tunisienne de Tennis de Table
+                    plateforme de ranking de
+                    <br />Fédération Tunisienne de Tennis de Table
                 </div>
 
             </div>

@@ -12153,6 +12153,7 @@ const resetPlayersScores = async (req, res) => {
     // const idPlayer = req.body.idPlayer;
 
     let scores = [];
+    let indivBonuses = [];
     const categories = await Category.find({}).sort({ __v: 1 })
 
     for (i = 0; i < categories.length; i++) {
@@ -12163,10 +12164,16 @@ const resetPlayersScores = async (req, res) => {
         score: 500
       })
 
+      indivBonuses.push({
+        category: element._id,
+        bonus: 0
+      })
+
     }
 
     Player.updateMany({}, {
-      scores: scores
+      scores: scores,
+      indivBonuses: indivBonuses
     }, function (err, doc) {
       if (err) return res.json({
         message: 'mongoose-error',
@@ -12213,6 +12220,7 @@ const readPlayers = async (req, res, next) => {
       filter.sex = req.body.sex.toUpperCase();
 
     }
+    let chosenCategory = {}
 
     if (!req.body.category.toUpperCase().includes("TOUT")) {
 
@@ -12223,6 +12231,7 @@ const readPlayers = async (req, res, next) => {
         const element = categories[i];
 
         if (element.name.toUpperCase() == req.body.category.toUpperCase()) {
+          chosenCategory = element;
           break;
         }
 
@@ -12255,7 +12264,7 @@ const readPlayers = async (req, res, next) => {
       message: "Players-not-found"
     })
 
-    return res.json({ success: true, players: players });
+    return res.json({ success: true, players: players, chosenCategory });
 
   } catch (error) {
     console.log(error)
@@ -12366,17 +12375,15 @@ const updatePlayer = async (req, res) => {
   const indGenre = "1"
 
   const nat = req.body.nat;
-  const UniqueNumber = req.body.UniqueNumber;
   try {
 
 
     const player2 = await Player.findOne({ _id: req.params._id })
-    console.log(req.body.UniqueNumber)
-    console.log(player2.UniqueNumber)
+
 
     console.log(isValid ? "0" : "1");
 
-    if (UniqueNumber === player2.UniqueNumber) {
+    if (number === player2.number) {
       console.log("here")
 
       let update = {
@@ -12412,7 +12419,7 @@ const updatePlayer = async (req, res) => {
     } else {
       console.log("here2")
 
-      const player3 = await Player.findOne({ UniqueNumber: req.body.UniqueNumber })
+      const player3 = await Player.findOne({ number: req.body.number })
       if (player3) {
         return res.json({
           success: false,

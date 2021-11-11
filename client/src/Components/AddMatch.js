@@ -10,6 +10,7 @@ import Btn from '../Molecules/Btn';
 import { useHistory, useParams } from 'react-router-dom';
 import TeamPlayers from './team/TeamPlayers';
 import Contest from './team/Contest';
+import DoubleContest from './team/DoubleContest';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
@@ -104,6 +105,18 @@ export default function AddMatch() {
 
 
     const [isValidated, setIsValidated] = useState(false)
+
+    useEffect(() => {
+        setTeam1Player1({})
+        setTeam1Player2({})
+        setTeam2Player1({})
+        setTeam2Player2({})
+    }, [playerA,
+        playerB,
+        playerC,
+        playerX,
+        playerY,
+        playerZ])
 
     const [teamContests, setTeamContests] = useState([
         {
@@ -321,7 +334,40 @@ export default function AddMatch() {
                 }
             ]
         },
+
+        {
+            isDouble: true,
+            player1Score: 0,
+            player2Score: 0,
+            matches: [
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                },
+                {
+                    player1Score: 0,
+                    player2Score: 0
+                }
+            ]
+        },
     ])
+
+    const [team1Player1, setTeam1Player1] = useState({})
+    const [team1Player2, setTeam1Player2] = useState({})
+    const [team2Player1, setTeam2Player1] = useState({})
+    const [team2Player2, setTeam2Player2] = useState({})
 
     const [contests, setContests] = useState([
         {
@@ -642,6 +688,26 @@ export default function AddMatch() {
                 return;
             }
 
+            // if (!team1Player1) {
+            //     notifier.warning("veuillez sélectionner le premier joueur de l'équipe 1 pour le match de double");
+            //     return;
+            // }
+
+            // if (!team1Player2) {
+            //     notifier.warning("veuillez sélectionner le deuxième joueur de l'équipe 1 pour le match de double");
+            //     return;
+            // }
+
+            // if (!team2Player1) {
+            //     notifier.warning("veuillez sélectionner le premier joueur de l'équipe 2 pour le match de double");
+            //     return;
+            // }
+
+            // if (!team2Player2) {
+            //     notifier.warning("veuillez sélectionner le deuxième joueur de l'équipe 2 pour le match de double");
+            //     return;
+            // }
+
         }
 
 
@@ -658,6 +724,11 @@ export default function AddMatch() {
             team1,
             team2,
             isTeam,
+
+            team1Player1,
+            team1Player2,
+            team2Player1,
+            team2Player2,
 
             playerA,
             playerB,
@@ -931,6 +1002,26 @@ export default function AddMatch() {
                                     player2Order={"Z"}
                                     contestIndex={2}
                                     matches={teamContests[2].matches}
+                                    setMatches={setTeamMatches}
+                                />
+
+                                <DoubleContest
+                                    players1={[playerA, playerB, playerC]}
+                                    players2={[playerX, playerY, playerZ]}
+                                    player1Order={"Double"}
+                                    player2Order={"Double"}
+                                    contestIndex={8}
+
+                                    team1Player1={team1Player1}
+                                    setTeam1Player1={setTeam1Player1}
+                                    team1Player2={team1Player2}
+                                    setTeam1Player2={setTeam1Player2}
+                                    team2Player1={team2Player1}
+                                    setTeam2Player1={setTeam2Player1}
+                                    team2Player2={team2Player2}
+                                    setTeam2Player2={setTeam2Player2}
+
+                                    matches={teamContests[8].matches}
                                     setMatches={setTeamMatches}
                                 />
 

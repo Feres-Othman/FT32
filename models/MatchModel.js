@@ -18,7 +18,32 @@ const MatchSchema = new Schema(
         winnerPreviousPoints: { type: Number, required: true },
         looserPreviousPoints: { type: Number, required: true },
 
-        contest: { type: Object }
+        contest: {
+            type: Object
+        },
+
+        isDouble: {
+            type: Boolean
+        },
+
+        isTeam: {
+            type: Boolean
+        },
+        teamMatch: {
+            type: mongoose.Types.ObjectId, ref: 'TeamMatch'
+        },
+        team1Player1: {
+            type: mongoose.Types.ObjectId, ref: 'Player'
+        },
+        team1Player2: {
+            type: mongoose.Types.ObjectId, ref: 'Player'
+        },
+        team2Player1: {
+            type: mongoose.Types.ObjectId, ref: 'Player'
+        },
+        team2Player2: {
+            type: mongoose.Types.ObjectId, ref: 'Player'
+        },
 
     },
     { timestamps: true }

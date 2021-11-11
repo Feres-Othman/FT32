@@ -19,6 +19,8 @@ const MatchRouter = require('./routes/MatchRouter')
 // const ApiRoute = require('./routes/api')
 var bodyParser = require('body-parser');
 
+app.use(express.json({ limit: '50mb' }));
+
 require("dotenv").config();
 
 // const busboy = require('connect-busboy');

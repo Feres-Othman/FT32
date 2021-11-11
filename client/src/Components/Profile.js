@@ -13,44 +13,6 @@ import { Line } from 'react-chartjs-2';
 import DataTable from 'react-data-table-component';
 import profile from '../Medias/avatar.jpg'
 
-const state = {
-    labels: ['septembre', 'octobre', 'novembre', 'décembre', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août'],
-    datasets: [
-        {
-            display: false,
-            label: 'Cadets',
-            fill: false,
-            lineTension: 0.3,
-            backgroundColor: 'rgba(75,192,192,1)',
-            borderColor: 'rgba(0,0,0,1)',
-            borderWidth: 2,
-            // data: [500, 500, 450, 400, 490, 650, 700, 680, 680, 650, 640, 790]
-            data: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
-        },
-        {
-            display: false,
-            label: 'Juniors',
-            fill: false,
-            lineTension: 0.3,
-            backgroundColor: 'rgba(192,75,192,1)',
-            borderColor: 'rgba(0,0,0,1)',
-            borderWidth: 2,
-            // data: [500, 480, 550, 600, 790, 750, 600, 720, 780, 750, 540, 590]
-            data: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
-        },
-        {
-            display: false,
-            label: 'Seniors',
-            fill: false,
-            lineTension: 0.3,
-            backgroundColor: 'rgba(192,192,75,1)',
-            borderColor: 'rgba(0,0,0,1)',
-            borderWidth: 2,
-            // data: [500, 520, 550, 530, 500, 500, 500, 480, 470, 490, 500, 500]
-            data: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
-        }
-    ]
-}
 
 export default function Profile() {
 
@@ -59,10 +21,122 @@ export default function Profile() {
     const [player, setPlayer] = useStateWithCallbackLazy({})
 
     const [scores, setScores] = useState({})
+    const [matchHistory, setMatchHistory] = useState([])
 
     const [categories, setCategories] = useState([])
 
-    const getCategories = async (playerTemp) => {
+    const [chartData, setChartData] = useState({
+        labels: ['septembre', 'octobre', 'novembre', 'décembre', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août'],
+        datasets: [
+            {
+                display: false,
+                label: 'Cadets',
+                fill: false,
+                lineTension: 0.3,
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                // data: [500, 500, 450, 400, 490, 650, 700, 680, 680, 650, 640, 790]
+                data: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
+            },
+            {
+                display: false,
+                label: 'Juniors',
+                fill: false,
+                lineTension: 0.3,
+                backgroundColor: 'rgba(192,75,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                // data: [500, 480, 550, 600, 790, 750, 600, 720, 780, 750, 540, 590]
+                data: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
+            },
+            {
+                display: false,
+                label: 'Seniors',
+                fill: false,
+                lineTension: 0.3,
+                backgroundColor: 'rgba(192,192,75,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                // data: [500, 520, 550, 530, 500, 500, 500, 480, 470, 490, 500, 500]
+                data: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
+            }
+        ]
+    })
+
+    const getRandomInt = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    }
+
+    const getMatchHistory = (categId, matchHistoryFiltered, player) => {
+
+        let tempArray = []
+
+        tempArray = matchHistoryFiltered.filter(match => match.category._id === categId)
+
+        // console.log(tempArray)
+
+        let months = []
+        let currentValueMatch = 500;
+
+        const monthCount = (new Date().getMonth() >= 8 ? (new Date().getMonth()) - 8 : (new Date().getMonth()) + 8) + 1
+
+        for (let i = 0; i < monthCount; i++) {
+
+            let monthValues = tempArray.filter(match => (new Date(match.date).getMonth() >= 8 ? (new Date(match.date).getMonth()) - 8 : (new Date(match.date).getMonth()) + 8) == i)
+            // console.log(i)
+            // console.log(monthValues)
+            if (monthValues.length != 0) {
+                let test = monthValues.reduce((previousValue, currentValue) => {
+                    let currPoints = ((player._id == currentValue.winner._id) ? currentValue.winnerPoints : currentValue.looserPoints)
+
+                    // console.log(currentValue.winnerPoints)
+                    // console.log(currentValue.looserPoints)
+                    // console.log(currPoints)
+                    return previousValue + currPoints
+                }, 0)
+                console.log(currentValueMatch)
+                currentValueMatch += test
+            }
+
+
+            let value = currentValueMatch;
+
+            months.push(value)
+        }
+
+        // tempArray = tempArray.map(row => (player._id == row.winner?._id ? (row.winnerPoints + row.winnerPreviousPoints) : (row.looserPoints + row.looserPreviousPoints)))
+
+        // console.log(tempArray)
+
+        return months
+    }
+
+    const fillChartData = (matchCategories, matchHistoryFiltered, player) => {
+
+        let tempChartData = { ...chartData }
+        tempChartData.datasets = []
+
+        for (const categ of matchCategories) {
+            tempChartData.datasets.push({
+                display: false,
+                label: categ.name,
+                fill: false,
+                lineTension: 0.3,
+                backgroundColor: `rgba(${getRandomInt(75, 230)},${getRandomInt(75, 230)},${getRandomInt(75, 230)},1)`,
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                // data: [500, 500, 450, 400, 490, 650, 700, 680, 680, 650, 640, 790]
+                data: getMatchHistory(categ._id, matchHistoryFiltered, player)
+            })
+        }
+
+        setChartData(tempChartData);
+    }
+
+    const getCategories = async (playerTemp, matchHistoryFiltered) => {
 
         var session = Ls.getObject('session', { 'isLoggedIn': false });
         let config = {
@@ -95,6 +169,7 @@ export default function Profile() {
 
                         if (startCount) {
                             tempCategories.push({
+                                _id: categ._id,
                                 name: categ.name,
                                 center: true,
                                 selector: row => row[categ.name],
@@ -122,6 +197,8 @@ export default function Profile() {
                     tempCategories.reverse();
 
                     setCategories(tempCategories);
+
+                    fillChartData(tempCategories, matchHistoryFiltered, playerTemp)
 
 
                 } else {
@@ -156,7 +233,13 @@ export default function Profile() {
 
                     setPlayer(res.player);
 
-                    getCategories(res.player);
+                    let tempHistory = [...res.player.history]
+
+                    let filteredData = tempHistory.filter(row => ((player._id == row.winner?._id ? row.winnerPoints : row.looserPoints) != 0))
+
+                    setMatchHistory(filteredData)
+
+                    getCategories(res.player, filteredData);
 
 
 
@@ -217,10 +300,12 @@ export default function Profile() {
             center: true
         },
         {
+            id: "date",
             name: 'date',
-            selector: row => (new Date(row.date)).toLocaleDateString("fr-FR"),
+            selector: row => (new Date(row.date)).getTime(),
             sortable: true,
-            center: true
+            center: true,
+            cell: row => <>{(new Date(row.date)).toLocaleDateString("fr-FR")}</>
         }
 
     ];
@@ -318,13 +403,13 @@ export default function Profile() {
                         <div>
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", marginTop: 50 }}>
 
-                                <div style={{ width: 150, height: 150, borderRadius: 15, overflow: "hidden", marginRight: 20 }}>
+                                {/* <div style={{ width: 150, height: 150, borderRadius: 15, overflow: "hidden", marginRight: 20 }}>
                                     <img src={profile} style={{ width: 150, height: 150 }} />
-                                </div>
+                                </div> */}
 
                                 <div style={{ fontSize: 60, marginRight: 25 }}>{player.sex === "M" ? <Icon icon={faMale} /> : <Icon icon={faFemale} />}</div>
 
-                                <div style={{ fontSize: 30, fontWeight: "bold" }}> {player.lastName} {player.firstName} </div>
+                                <div style={{ fontSize: 30, fontWeight: "bold" }}> {player.lastName} {player.firstName} {player.team?.name == "LB" && "(Joueur Libre)"} </div>
 
                             </div>
 
@@ -357,7 +442,7 @@ export default function Profile() {
                             </div>
 
                             <Line
-                                data={state}
+                                data={chartData}
                                 style={{ width: 500, marginTop: 40 }}
                                 options={{
                                     legend: {
@@ -368,23 +453,25 @@ export default function Profile() {
                             />
 
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: 550, gap: 15 }}>
-                            <div style={{ fontSize: 20, fontWeight: "bold" }} >Equipe : {player.team?.name}</div>
+                        {player.team?.name != "LB" &&
+                            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: 550, gap: 15 }}>
+                                <div style={{ fontSize: 20, fontWeight: "bold" }} >Equipe : {player.team?.name}</div>
 
-                            <DataTable
-                                columns={columns}
-                                data={player.team?.players}
-                                style={{ borderRadius: 20 }}
-                                pagination
-                                paginationComponentOptions={paginationComponentOptions}
-                                noDataComponent={
-                                    <div style={{ padding: 30, fontSize: 17 }}>
-                                        il n'y a pas encore de joueurs à afficher
-                                    </div>
-                                }
-                            />
+                                <DataTable
+                                    columns={columns}
+                                    data={player.team?.players}
+                                    style={{ borderRadius: 20 }}
+                                    pagination
+                                    paginationComponentOptions={paginationComponentOptions}
+                                    noDataComponent={
+                                        <div style={{ padding: 30, fontSize: 17 }}>
+                                            il n'y a pas encore de joueurs à afficher
+                                        </div>
+                                    }
+                                />
 
-                        </div>
+                            </div>}
+
 
                     </div>
 
@@ -392,7 +479,7 @@ export default function Profile() {
                         <div style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }} >Historique des matches</div>
                         <DataTable
                             columns={matchColumns}
-                            data={player.history}
+                            data={matchHistory}
                             style={{ borderRadius: 20 }}
                             conditionalRowStyles={conditionalRowStyles}
                             pagination
@@ -402,6 +489,8 @@ export default function Profile() {
                                     il n'y a pas encore de matches à afficher
                                 </div>
                             }
+                            defaultSortFieldId="date"
+                            defaultSortAsc={false}
                         />
                     </div>
 

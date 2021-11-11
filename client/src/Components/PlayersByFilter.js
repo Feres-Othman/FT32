@@ -78,8 +78,28 @@ export default function PlayersByFilter() {
 
                     for (const index in players) {
                         let player = players[index];
-                        let formattedPlayer = { ...player, rang: parseInt(index) + 1 }
+
+                        let chosenScore = player.scores.filter(scoreItem => scoreItem.category === res.chosenCategory._id)[0].score
+
+                        let formattedPlayer = { ...player, score: chosenScore }
+
                         formattedPlayers.push(formattedPlayer);
+                    }
+
+                    formattedPlayers.sort((a, b) => {
+                        if (a.score >= b.score) {
+                            return -1;
+                        }
+                        if (a.score < b.score) {
+                            return 1;
+                        }
+                        // a must be equal to b
+                        return 0;
+                    })
+
+                    for (const index in formattedPlayers) {
+                        let player = formattedPlayers[index];
+                        formattedPlayers[index] = { ...player, rang: parseInt(index) + 1 }
                     }
 
 
@@ -200,7 +220,7 @@ export default function PlayersByFilter() {
             name: 'Points',
             selector: row => row.score,
             sortable: true,
-            center: true
+            center: true,
         },
         {
             name: "actions",
@@ -267,7 +287,7 @@ export default function PlayersByFilter() {
             name: 'Points',
             selector: row => row.score,
             sortable: true,
-            center: true
+            center: true,
         }
 
     ];

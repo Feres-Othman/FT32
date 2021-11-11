@@ -268,7 +268,7 @@ const Ajoutjouer = () => {
             }} >
                 <h1 style={{ textAlign: 'center', margin: 20 }}>Ajoute un joueur</h1>
 
-                <ImageInput />
+                {/* <ImageInput /> */}
 
                 <div style={{ marginTop: 20 }} >
                     <Row>
