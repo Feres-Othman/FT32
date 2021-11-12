@@ -10,6 +10,7 @@ router.post("/update/:_id", PlayerController.updatePlayer);
 router.post("/ban", verify, PlayerController.banPlayer);
 router.post("/reset", verify, PlayerController.resetDB);
 router.post("/resetPlayers", verify, PlayerController.resetPlayersScores);
+router.post("/bonus", verify, PlayerController.addBonuses);
 router.post("/Ajoutjouer", PlayerController.createPlayer);
 router.delete("/delete/:id", PlayerController.deletePlayers);
 

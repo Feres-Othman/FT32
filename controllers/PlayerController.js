@@ -12572,12 +12572,12 @@ const resetPlayersScores = async (req, res) => {
       const element = categories[i];
 
       scores.push({
-        category: element._id,
+        category: element._id.toString(),
         score: 500
       })
 
       indivBonuses.push({
-        category: element._id,
+        category: element._id.toString(),
         bonus: 0
       })
 
@@ -12904,7 +12904,107 @@ const updatePlayer = async (req, res) => {
 }
 
 
+const addBonuses = async (req, res, next) => {
 
+
+  const category = req.body.category;
+
+  const players1 = req.body.players1;
+  const players2 = req.body.players2;
+  const players3 = req.body.players3;
+  const players4 = req.body.players4;
+  const players5 = req.body.players5;
+  const players6 = req.body.players6;
+  const players7 = req.body.players7;
+  const players8 = req.body.players8;
+
+  const coef = req.body.coef;
+
+  console.log({ coef })
+
+  let scoreIndex = category.__v - 1;
+
+  await Player.updateMany({ _id: { $in: [...players1] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": 12 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+  await Player.updateMany({ _id: { $in: [...players2] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": 10 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+  await Player.updateMany({ _id: { $in: [...players3] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": 8 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+  await Player.updateMany({ _id: { $in: [...players4] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": 6 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+  await Player.updateMany({ _id: { $in: [...players5] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": 4 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+  await Player.updateMany({ _id: { $in: [...players6] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": 2 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+  await Player.updateMany({ _id: { $in: [...players7] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": 1 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+  await Player.updateMany({ _id: { $in: [...players8] }, "indivBonuses.category": category._id.toString() }, {
+    $inc: {
+      "indivBonuses.$.bonus": -2.5 * coef
+    }
+  }, {}, (err, res) => {
+    console.log(err)
+    console.log(res)
+  })
+
+
+
+  res.json({
+    success: true,
+    // newMatch: newMatch
+  })
+
+  return;
+}
 
 
 module.exports = {
@@ -12916,5 +13016,6 @@ module.exports = {
   updatePlayer,
   resetDB,
   deletePlayers,
-  resetPlayersScores
+  resetPlayersScores,
+  addBonuses
 }

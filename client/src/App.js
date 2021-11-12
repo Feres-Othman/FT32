@@ -33,6 +33,7 @@ import PlayersByFilter from './Components/PlayersByFilter';
 import { slide as Menu } from 'react-burger-menu'
 
 import AddMatch from './Components/AddMatch';
+import AddBonus from './Components/AddBonus';
 import Teams from './Components/team/teamslist';
 
 import logo from './Atoms/logo.png';
@@ -430,6 +431,10 @@ function App() {
 
                     <Route path="/match/add" >
                       <AddMatch />
+                    </Route>
+
+                    <Route path="/bonus/add" >
+                      <AddBonus />
                     </Route>
 
                     {/* <Route path="/user/view" >
