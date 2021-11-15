@@ -12456,6 +12456,26 @@ const createPlayer = async (req, res, next) => {
     const indGenre = "1"
 
     const nat = req.body.Nationalité;
+
+    let scores = [];
+    let indivBonuses = [];
+    const categories = await Category.find({}).sort({ __v: 1 })
+
+    for (i = 0; i < categories.length; i++) {
+      const element = categories[i];
+
+      scores.push({
+        category: element._id.toString(),
+        score: 500
+      })
+
+      indivBonuses.push({
+        category: element._id.toString(),
+        bonus: 0
+      })
+
+    }
+
     // const UniqueNumber = req.body.UniqueNumber;
     if (!alreadyexist) {
       const newPlayer = new Player({
@@ -12471,6 +12491,8 @@ const createPlayer = async (req, res, next) => {
         indGenre,
         sex,
         nat,
+        scores,
+        indivBonuses
         // UniqueNumber
       });
 
