@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
@@ -12,10 +12,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { deleteJouer } from "./actions/ajouterunjouer"
-import FilterComponent from './FilterComponent';
 
 
-export default function PlayersByFilter({ canShow500 = true }) {
+export default function PlayersByFilter() {
 
     const dispatch = useDispatch();
     let { sex, category } = useParams();
@@ -88,14 +87,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
 
                         let formattedPlayer = { ...player, score: chosenScore }
 
-                        if (!canShow500) {
-                            if (formattedPlayer.score !== 500) {
-                                formattedPlayers.push(formattedPlayer);
-                            }
-                        } else {
-                            formattedPlayers.push(formattedPlayer);
-                        }
-
+                        formattedPlayers.push(formattedPlayer);
                     }
 
                     formattedPlayers.sort((a, b) => {
@@ -113,7 +105,6 @@ export default function PlayersByFilter({ canShow500 = true }) {
                         let player = formattedPlayers[index];
                         formattedPlayers[index] = { ...player, rang: parseInt(index) + 1 }
                     }
-
 
 
                     setItems(formattedPlayers);
@@ -320,9 +311,8 @@ export default function PlayersByFilter({ canShow500 = true }) {
     // ]
 
     const paginationComponentOptions = {
-        noRowsPerPage: false,
-        rowsPerPageText: 'Lignes par page:',
-        rangeSeparatorText: 'de'
+        noRowsPerPage: true,
+        rangeSeparatorText: 'de',
     };
 
     useEffect(() => {
@@ -340,39 +330,6 @@ export default function PlayersByFilter({ canShow500 = true }) {
         setItems(tempItems)
 
     }, [isPayed, isNotPayed])
-
-
-
-    const [filterText, setFilterText] = useState("");
-    const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-    // const filteredItems = data.filter(
-    //   item => item.name && item.name.includes(filterText)
-    // );
-    const filteredItems = items.filter(
-        item =>
-            JSON.stringify(item)
-                .toLowerCase()
-                .indexOf(filterText.toLowerCase()) !== -1
-    );
-
-    const subHeaderComponent = useMemo(() => {
-        const handleClear = () => {
-            if (filterText) {
-                setResetPaginationToggle(!resetPaginationToggle);
-                setFilterText("");
-            }
-        };
-
-        return (
-            <FilterComponent
-                onFilter={e => setFilterText(e.target.value)}
-                onClear={handleClear}
-                filterText={filterText}
-            />
-        );
-    }, [filterText, resetPaginationToggle]);
-
-
 
     return (
         <>
@@ -420,24 +377,14 @@ export default function PlayersByFilter({ canShow500 = true }) {
                 marginLeft: "5%",
                 textAlign: 'center',
                 overflow: 'hidden',
-                // borderRadius: 20
+                borderRadius: 20
             }} >
 
                 <DataTable
                     columns={isLoggedIn ? columnsLoggedIn : columns}
-                    data={filteredItems}
+                    data={items}
                     pagination
-                    responsive={true}
-
                     paginationComponentOptions={paginationComponentOptions}
-                    paginationPerPage={10}
-
-                    subHeader
-                    subHeaderComponent={subHeaderComponent}
-
-                    // fixedHeader={true}
-                    // fixedHeaderScrollHeight={"70vh"}
-                    paginationRowsPerPageOptions={[10, 20, 30, 70, 100, 300]}
                     noDataComponent={
                         <div style={{ padding: 30, fontSize: 17 }}>
                             il n'y a pas encore de joueurs à afficher

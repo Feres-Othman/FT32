@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
-import { Dropdown, FormControl } from 'react-bootstrap'
+import { Dropdown, FormControl, Form } from 'react-bootstrap'
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import DrpDown from '../Molecules/DrpDown';
@@ -16,12 +16,12 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import IndivPlayers from './indiv/IndivPlayers';
 import IndivContest from './indiv/IndivContest';
-
+import ReactTabHotkeyReplacer from "react-tab-hotkey-replacer"
 export default function AddMatch() {
 
     const history = useHistory();
 
-    const { comp, cat } = useParams();
+    const { comp, cat, sex } = useParams();
 
     const { design } = useContext(DesignContext);
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
@@ -678,10 +678,10 @@ export default function AddMatch() {
                 return;
             }
 
-            if (contests[0].player1Score < 3 && contests[0].player2Score < 3) {
-                notifier.warning("aucun des joueurs n'a gagné");
-                return;
-            }
+            // if (contests[0].player1Score < 3 && contests[0].player2Score < 3) {
+            //     notifier.warning("aucun des joueurs n'a gagné");
+            //     return;
+            // }
         } else {
             if (teamScore(teamContests, 1) === 0 && teamScore(teamContests, 2) === 0) {
                 notifier.warning("aucun des equipes n'a gagné");
@@ -850,249 +850,81 @@ export default function AddMatch() {
         _id: "X",
         name: "Tout"
     }]
-    const [gender, setGender] = useState({})
+    const [gender, setGender] = useState(sex ? genders.filter(item => item._id === sex)[0] : {})
+
+    const filterPlayers = (teamtemps) => {
+
+        let selectedPlayers = [];
+
+        for (const team of teamtemps) {
+            for (const player of team.players) {
+                if (selectedCategories.includes(player.category)) {
+                    // selectedPlayers.push(player)
+                    if ((player.sex === gender._id) || (gender._id === "X")) {
+                        selectedPlayers.push(player)
+                    }
+                }
+            }
+        }
+        // console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+
+        return selectedPlayers;
+
+    }
 
     return (
-        <div>
-            <div style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "start",
-                flexWrap: "wrap",
-                width: "90%",
-                marginTop: 60,
-                // paddingTop: "20vh",
-                // backgroundColor: "red",
-                marginLeft: "5%",
-                textAlign: 'center',
-                gap: 20
-                // overflowY: "scroll"
-            }} >
-                <Dropdown style={{ width: "30%", minWidth: 350 }}>
+        <ReactTabHotkeyReplacer shortcut="enter">
+            <div>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "start",
+                    flexWrap: "wrap",
+                    width: "90%",
+                    marginTop: 60,
+                    // paddingTop: "20vh",
+                    // backgroundColor: "red",
+                    marginLeft: "5%",
+                    textAlign: 'center',
+                    gap: 20
+                    // overflowY: "scroll"
+                }} >
+                    <Dropdown style={{ width: "30%", minWidth: 350 }}>
 
-                    <Dropdown.Toggle variant="success" variant="Primary"
-                        style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
-                        {competition?.name || "Selectionner une type de compétition"}
-                    </Dropdown.Toggle>
+                        <Dropdown.Toggle variant="success" variant="Primary"
+                            style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
+                            {competition?.name || "Selectionner une type de compétition"}
+                        </Dropdown.Toggle>
 
-                    <div style={{ borderRadius: 15, zIndex: 100 }}>
-                        <Dropdown.Menu style={{ width: 600, zIndex: 100 }}>
+                        <div style={{ borderRadius: 15, zIndex: 100 }}>
+                            <Dropdown.Menu style={{ width: 600, zIndex: 100 }}>
 
-                            {types.map((item, index) => (
-                                <Dropdown.Item key={item._id} onClick={() => { setCompetition(item); }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
-                                    <div style={{ paddingTop: 10 }} >{item.name}</div>
-                                </Dropdown.Item>
-                            ))}
+                                {types.map((item, index) => (
+                                    <Dropdown.Item key={item._id} onClick={() => { setCompetition(item); }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                                        <div style={{ paddingTop: 10 }} >{item.name}</div>
+                                    </Dropdown.Item>
+                                ))}
 
-                        </Dropdown.Menu>
-                    </div>
+                            </Dropdown.Menu>
+                        </div>
 
-                </Dropdown>
+                    </Dropdown>
 
-                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
-                {/* <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown> */}
-                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
+                    <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
+                    {/* <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown> */}
+                    <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
 
-            </div >
+                    <Form.Control type="datetime-local" placeholder="Entrer une date" style={{ padding: 30, borderRadius: 15 }} />
 
-
-            {
-                competition.isTeam === true ?
-                    <>
-                        {
-                            selectedCategories.length > 0 && <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                alignItems: "stretch",
-                                flexWrap: "wrap",
-                                width: "90%",
-                                // backgroundColor: "red",
-                                marginLeft: "5%",
-                                textAlign: 'center',
-                                gap: 20,
-                                marginTop: 20
-                                // overflowY: "scroll"
-                            }} >
-
-                                <TeamPlayers
-                                    number={1}
-                                    team={team1}
-                                    setTeam={setTeam1}
-                                    teams={teams}
-                                    player1={playerA}
-                                    setPlayer1={setPlayerA}
-                                    player2={playerB}
-                                    setPlayer2={setPlayerB}
-                                    player3={playerC}
-                                    setPlayer3={setPlayerC}
-                                    categories={selectedCategories}
-                                    isValidated={isValidated}
-                                    teamScore={teamScore(teamContests, 1)}
-                                    gender={gender}
-                                />
-                                <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-                                    {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
-                                    {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && isValidated) && <Icon onClick={() => { setIsValidated(false) }} icon={faTimesCircle} size="lg" />}
-                                </div>
-                                <TeamPlayers
-                                    number={2}
-                                    team={team2}
-                                    setTeam={setTeam2}
-                                    teams={teams}
-                                    player1={playerX}
-                                    setPlayer1={setPlayerX}
-                                    player2={playerY}
-                                    setPlayer2={setPlayerY}
-                                    player3={playerZ}
-                                    setPlayer3={setPlayerZ}
-                                    categories={selectedCategories}
-                                    isValidated={isValidated}
-                                    teamScore={teamScore(teamContests, 2)}
-                                    gender={gender}
-                                />
-                            </div >
-                        }
+                </div >
 
 
-                        {
-                            (playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number) &&
-
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                width: "90%",
-                                // paddingTop: "20vh",
-                                // backgroundColor: "red",
-                                marginLeft: "5%",
-                                textAlign: 'center',
-                                gap: 20,
-                                marginTop: 20,
-                                flexWrap: "wrap"
-                                // overflowY: "scroll"
-                            }} >
-
-                                <Contest
-                                    player1={playerA}
-                                    player2={playerX}
-                                    player1Order={"A"}
-                                    player2Order={"X"}
-                                    contestIndex={0}
-                                    matches={teamContests[0].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <Contest
-                                    player1={playerB}
-                                    player2={playerY}
-                                    player1Order={"B"}
-                                    player2Order={"Y"}
-                                    contestIndex={1}
-                                    matches={teamContests[1].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <Contest
-                                    player1={playerC}
-                                    player2={playerZ}
-                                    player1Order={"C"}
-                                    player2Order={"Z"}
-                                    contestIndex={2}
-                                    matches={teamContests[2].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <DoubleContest
-                                    players1={[playerA, playerB, playerC]}
-                                    players2={[playerX, playerY, playerZ]}
-                                    player1Order={"Double"}
-                                    player2Order={"Double"}
-                                    contestIndex={8}
-
-                                    team1Player1={team1Player1}
-                                    setTeam1Player1={setTeam1Player1}
-                                    team1Player2={team1Player2}
-                                    setTeam1Player2={setTeam1Player2}
-                                    team2Player1={team2Player1}
-                                    setTeam2Player1={setTeam2Player1}
-                                    team2Player2={team2Player2}
-                                    setTeam2Player2={setTeam2Player2}
-
-                                    matches={teamContests[8].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <Contest
-                                    player1={playerB}
-                                    player2={playerX}
-                                    player1Order={"B"}
-                                    player2Order={"X"}
-                                    contestIndex={3}
-                                    matches={teamContests[3].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <Contest
-                                    player1={playerA}
-                                    player2={playerZ}
-                                    player1Order={"A"}
-                                    player2Order={"Z"}
-                                    contestIndex={4}
-                                    matches={teamContests[4].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <Contest
-                                    player1={playerC}
-                                    player2={playerY}
-                                    player1Order={"C"}
-                                    player2Order={"Y"}
-                                    contestIndex={5}
-                                    matches={teamContests[5].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <Contest
-                                    player1={playerB}
-                                    player2={playerZ}
-                                    player1Order={"B"}
-                                    player2Order={"Z"}
-                                    contestIndex={6}
-                                    matches={teamContests[6].matches}
-                                    setMatches={setTeamMatches}
-                                />
-
-                                <Contest
-                                    player1={playerA}
-                                    player2={playerY}
-                                    player1Order={"A"}
-                                    player2Order={"Y"}
-                                    contestIndex={7}
-                                    matches={teamContests[7].matches}
-                                    setMatches={setTeamMatches}
-                                />
-                            </div >
-                        }
-
-                        {
-                            (playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number) &&
-                            <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { submit(true); }} >
-                                Valider
-                            </Btn>
-
-                        }
-                    </> :
-
-                    <>
-
+                {
+                    competition.isTeam === true ?
                         <>
                             {
-                                selectedCategories.length > 0 && competition.isTeam === false &&
-
-                                <div style={{
+                                selectedCategories.length > 0 && <div style={{
                                     display: "flex",
                                     flexDirection: "row",
                                     justifyContent: "space-between",
@@ -1107,30 +939,40 @@ export default function AddMatch() {
                                     // overflowY: "scroll"
                                 }} >
 
-                                    <IndivPlayers
+                                    <TeamPlayers
                                         number={1}
+                                        team={team1}
+                                        setTeam={setTeam1}
                                         teams={teams}
                                         player1={playerA}
                                         setPlayer1={setPlayerA}
+                                        player2={playerB}
+                                        setPlayer2={setPlayerB}
+                                        player3={playerC}
+                                        setPlayer3={setPlayerC}
                                         categories={selectedCategories}
                                         isValidated={isValidated}
-                                        teamScore={teamScore(contests, 1)}
+                                        teamScore={teamScore(teamContests, 1)}
                                         gender={gender}
                                     />
-
                                     <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-                                        {(playerA.number && playerX.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
-                                        {(playerA.number && playerX.number && isValidated) && <Icon onClick={() => { setIsValidated(false) }} icon={faTimesCircle} size="lg" />}
+                                        {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
+                                        {(playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number && isValidated) && <Icon onClick={() => { setIsValidated(false) }} icon={faTimesCircle} size="lg" />}
                                     </div>
-
-                                    <IndivPlayers
+                                    <TeamPlayers
                                         number={2}
+                                        team={team2}
+                                        setTeam={setTeam2}
                                         teams={teams}
                                         player1={playerX}
                                         setPlayer1={setPlayerX}
+                                        player2={playerY}
+                                        setPlayer2={setPlayerY}
+                                        player3={playerZ}
+                                        setPlayer3={setPlayerZ}
                                         categories={selectedCategories}
                                         isValidated={isValidated}
-                                        teamScore={teamScore(contests, 2)}
+                                        teamScore={teamScore(teamContests, 2)}
                                         gender={gender}
                                     />
                                 </div >
@@ -1138,7 +980,7 @@ export default function AddMatch() {
 
 
                             {
-                                (playerA.number && playerX.number) &&
+                                (playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number) &&
 
                                 <div style={{
                                     display: "flex",
@@ -1146,6 +988,8 @@ export default function AddMatch() {
                                     justifyContent: "space-between",
                                     alignItems: "center",
                                     width: "90%",
+                                    // paddingTop: "20vh",
+                                    // backgroundColor: "red",
                                     marginLeft: "5%",
                                     textAlign: 'center',
                                     gap: 20,
@@ -1154,33 +998,212 @@ export default function AddMatch() {
                                     // overflowY: "scroll"
                                 }} >
 
-                                    <IndivContest
+                                    <Contest
                                         player1={playerA}
                                         player2={playerX}
-                                        player1Order={"1"}
-                                        player2Order={"2"}
+                                        player1Order={"A"}
+                                        player2Order={"X"}
                                         contestIndex={0}
-                                        matches={contests[0].matches}
-                                        setMatches={setMatches}
+                                        matches={teamContests[0].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <Contest
+                                        player1={playerB}
+                                        player2={playerY}
+                                        player1Order={"B"}
+                                        player2Order={"Y"}
+                                        contestIndex={1}
+                                        matches={teamContests[1].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <Contest
+                                        player1={playerC}
+                                        player2={playerZ}
+                                        player1Order={"C"}
+                                        player2Order={"Z"}
+                                        contestIndex={2}
+                                        matches={teamContests[2].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <DoubleContest
+                                        players1={[playerA, playerB, playerC, ...filterPlayers(teams)]}
+                                        players2={[playerX, playerY, playerZ, ...filterPlayers(teams)]}
+                                        player1Order={"Double"}
+                                        player2Order={"Double"}
+                                        contestIndex={8}
+
+                                        team1Player1={team1Player1}
+                                        setTeam1Player1={setTeam1Player1}
+                                        team1Player2={team1Player2}
+                                        setTeam1Player2={setTeam1Player2}
+                                        team2Player1={team2Player1}
+                                        setTeam2Player1={setTeam2Player1}
+                                        team2Player2={team2Player2}
+                                        setTeam2Player2={setTeam2Player2}
+
+                                        matches={teamContests[8].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <Contest
+                                        player1={playerB}
+                                        player2={playerX}
+                                        player1Order={"B"}
+                                        player2Order={"X"}
+                                        contestIndex={3}
+                                        matches={teamContests[3].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <Contest
+                                        player1={playerA}
+                                        player2={playerZ}
+                                        player1Order={"A"}
+                                        player2Order={"Z"}
+                                        contestIndex={4}
+                                        matches={teamContests[4].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <Contest
+                                        player1={playerC}
+                                        player2={playerY}
+                                        player1Order={"C"}
+                                        player2Order={"Y"}
+                                        contestIndex={5}
+                                        matches={teamContests[5].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <Contest
+                                        player1={playerB}
+                                        player2={playerZ}
+                                        player1Order={"B"}
+                                        player2Order={"Z"}
+                                        contestIndex={6}
+                                        matches={teamContests[6].matches}
+                                        setMatches={setTeamMatches}
+                                    />
+
+                                    <Contest
+                                        player1={playerA}
+                                        player2={playerY}
+                                        player1Order={"A"}
+                                        player2Order={"Y"}
+                                        contestIndex={7}
+                                        matches={teamContests[7].matches}
+                                        setMatches={setTeamMatches}
                                     />
                                 </div >
                             }
 
+                            {
+                                (playerA.number && playerB.number && playerC.number && playerX.number && playerY.number && playerZ.number) &&
+                                <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { submit(true); }} >
+                                    Valider
+                                </Btn>
+
+                            }
+                        </> :
+
+                        <>
+
+                            <>
+                                {
+                                    selectedCategories.length > 0 && competition.isTeam === false &&
+
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        alignItems: "stretch",
+                                        flexWrap: "wrap",
+                                        width: "90%",
+                                        // backgroundColor: "red",
+                                        marginLeft: "5%",
+                                        textAlign: 'center',
+                                        gap: 20,
+                                        marginTop: 20
+                                        // overflowY: "scroll"
+                                    }} >
+
+                                        <IndivPlayers
+                                            number={1}
+                                            teams={teams}
+                                            player1={playerA}
+                                            setPlayer1={setPlayerA}
+                                            categories={selectedCategories}
+                                            isValidated={isValidated}
+                                            teamScore={teamScore(contests, 1)}
+                                            gender={gender}
+                                        />
+
+                                        <div style={{ maxWidth: 100, minWidth: 50, fontSize: 20, textAlign: 'center', color: isValidated ? "#bb5555" : "#55bb55", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                                            {(playerA.number && playerX.number && !isValidated) && <Icon onClick={() => { setIsValidated(true) }} icon={faCheckCircle} size="lg" />}
+                                            {(playerA.number && playerX.number && isValidated) && <Icon onClick={() => { setIsValidated(false) }} icon={faTimesCircle} size="lg" />}
+                                        </div>
+
+                                        <IndivPlayers
+                                            number={2}
+                                            teams={teams}
+                                            player1={playerX}
+                                            setPlayer1={setPlayerX}
+                                            categories={selectedCategories}
+                                            isValidated={isValidated}
+                                            teamScore={teamScore(contests, 2)}
+                                            gender={gender}
+                                        />
+                                    </div >
+                                }
+
+
+                                {
+                                    (playerA.number && playerX.number) &&
+
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        width: "90%",
+                                        marginLeft: "5%",
+                                        textAlign: 'center',
+                                        gap: 20,
+                                        marginTop: 20,
+                                        flexWrap: "wrap"
+                                        // overflowY: "scroll"
+                                    }} >
+
+                                        <IndivContest
+                                            player1={playerA}
+                                            player2={playerX}
+                                            player1Order={"1"}
+                                            player2Order={"2"}
+                                            contestIndex={0}
+                                            matches={contests[0].matches}
+                                            setMatches={setMatches}
+                                        />
+                                    </div >
+                                }
+
+                            </>
+
+                            {
+                                (playerA.number && playerX.number) &&
+                                <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { submit(false) }} >
+                                    Valider
+                                </Btn>
+
+                            }
+
                         </>
-
-                        {
-                            (playerA.number && playerX.number) &&
-                            <Btn style={{ backgroundColor: "green", width: "90%", marginLeft: "5%", marginTop: 40, marginBottom: 40 }} onClick={e => { submit(false) }} >
-                                Valider
-                            </Btn>
-
-                        }
-
-                    </>
-            }
+                }
 
 
-        </div >
-
+            </div >
+        </ReactTabHotkeyReplacer>
     )
 }

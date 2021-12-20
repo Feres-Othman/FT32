@@ -12,8 +12,27 @@ const TeamSchema = new Schema(
         },
         isBanned: { type: Boolean, default: false }
     },
-    { timestamps: true }
-);
+    { timestamps: true, toJSON: { virtuals: true } })
+
+
+TeamSchema.virtual('matches1', {
+    ref: 'TeamMatch', // The model to use
+    localField: '_id', // Your local field, like a `FOREIGN KEY` in RDS
+    foreignField: 'team1', // Your foreign field which `localField` linked to. Like `REFERENCES` in RDS
+    // If `justOne` is true, 'members' will be a single doc as opposed to
+    // an array. `justOne` is false by default.
+    justOne: false
+});
+
+TeamSchema.virtual('matches2', {
+    ref: 'TeamMatch', // The model to use
+    localField: '_id', // Your local field, like a `FOREIGN KEY` in RDS
+    foreignField: 'team2', // Your foreign field which `localField` linked to. Like `REFERENCES` in RDS
+    // If `justOne` is true, 'members' will be a single doc as opposed to
+    // an array. `justOne` is false by default.
+    justOne: false
+});
+
 
 const Team = mongoose.model("Team", TeamSchema);
 

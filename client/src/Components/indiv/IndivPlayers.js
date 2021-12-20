@@ -46,7 +46,7 @@ export default function IndivPlayers({ number, teams, player1, setPlayer1, categ
                     <ul className="list-unstyled" style={{ maxHeight: 500, overflowY: "scroll" }}>
                         {React.Children.toArray(children).filter(
                             (child) =>
-                                !value || child.props.children.toLowerCase().startsWith(value),
+                                !value || child.props.children.toLowerCase().includes(value),
                         )}
                     </ul>
                 </div>

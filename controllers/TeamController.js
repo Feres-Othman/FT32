@@ -139,6 +139,18 @@ const readTeams = async (req, res, next) => {
         } else {
             teams = await Team.find({})
                 .populate("players")
+                .populate({
+                    path: "matches1",
+                    populate: {
+                        path: "matches",
+                    }
+                })
+                .populate({
+                    path: "matches2",
+                    populate: {
+                        path: "matches",
+                    }
+                })
                 .exec();
         }
 

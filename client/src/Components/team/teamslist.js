@@ -126,6 +126,23 @@ export default function Teams() {
 
     let history = useHistory();
 
+    const calculateScore = (team) => {
+        let score = 0;
+        // console.log(team)
+        for (const teamMatch of team.matches1) {
+            for (const match of teamMatch.matches) {
+                score += (match.contest.player1Score > match.contest.player2Score ? 1 : 0)
+            }
+        }
+
+        for (const teamMatch of team.matches2) {
+            for (const match of teamMatch.matches) {
+                score += (match.contest.player2Score > match.contest.player1Score ? 1 : 0)
+            }
+        }
+
+        return score;
+    }
 
     const columnsLoggedIn = [
         {
@@ -183,6 +200,12 @@ export default function Teams() {
             sortable: true,
             center: true
         },
+        // {
+        //     name: 'Score',
+        //     selector: row => calculateScore(row),
+        //     sortable: true,
+        //     center: true
+        // },
         {
             name: "l'equipe est bannie",
             selector: row => row.isBanned ? "oui" : "non",
@@ -248,13 +271,18 @@ export default function Teams() {
             center: true,
             maxWidth: '130px'
         },
-
         {
             name: 'Nombre de Joueurs',
             selector: row => row.players.length,
             sortable: true,
             center: true
-        }
+        },
+        // {
+        //     name: 'Score',
+        //     selector: row => calculateScore(row),
+        //     sortable: true,
+        //     center: true
+        // }
 
     ];
 

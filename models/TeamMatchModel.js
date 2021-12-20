@@ -12,7 +12,7 @@ const TeamMatchSchema = new Schema(
         }
 
     },
-    { timestamps: true }
+    { timestamps: true, toJSON: { virtuals: true } }
 );
 
 TeamMatchSchema.virtual('matches', {

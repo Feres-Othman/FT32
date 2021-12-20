@@ -9,7 +9,7 @@ import DrpDown from '../Molecules/DrpDown';
 import Btn from '../Molecules/Btn';
 import { useHistory } from 'react-router-dom';
 
-export default function Players() {
+export default function Players({ canShow500 = true }) {
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -111,7 +111,7 @@ export default function Players() {
                     return;
                 }
 
-                history.push(`/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}`);
+                history.push(!canShow500 ? `/indiv/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}` : `/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}`);
             }} style={{ width: 400 }}>Valider</Btn>
 
         </div >

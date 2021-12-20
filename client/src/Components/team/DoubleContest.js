@@ -4,6 +4,7 @@ import LineContest from './LineContest'
 
 import DrpDown from '../../Molecules/DrpDown';
 
+import { Dropdown, FormControl } from 'react-bootstrap'
 export default function Contest({
     players1, players2,
     player1Order, player2Order,
@@ -14,6 +15,56 @@ export default function Contest({
     team2Player1, setTeam2Player1,
     team2Player2, setTeam2Player2,
 }) {
+
+    // The forwardRef is important!!
+    // Dropdown needs access to the DOM node in order to position the Menu
+    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+
+        <button ref={ref}
+            onClick={(e) => {
+                e.preventDefault();
+                onClick(e);
+            }}
+            variant="Primary"
+            style={{ backgroundColor: 'white', borderRadius: 15, height: 50, width: 200, border: "0px" }}>
+
+            {children}
+            &#x25bc;
+
+        </button>
+
+    ));
+
+    // forwardRef again here!
+    // Dropdown needs access to the DOM of the Menu to measure it
+    const CustomMenu = React.forwardRef(
+        ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
+            const [value, setValue] = useState('');
+
+            return (
+                <div
+                    ref={ref}
+                    style={style}
+                    className={className}
+                    aria-labelledby={labeledBy}
+                >
+                    <FormControl
+                        autoFocus
+                        className="mx-3 my-2 w-auto"
+                        placeholder="tapez un filtre..."
+                        onChange={(e) => setValue(e.target.value)}
+                        value={value}
+                    />
+                    <ul className="list-unstyled" style={{ maxHeight: 500, overflowY: "scroll" }}>
+                        {React.Children.toArray(children).filter(
+                            (child) =>
+                                !value || child.props.children.toLowerCase().startsWith(value),
+                        )}
+                    </ul>
+                </div>
+            );
+        },
+    );
 
     // const [matches, setMatches] = useState([
     //     {
@@ -97,9 +148,33 @@ export default function Contest({
 
             <div style={{ width: 200, height: "100%", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 15 }}>
                 <b>{player1Order}</b>
+                <Dropdown>
+                    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                        {team1Player1.number ? `${team1Player1.firstName} ${team1Player1.lastName} - ${team1Player1.number} ` : `Selectionner le joueur 1`}
+                    </Dropdown.Toggle>
 
-                <DrpDown style={{ width: "30%", minWidth: 350 }} style={{ width: 200 }} dataset={players1.map(item => ({ ...item, name: `${item.firstName} ${item.lastName}` }))} setData={setTeam1Player1} data={team1Player1} >Selectionner le joueur 1</DrpDown>
-                <DrpDown style={{ width: "30%", minWidth: 350 }} style={{ width: 200 }} dataset={players1.map(item => ({ ...item, name: `${item.firstName} ${item.lastName}` }))} setData={setTeam1Player2} data={team1Player2} >Selectionner le joueur 2</DrpDown>
+                    <Dropdown.Menu as={CustomMenu}>
+                        {players1.map((item, index) => (
+                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam1Player1(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                                {`${item.number} - ${item.firstName} ${item.lastName}`}
+                            </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
+
+                <Dropdown>
+                    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                        {team1Player2.number ? `${team1Player2.firstName} ${team1Player2.lastName} - ${team1Player2.number} ` : `Selectionner le joueur 2`}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu as={CustomMenu}>
+                        {players1.map((item, index) => (
+                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam1Player2(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                                {`${item.number} - ${item.firstName} ${item.lastName}`}
+                            </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
 
 
@@ -117,8 +192,33 @@ export default function Contest({
 
             <div style={{ width: 200, height: "100%", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 15 }}>
                 <b>{player1Order}</b>
-                <DrpDown style={{ width: "30%", minWidth: 350 }} style={{ width: 200 }} dataset={players2.map(item => ({ ...item, name: `${item.firstName} ${item.lastName}` }))} setData={setTeam2Player1} data={team2Player1} >Selectionner le joueur 1</DrpDown>
-                <DrpDown style={{ width: "30%", minWidth: 350 }} style={{ width: 200 }} dataset={players2.map(item => ({ ...item, name: `${item.firstName} ${item.lastName}` }))} setData={setTeam2Player2} data={team2Player2} >Selectionner le joueur 2</DrpDown>
+                <Dropdown>
+                    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                        {team2Player1.number ? `${team2Player1.firstName} ${team2Player1.lastName} - ${team2Player1.number} ` : `Selectionner le joueur 1`}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu as={CustomMenu}>
+                        {players2.map((item, index) => (
+                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam1Player1(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                                {`${item.number} - ${item.firstName} ${item.lastName}`}
+                            </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
+
+                <Dropdown>
+                    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                        {team2Player2.number ? `${team2Player2.firstName} ${team2Player2.lastName} - ${team2Player2.number} ` : `Selectionner le joueur 2`}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu as={CustomMenu}>
+                        {players2.map((item, index) => (
+                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam1Player2(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                                {`${item.number} - ${item.firstName} ${item.lastName}`}
+                            </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
 
         </div>

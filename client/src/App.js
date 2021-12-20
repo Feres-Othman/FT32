@@ -396,10 +396,13 @@ function App() {
                       <Profile />
                     </Route>
 
+                    <Route path="/indiv/players/:sex/:category" >
+                      <PlayersByFilter canShow500={false} />
+                    </Route>
+
                     <Route path="/players/:sex/:category" >
                       <PlayersByFilter />
                     </Route>
-
 
                     <Route path="/players/:clubName" >
                       <PlayersByTeam />
@@ -410,7 +413,7 @@ function App() {
                     </Route>
 
                     <Route path="/classement/indiv" >
-                      <Players />
+                      <Players canShow500={false} />
                     </Route>
 
                     <Route path="/help" >
@@ -425,7 +428,7 @@ function App() {
                       <Ajouterequipe />
                     </Route>
 
-                    <Route path="/match/add/:comp/:cat" >
+                    <Route path="/match/add/:comp/:cat/:sex" >
                       <AddMatch />
                     </Route>
 

@@ -60,7 +60,9 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
 
         for (const player of players) {
             if (categories.includes(player.category)) {
-                selectedPlayers.push(player)
+                if ((player.sex === gender._id) || (gender._id === "X")) {
+                    selectedPlayers.push(player)
+                }
             }
         }
 

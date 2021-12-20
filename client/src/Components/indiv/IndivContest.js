@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Input from '../../Molecules/Input'
 import LineContest from './IndivLineContest'
 
@@ -79,8 +79,30 @@ export default function IndivContest({ player1, player2, player1Order, player2Or
 
     }
 
+
+    const ref = useRef();
+
+    // This is simply an example that demonstrates
+    // how you can dispatch an event on the element.
+    // useEffect(() => {
+    //     ref.dispatchEvent(new KeyboardEvent('keypress', {
+    //         key: 'Enter',
+    //     }));
+    // }, []);
+
+    const handleKeypress = e => {
+
+        if (e.key === "Enter") {
+            console.log(e)
+            window.dispatchEvent(new KeyboardEvent('keydown', {
+                key: 'Tab',
+            }));
+        }
+
+    };
+
     return (
-        <div style={{ width: "100%", backgroundColor: "#fff", marginBottom: 10, padding: 90, borderRadius: 15, display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
+        <div ref={ref} onKeyPress={handleKeypress} style={{ width: "100%", backgroundColor: "#fff", marginBottom: 10, padding: 90, borderRadius: 15, display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
 
             <div style={{ width: 200, height: "100%" }} >{player1.firstName} {player1.lastName}</div>
             <div style={{ width: 50, height: "100%" }} ><b>{playerScore(matches, 1)}</b></div>

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import { RContext } from '../RContext'
 import { DesignContext } from '../DesignContext';
 import PlayerItem from './PlayerItem';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faEdit, faTrash, faMap, faPhone } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrash, faMap, faPhone, faCircle } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import { useParams, useHistory } from 'react-router-dom';
@@ -12,6 +12,7 @@ import DataTable from 'react-data-table-component';
 import { deleteJouer } from "./actions/ajouterunjouer"
 import Btn from '../Molecules/Btn'
 
+import FilterComponent from './FilterComponent';
 
 export default function Players() {
 
@@ -87,6 +88,16 @@ export default function Players() {
         }} >{row.lastName}</div>
     );
 
+    const CustomState = ({ row }) => (
+        <div style={{ cursor: "pointer" }} className="hoverScale" >
+
+            {row.isValid ? <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> : <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} />}
+
+
+            {new Date() - new Date(row.changedTeam) < (1000 * 60 * 60 * 24 * 365 * 2) && <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} />}
+
+        </div>
+    );
 
     const columnsLoggedIn = [
         {
@@ -116,6 +127,13 @@ export default function Players() {
             sortable: true,
             center: true,
             maxWidth: '220px',
+        },
+        {
+            name: 'Etat',
+            selector: row => row.isValid,
+            sortable: true,
+            center: true,
+            cell: row => <CustomState row={row} />,
         },
         {
             name: 'Sexe',
@@ -166,6 +184,13 @@ export default function Players() {
             sortable: true,
             center: true,
             maxWidth: '220px',
+        },
+        {
+            name: 'Etat',
+            selector: row => row.isValid,
+            sortable: true,
+            center: true,
+            cell: row => <CustomState row={row} />,
         },
         {
             name: 'Sexe',
@@ -229,9 +254,42 @@ export default function Players() {
     }, [])
 
     const paginationComponentOptions = {
-        noRowsPerPage: true,
-        rangeSeparatorText: 'de',
+        noRowsPerPage: false,
+        rowsPerPageText: 'Lignes par page:',
+        rangeSeparatorText: 'de'
     };
+
+
+
+
+    const [filterText, setFilterText] = useState("");
+    const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+    // const filteredItems = data.filter(
+    //   item => item.name && item.name.includes(filterText)
+    // );
+    const filteredItems = items.filter(
+        item =>
+            JSON.stringify(item)
+                .toLowerCase()
+                .indexOf(filterText.toLowerCase()) !== -1
+    );
+
+    const subHeaderComponent = useMemo(() => {
+        const handleClear = () => {
+            if (filterText) {
+                setResetPaginationToggle(!resetPaginationToggle);
+                setFilterText("");
+            }
+        };
+
+        return (
+            <FilterComponent
+                onFilter={e => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
+            />
+        );
+    }, [filterText, resetPaginationToggle]);
 
     return (
         <>
@@ -258,12 +316,11 @@ export default function Players() {
                 marginLeft: "5%",
                 textAlign: 'center',
                 overflow: 'hidden',
-                borderRadius: 20
+                borderRadius: 0
             }} >
 
                 <DataTable
                     columns={isLoggedIn ? columnsLoggedIn : columns}
-                    data={items}
                     pagination
                     paginationComponentOptions={paginationComponentOptions}
                     noDataComponent={
@@ -271,6 +328,15 @@ export default function Players() {
                             il n'y a pas encore de joueurs à afficher
                         </div>
                     }
+                    data={filteredItems}
+                    pagination
+                    responsive={true}
+                    paginationPerPage={10}
+                    subHeader
+                    subHeaderComponent={subHeaderComponent}
+                    paginationRowsPerPageOptions={[10, 20, 30, 70, 100, 300]}
+
+
                 />
 
             </div >
