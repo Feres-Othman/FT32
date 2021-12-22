@@ -753,7 +753,7 @@ export default function AddMatch() {
                         history.push("/players");
                     } else {
                         notifier.success("match ajoutee");
-                        history.push(`/match/add/${competition._id}/${category._id}`);
+                        history.push(`/match/add/${competition._id}/${category._id}/${gender._id}`);
                         history.go(0)
                     }
 
