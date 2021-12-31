@@ -24,6 +24,7 @@ const createMatch = async (req, res, next) => {
 
     const contests = req.body.contests;
     const teamContests = req.body.teamContests;
+    const forceDuplicate = req.body.forceDuplicate;
 
 
     let coef = 0;
@@ -71,6 +72,51 @@ const createMatch = async (req, res, next) => {
     console.log({ coef })
 
     if (isTeam) {
+
+        let teamMatchExist = await TeamMatch.findOne({ team1: team1._id, team2: team2._id })
+
+        if (teamMatchExist) {
+            let teamMatches = [];
+            for (const i in teamContests) {
+                let winner = {};
+                let looser = {};
+
+                if (teamContests[i].player1Score > teamContests[i].player2Score) {
+                    winner = (i == 0 || i == 4 || i == 7) ? playerA : (i == 1 || i == 3 || i == 6) ? playerB : (i == 2 || i == 5) ? playerC : playerA;
+                    looser = (i == 0 || i == 3) ? playerX : (i == 1 || i == 5 || i == 7) ? playerY : (i == 2 || i == 4 || i == 6) ? playerZ : playerX;
+                } else {
+                    winner = (i == 0 || i == 3) ? playerX : (i == 1 || i == 5 || i == 7) ? playerY : (i == 2 || i == 4 || i == 6) ? playerZ : playerX;
+                    looser = (i == 0 || i == 4 || i == 7) ? playerA : (i == 1 || i == 3 || i == 6) ? playerB : (i == 2 || i == 5) ? playerC : playerA;
+                }
+
+                let check = await Match.findOne({
+                    winner,
+                    looser,
+                    competition,
+                    isTeam: true,
+                    category: category._id,
+                    isDouble: teamContests[i].isDouble,
+
+                    team1Player1: req.body.team1Player1._id,
+                    team1Player2: req.body.team1Player2._id,
+                    team2Player1: req.body.team2Player1._id,
+                    team2Player2: req.body.team2Player2._id,
+                })
+
+                teamMatches.push(check?.teamMatch.toString())
+
+            }
+            console.log(teamMatches)
+            console.log(teamMatches.every(element => { return element && (element == teamMatches[0]) }))
+            if (!forceDuplicate) {
+                return res.json({
+                    success: false,
+                    message: "duplicated"
+                    // newMatch: newMatch
+                })
+            }
+
+        }
 
         let teamMatch = new TeamMatch({
             team1: team1._id, team2: team2._id
@@ -419,9 +465,32 @@ const createMatch = async (req, res, next) => {
         let winnerPreviousPoints = winner.scores[scoreIndex].score;
         let looserPreviousPoints = looser.scores[scoreIndex].score;
 
+
+        let check = await Match.findOne({
+            competition,
+            isTeam: false,
+            category: category._id,
+            isDouble: false,
+            winner: winner._id,
+            looser: looser._id,
+
+        })
+
+        console.log(check)
+
+        if (check && !forceDuplicate) {
+            return res.json({
+                success: false,
+                message: "duplicated"
+                // newMatch: newMatch
+            })
+        }
+
+
+
         const newMatch = new Match({
             competition,
-            isTeam: true,
+            isTeam: false,
             category: category._id,
             isDouble: false,
 

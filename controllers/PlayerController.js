@@ -1,6 +1,7 @@
 const Player = require('../models/PlayerModel')
 const Category = require('../models/CategoryModel')
-const Team = require('../models/TeamModel')
+const Team = require('../models/TeamModel');
+const Championship = require('../models/championshipModel');
 
 
 const resetDB = async (req, res, next) => {
@@ -12497,11 +12498,11 @@ const createPlayer = async (req, res, next) => {
       });
 
       newPlayer.save()
-      console.log(newPlayer)
-      const team1 = await Team.findOneAndUpdate({ _id: req.body.Team._id }, { $push: { players: newPlayer._id } })
-      console.log(team1)
-      console.log(req.body.Team._id)
-      console.log(newPlayer._id)
+      // console.log(newPlayer)
+      // const team1 = await Team.findOneAndUpdate({ _id: req.body.Team._id }, { $push: { players: newPlayer._id } })
+      // console.log(team1)
+      // console.log(req.body.Team._id)
+      // console.log(newPlayer._id)
 
       res.json({
         success: true,
@@ -12533,7 +12534,7 @@ const readPlayer = async (req, res, next) => {
       .populate({
         path: "team",
         populate: {
-          path: 'players',
+          path: 'players_v2',
           populate: {
             path: 'category'
           }
@@ -13029,6 +13030,170 @@ const addBonuses = async (req, res, next) => {
 }
 
 
+const addChampionship = async (req, res, next) => {
+
+
+  const category = req.body.category;
+
+  const players1 = req.body.players1;
+  const players2 = req.body.players2;
+  const players3 = req.body.players3;
+  const players4 = req.body.players4;
+  const players5 = req.body.players5;
+  const players6 = req.body.players6;
+  const players7 = req.body.players7;
+  const players8 = req.body.players8;
+
+  const type = req.body.type;
+  const gender = req.body.gender;
+
+  let championship = new Championship({
+    category: category,
+    type: type,
+    gender: gender,
+    phase1: [...players1[0], ...players2[0], ...players3[0], ...players4[0], ...players5[0], ...players6[0], ...players7[0], ...players8[0]],
+    phase2: [...players1[1], ...players2[1], ...players3[1], ...players4[1], ...players5[1], ...players6[1], ...players7[1], ...players8[1]],
+    phase3: [...players1[2], ...players2[2], ...players3[2], ...players4[2], ...players5[2], ...players6[2], ...players7[2], ...players8[2]]
+  })
+
+  championship.save();
+
+  res.json({
+    success: true,
+    // newMatch: newMatch
+  })
+
+  return;
+}
+
+const readChampionships = async (req, res, next) => {
+
+  try {
+
+    let finalCategories = [];
+
+    let i = 0;
+
+    let filter = {};
+
+    if (!req.body.sex.toUpperCase().includes("X")) {
+
+      filter.sex = req.body.sex.toUpperCase();
+
+    }
+    let chosenCategory = {}
+
+    if (!req.body.category.toUpperCase().includes("TOUT")) {
+
+
+      const categories = await Category.find({}).sort({ __v: 1 })
+
+      for (i = 0; i < categories.length; i++) {
+        const element = categories[i];
+
+        if (element.name.toUpperCase() == req.body.category.toUpperCase()) {
+          chosenCategory = element;
+          break;
+        }
+
+      }
+
+      for (let j = 0; j <= i; j++) {
+        const element = categories[j];
+
+        finalCategories.push(element._id);
+
+      }
+
+      filter.category = { $in: finalCategories }
+
+    } else {
+      const categories = await Category.find({}).sort({ __v: 1 })
+
+      for (i = 0; i < categories.length; i++) {
+        const element = categories[i];
+
+        if (element.name.toUpperCase() == "Seniors".toUpperCase()) {
+          chosenCategory = element;
+          break;
+        }
+
+      }
+
+      for (let j = 0; j <= i; j++) {
+        const element = categories[j];
+
+        finalCategories.push(element._id);
+
+      }
+
+      filter.category = { $in: finalCategories }
+    }
+
+
+
+    const championships = await Championship.find(filter)
+      .sort({ createdAt: -1 })
+      .populate("phase1")
+      .populate("phase2")
+      .populate("phase3")
+      .populate("category")
+      .exec();
+
+    if (!championships) return res.json({
+      success: false,
+      message: "Players-not-found"
+    })
+
+    return res.json({ success: true, championships: championships });
+
+  } catch (error) {
+    console.log(error)
+    return res.json({
+      success: false,
+      message: "server-error"
+    })
+  }
+
+}
+
+
+const readChampionship = async (req, res, next) => {
+  console.log(req.params._id)
+  const { id } = req.params._id;
+  try {
+
+    const championship = await Championship.findOne({ _id: req.params._id })
+      .populate("phase1")
+      .populate("phase2")
+      .populate("phase3")
+      .populate("category")
+      .exec();
+
+    console.log(championship)
+
+    if (!championship) return res.json({
+      success: false,
+      message: "Player-not-found"
+    })
+    else if (championship) {
+      return res.json({
+        success: true,
+        championship: championship
+      })
+
+    }
+  } catch (error) {
+    console.log(error)
+
+    return res.json({
+      success: false,
+      message: "server-error",
+
+    })
+  }
+}
+
 module.exports = {
   createPlayer,
   readPlayer,
@@ -13039,5 +13204,8 @@ module.exports = {
   resetDB,
   deletePlayers,
   resetPlayersScores,
-  addBonuses
+  addBonuses,
+  addChampionship,
+  readChampionships,
+  readChampionship
 }

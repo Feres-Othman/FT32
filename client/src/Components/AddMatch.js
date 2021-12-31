@@ -670,7 +670,7 @@ export default function AddMatch() {
     }
 
 
-    const submit = async (isTeam) => {
+    const submit = async (isTeam, forceDuplicate = false) => {
 
         if (!isTeam) {
             if (contests[0].player1Score === 0 && contests[0].player2Score === 0) {
@@ -740,6 +740,7 @@ export default function AddMatch() {
 
             contests,
             teamContests,
+            forceDuplicate
 
         }
 
@@ -758,7 +759,21 @@ export default function AddMatch() {
                     }
 
                 } else {
-                    console.log(res)
+                    if (res.message == "duplicated") {
+                        notifier.confirm(
+                            'Ce match est dupliquee, Es-tu sûr?',
+                            () => {
+
+                                submit(isTeam, true);
+                            },
+                            () => { },
+                            {
+                                labels: {
+                                    confirm: ''
+                                }
+                            }
+                        )
+                    }
                 }
             })
             .catch((error) => {
@@ -852,20 +867,19 @@ export default function AddMatch() {
     }]
     const [gender, setGender] = useState(sex ? genders.filter(item => item._id === sex)[0] : {})
 
-    const filterPlayers = (teamtemps) => {
+    const filterPlayers = (team) => {
 
         let selectedPlayers = [];
 
-        for (const team of teamtemps) {
-            for (const player of team.players) {
-                if (selectedCategories.includes(player.category)) {
-                    // selectedPlayers.push(player)
-                    if ((player.sex === gender._id) || (gender._id === "X")) {
-                        selectedPlayers.push(player)
-                    }
+        for (const player of team.players_v2) {
+            if (selectedCategories.includes(player.category)) {
+                // selectedPlayers.push(player)
+                if ((player.sex === gender._id) || (gender._id === "X")) {
+                    selectedPlayers.push(player)
                 }
             }
         }
+
         // console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
         return selectedPlayers;
@@ -1029,8 +1043,8 @@ export default function AddMatch() {
                                     />
 
                                     <DoubleContest
-                                        players1={[playerA, playerB, playerC, ...filterPlayers(teams)]}
-                                        players2={[playerX, playerY, playerZ, ...filterPlayers(teams)]}
+                                        players1={[playerA, playerB, playerC, ...filterPlayers(team1)]}
+                                        players2={[playerX, playerY, playerZ, ...filterPlayers(team2)]}
                                         player1Order={"Double"}
                                         player2Order={"Double"}
                                         contestIndex={8}

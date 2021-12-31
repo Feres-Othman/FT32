@@ -459,7 +459,7 @@ export default function Profile() {
 
                                 <DataTable
                                     columns={columns}
-                                    data={player.team?.players}
+                                    data={player.team?.players_v2}
                                     style={{ borderRadius: 20 }}
                                     pagination
                                     paginationComponentOptions={paginationComponentOptions}

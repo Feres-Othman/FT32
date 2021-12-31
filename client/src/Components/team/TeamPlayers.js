@@ -77,6 +77,12 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
         setPlayer3({});
     }, [categories, gender])
 
+    useEffect(() => {
+        setPlayer1({});
+        setPlayer2({});
+        setPlayer3({});
+    }, [team])
+
     return (
         <>
             {
@@ -115,7 +121,7 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu as={CustomMenu}>
-                                        {filterPlayers(team.players).map((item, index) => (
+                                        {filterPlayers(team.players_v2).map((item, index) => (
                                             <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setPlayer1(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
                                                 {`${item.number} - ${item.firstName} ${item.lastName}`}
                                             </Dropdown.Item>
@@ -129,7 +135,7 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu as={CustomMenu}>
-                                        {filterPlayers(team.players).map((item, index) => (
+                                        {filterPlayers(team.players_v2).map((item, index) => (
                                             <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setPlayer2(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
                                                 {`${item.number} - ${item.firstName} ${item.lastName}`}
                                             </Dropdown.Item>
@@ -143,7 +149,7 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu as={CustomMenu}>
-                                        {filterPlayers(team.players).map((item, index) => (
+                                        {filterPlayers(team.players_v2).map((item, index) => (
                                             <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setPlayer3(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
                                                 {`${item.number} - ${item.firstName} ${item.lastName}`}
                                             </Dropdown.Item>

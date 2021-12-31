@@ -34,7 +34,11 @@ import { slide as Menu } from 'react-burger-menu'
 
 import AddMatch from './Components/AddMatch';
 import AddBonus from './Components/AddBonus';
+import AddClassement from './Components/AddClassement';
 import Teams from './Components/team/teamslist';
+import Championships from './Components/championships';
+import Championship from './Components/Championship';
+import ChampionshipsFilter from './Components/ChampionshipsFilter';
 
 import logo from './Atoms/logo.png';
 import Profile from './Components/Profile';
@@ -284,7 +288,7 @@ function App() {
 
                   ) &&
 
-                  <div key={Math.random()}>
+                  <div key={Math.random()} style={{ fontSize: 13 }} >
                     <Menu onStateChange={handleStateChange} isOpen={isOpen} >
                       <div>
                         <img style={{ width: 100 }} src={logo} />
@@ -298,11 +302,13 @@ function App() {
                       <NavLink onClick={() => { setIsOpen(false) }} id="accueil" style={{ color: "white" }} className="menu-item" to="/">ACCUEIL</NavLink>
                       {/* <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/parcours">PARCOURS</NavLink> */}
                       <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/players">JOUEURS</NavLink>
-                      <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/classement/indiv">CLASSEMENT INDIV</NavLink>
+                      <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/classement/indiv">RANKING FTTT</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/teams">EQUIPES</NavLink>
+                      <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/championships">CHAMPIONATS INDIV</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/help">COMMENT CA MARCHE</NavLink>
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/match/add">AJOUTER UN MATCH</NavLink>}
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/bonus/add">AJOUTER BONUS INDIV</NavLink>}
+                      {/* {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/classement/indiv/add">AJOUTER CLASSEMENT INDIV</NavLink>} */}
                       {/* <NavLink onClick={() => {setIsOpen(false)}} id="contact" style={{ color: "white" }} className="menu-item" to="/presse">PRESSE</NavLink> */}
                       <div style={{ width: 100, height: "24vh", marginBottom: 25, borderBottom: "1px solid white" }} ></div>
 
@@ -396,6 +402,10 @@ function App() {
                       <Profile />
                     </Route>
 
+                    <Route path="/championship/:id" >
+                      <Championship />
+                    </Route>
+
                     <Route path="/indiv/players/:sex/:category" >
                       <PlayersByFilter canShow500={false} />
                     </Route>
@@ -410,6 +420,18 @@ function App() {
 
                     <Route path="/players" >
                       <Players />
+                    </Route>
+
+                    <Route path="/classement/indiv/add" >
+                      <AddClassement />
+                    </Route>
+
+                    <Route path="/championships/:sex/:category" >
+                      <Championships />
+                    </Route>
+
+                    <Route path="/championships" >
+                      <ChampionshipsFilter />
                     </Route>
 
                     <Route path="/classement/indiv" >
@@ -439,6 +461,8 @@ function App() {
                     <Route path="/bonus/add" >
                       <AddBonus />
                     </Route>
+
+
 
                     {/* <Route path="/user/view" >
                       <Seller />

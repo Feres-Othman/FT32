@@ -11,6 +11,9 @@ router.post("/ban", verify, PlayerController.banPlayer);
 router.post("/reset", verify, PlayerController.resetDB);
 router.post("/resetPlayers", verify, PlayerController.resetPlayersScores);
 router.post("/bonus", verify, PlayerController.addBonuses);
+router.post("/championship", verify, PlayerController.addChampionship);
+router.post("/championship/read/all", verify, PlayerController.readChampionships);
+router.post("/championship/read/one/:_id", verify, PlayerController.readChampionship);
 router.post("/Ajoutjouer", PlayerController.createPlayer);
 router.delete("/delete/:id", PlayerController.deletePlayers);
 

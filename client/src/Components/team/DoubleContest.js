@@ -199,7 +199,7 @@ export default function Contest({
 
                     <Dropdown.Menu as={CustomMenu}>
                         {players2.map((item, index) => (
-                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam1Player1(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam2Player1(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
                                 {`${item.number} - ${item.firstName} ${item.lastName}`}
                             </Dropdown.Item>
                         ))}
@@ -213,7 +213,7 @@ export default function Contest({
 
                     <Dropdown.Menu as={CustomMenu}>
                         {players2.map((item, index) => (
-                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam1Player2(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                            <Dropdown.Item eventKey={index} key={item._id} onClick={() => { setTeam2Player2(item) }} style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
                                 {`${item.number} - ${item.firstName} ${item.lastName}`}
                             </Dropdown.Item>
                         ))}

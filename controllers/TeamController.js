@@ -100,7 +100,7 @@ const readTeam = async (req, res, next) => {
 
         const team = await Team.findOne({ name: clubName })
             .populate({
-                path: "players",
+                path: "players_v2",
                 populate: {
                     path: 'category'
                 }
@@ -138,7 +138,7 @@ const readTeams = async (req, res, next) => {
                 .exec();
         } else {
             teams = await Team.find({})
-                .populate("players")
+                .populate("players_v2")
                 .populate({
                     path: "matches1",
                     populate: {

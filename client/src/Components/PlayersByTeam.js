@@ -224,7 +224,7 @@ export default function Players() {
                     console.log(res)
 
 
-                    let players = res.team.players;
+                    let players = res.team.players_v2;
 
                     let formattedPlayers = [];
 

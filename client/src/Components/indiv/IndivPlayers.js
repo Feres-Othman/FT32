@@ -59,7 +59,7 @@ export default function IndivPlayers({ number, teams, player1, setPlayer1, categ
         let selectedPlayers = [];
 
         for (const team of teams) {
-            for (const player of team.players) {
+            for (const player of team.players_v2) {
                 if (categories.includes(player.category)) {
                     if ((player.sex === gender._id) || (gender._id === "X")) {
                         selectedPlayers.push(player)
