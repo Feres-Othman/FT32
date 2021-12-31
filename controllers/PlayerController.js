@@ -1,7 +1,7 @@
 const Player = require('../models/PlayerModel')
 const Category = require('../models/CategoryModel')
 const Team = require('../models/TeamModel');
-const Championship = require('../models/championshipModel');
+const Championship = require('../models/ChampionshipModel');
 
 
 const resetDB = async (req, res, next) => {

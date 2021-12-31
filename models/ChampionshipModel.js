@@ -25,6 +25,6 @@ const ChampionshipSchema = new Schema(
 
 
 
-const Championship = mongoose.model("Championship", ChampionshipSchema);
+const Championships = mongoose.model("Championship", ChampionshipSchema);
 
-module.exports = Championship;
+module.exports = Championships;
