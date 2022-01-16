@@ -154,6 +154,8 @@ export default function Profile() {
 
 
     const getIndex = (phase, id) => {
+        // console.log(phase)
+        if(!phase) return Infinity;
         let i = 0
         for (const element of phase) {
             if (element._id == id) {
