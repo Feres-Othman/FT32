@@ -6,6 +6,7 @@ export const Ajoutequipe = (formData, config) => axios.post('/api/team/create', 
 
 export const Ajout = (formData, config) => axios.post('/api/player/Ajoutjouer', formData, config);
 export const Delete = (id, config) => axios.delete(`/api/player/delete/${id}`, config);
+export const DeleteChampionship = (id, config) => axios.delete(`/api/player/championship/delete/${id}`, config);
 export const Deleteteam = (id, config) => axios.delete(`/api/team/delete/${id}`, config);
 
 

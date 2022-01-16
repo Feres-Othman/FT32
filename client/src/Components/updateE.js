@@ -187,6 +187,13 @@ const Updateequipe = () => {
                 </div>
                 <br />
 
+                <div >
+                    <Input handleChangeEvent={handleChange1} name="Zone" placeholder={team.zone} defaultValue={team.zone} width="400px" maxLength="1" />
+
+                </div>
+
+                <br />
+
                 <div>
 
                     <DrpDown name="Banned" handleChange={handleChange} style={{ width: "400px" }} dataset={banneds} setData={setBanned} data={banned} >l'équipe est bannie ? </DrpDown>

@@ -16,6 +16,7 @@ router.post("/championship/read/all", verify, PlayerController.readChampionships
 router.post("/championship/read/one/:_id", verify, PlayerController.readChampionship);
 router.post("/Ajoutjouer", PlayerController.createPlayer);
 router.delete("/delete/:id", PlayerController.deletePlayers);
+router.delete("/championship/delete/:id", PlayerController.deleteChampionship);
 
 
 

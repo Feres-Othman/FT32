@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import { useParams } from 'react-router'
 import { RContext } from '../RContext'
@@ -9,9 +9,10 @@ import axios from 'axios'
 import { reactLocalStorage as Ls } from 'reactjs-localstorage';
 import Btn from '../Molecules/Btn'
 import { useHistory } from 'react-router-dom';
-import { Line } from 'react-chartjs-2';
+import { Doughnut, Line, Pie } from 'react-chartjs-2';
 import DataTable from 'react-data-table-component';
 import profile from '../Medias/avatar.jpg'
+import FilterComponent from './FilterComponent';
 
 
 export default function Profile() {
@@ -20,9 +21,45 @@ export default function Profile() {
     let history = useHistory();
     const [championship, setChampionship] = useStateWithCallbackLazy({})
 
-    const [scores, setScores] = useState({})
-    const [matchHistory, setMatchHistory] = useState([])
+    const [chartData, setChartData] = useState({
+        labels: [
+            'Zone A',
+            'Zone B',
+            'Zone C'
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [600, 120, 265],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+    })
 
+    const [teamChartData, setTeamChartData] = useState({
+        labels: [
+            'AS',
+            'S-CLUB',
+            'ROB',
+            'GOG',
+            'ASCB'
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [350, 120, 265, 30, 10],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(255, 20, 86)',
+                'rgb(25, 205, 86)',
+            ],
+            hoverOffset: 4
+        }]
+    })
 
     const getProducts = async () => {
 
@@ -40,7 +77,48 @@ export default function Profile() {
 
                     console.log(res)
 
-                    setChampionship(res.championship);
+
+                    let tempPhase = res.championship.phase1;
+
+                    for (const i in tempPhase) {
+
+                        tempPhase[i].phase1 = getScoreFronIndex(i);
+                        tempPhase[i].phase2 = getScoreFronIndex(getIndex(res.championship.phase2, tempPhase[i]._id));
+                        tempPhase[i].phase3 = getScoreFronIndex(getIndex(res.championship.phase3, tempPhase[i]._id));
+                        tempPhase[i].total = tempPhase[i].phase1 + tempPhase[i].phase2 + tempPhase[i].phase3;
+
+                    }
+
+
+                    let tempPhaseSorted = tempPhase.sort((firstEl, secondEl) => {
+
+                        // console.log(getTotal(res.championship.phase1, res.championship.phase2, res.championship.phase3, firstEl._id))
+                        // console.log(getTotal(res.championship.phase1, res.championship.phase2, res.championship.phase3, secondEl._id))
+
+                        if (firstEl.total < secondEl.total) {
+                            return 1;
+                        }
+                        if (firstEl.total > secondEl.total) {
+                            return -1;
+                        }
+                        // a must be equal to b
+                        return 0;
+
+                    })
+
+                    tempPhase = [...tempPhaseSorted];
+
+                    for (const i in tempPhase) {
+
+                        tempPhase[i].rang = i;
+
+                    }
+
+                    let tempchampionship = res.championship;
+
+                    tempchampionship.phase1 = [...tempPhase];
+
+                    setChampionship({ ...tempchampionship });
 
 
 
@@ -112,7 +190,15 @@ export default function Profile() {
 
     }
 
+    // const getTotal = (phase1, phase2, phase3, id) => getScoreFronIndex(getIndex(phase1, id)) + getScoreFronIndex(getIndex(phase2, id)) + getScoreFronIndex(getIndex(phase3, id))
+
     const columns = [
+        {
+            name: 'Rang',
+            selector: row => -(-row.rang - 1),
+            sortable: true,
+            center: true
+        },
         {
             name: 'Num',
             selector: row => row.number,
@@ -136,32 +222,38 @@ export default function Profile() {
             maxWidth: '220px',
         },
         {
-            name: 'Sexe',
-            selector: row => row.sex,
+            name: 'Equipe',
+            selector: row => row.team.name,
+            sortable: true,
+            center: true
+        },
+        {
+            name: 'Zone',
+            selector: row => row.team.zone,
             sortable: true,
             center: true
         },
         {
             name: 'phase 1',
-            selector: row => getScoreFronIndex(getIndex(championship.phase1, row._id)),
+            selector: row => row.phase1,
             sortable: true,
             center: true
         },
         {
             name: 'phase 2',
-            selector: row => getScoreFronIndex(getIndex(championship.phase2, row._id)),
+            selector: row => row.phase2,
             sortable: true,
             center: true
         },
         {
             name: 'phase 3',
-            selector: row => getScoreFronIndex(getIndex(championship.phase3, row._id)),
+            selector: row => row.phase3,
             sortable: true,
             center: true
         },
         {
             name: 'Total',
-            selector: row => getScoreFronIndex(getIndex(championship.phase1, row._id)) + getScoreFronIndex(getIndex(championship.phase2, row._id)) + getScoreFronIndex(getIndex(championship.phase3, row._id)),
+            selector: row => row.total,
             sortable: true,
             center: true
         }
@@ -169,12 +261,39 @@ export default function Profile() {
     ];
 
     const paginationComponentOptions = {
-        noRowsPerPage: true,
-        rangeSeparatorText: 'de',
+        noRowsPerPage: false,
+        rowsPerPageText: 'Lignes par page:',
+        rangeSeparatorText: 'de'
     };
 
+    const [filterText, setFilterText] = useState("");
+    const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+    // const filteredItems = data.filter(
+    //   item => item.name && item.name.includes(filterText)
+    // );
+    const filteredItems = championship.phase1?.filter(
+        item =>
+            JSON.stringify(item)
+                .toLowerCase()
+                .indexOf(filterText.toLowerCase()) !== -1
+    );
 
+    const subHeaderComponent = useMemo(() => {
+        const handleClear = () => {
+            if (filterText) {
+                setResetPaginationToggle(!resetPaginationToggle);
+                setFilterText("");
+            }
+        };
 
+        return (
+            <FilterComponent
+                onFilter={e => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
+            />
+        );
+    }, [filterText, resetPaginationToggle]);
 
     return (
         <>
@@ -182,21 +301,67 @@ export default function Profile() {
             {championship ?
 
                 <div style={{ width: "80%", marginLeft: "10%", display: "flex", flexDirection: "column", justifyContent: "left", alignItems: 'left', marginTop: 40, marginBottom: 40 }}>
-                    <div style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }} >Classement dans le Championnat</div>
+                    <div style={{ fontSize: 20, fontWeight: "bold", marginBottom: 40, textAlign: 'center', width: "100%" }} >Classement</div>
+
+                    <div style={{ display: 'flex', flexDirection: "row", justifyContent: "space-around", alignItems: "center", marginBottom: 50 }}>
+                        <div style={{ width: "20vw" }}>
+                            <Doughnut
+                                data={chartData}
+                                style={{ width: 500, marginTop: 40 }}
+                                options={{
+                                    legend: {
+                                        display: false,
+                                        position: 'right'
+                                    }
+                                }}
+                            />
+
+
+                        </div>
+
+                        <div style={{ width: "20vw" }}>
+                            <Pie
+                                data={teamChartData}
+                                style={{ width: 500, marginTop: 40 }}
+                                options={{
+                                    legend: {
+                                        display: false,
+                                        position: 'right'
+                                    }
+                                }}
+                            />
+
+
+                        </div>
+                    </div>
+
                     <DataTable
                         columns={columns}
-                        data={championship.phase1}
-                        style={{ borderRadius: 20 }}
+                        data={filteredItems}
                         pagination
+                        responsive={true}
+
                         paginationComponentOptions={paginationComponentOptions}
+                        paginationPerPage={10}
+
+                        subHeader
+                        subHeaderComponent={subHeaderComponent}
+
+                        // fixedHeader={true}
+                        // fixedHeaderScrollHeight={"70vh"}
+                        paginationRowsPerPageOptions={[10, 20, 30, 70, 100, 300]}
                         noDataComponent={
                             <div style={{ padding: 30, fontSize: 17 }}>
                                 il n'y a pas encore de joueurs à afficher
                             </div>
                         }
-                        defaultSortFieldId="Total"
-                        defaultSortAsc={false}
+                    // defaultSortFieldId="Total"
+                    // defaultSortAsc={false}
                     />
+
+
+
+
                 </div>
                 : <div style={{
                     display: "flex",

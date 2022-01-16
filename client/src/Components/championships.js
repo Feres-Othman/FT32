@@ -11,7 +11,7 @@ import Btn from '../Molecules/Btn'
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import DataTable from 'react-data-table-component';
-import { deleteJouer } from "./actions/ajouterunjouer"
+import { deleteChampionship } from "./actions/ajouterunjouer"
 import FilterComponent from './FilterComponent';
 
 
@@ -42,7 +42,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
                     }
                 }
 
-                dispatch(deleteJouer(_id, config)); history.go(0)
+                dispatch(deleteChampionship(_id, config)); history.go(0)
             },
             () => { },
             {
@@ -273,7 +273,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
                         marginRight: "5%",
                         marginBottom: "20px",
                         textAlign: 'center',
-                    }}>Ajouter une Championnat</Btn>
+                    }}>Ajouter un Classement</Btn>
             }
 
             {/* <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 89, backgroundColor: "white", borderRadius: 20, padding: 10, fontSize: 12 }} >

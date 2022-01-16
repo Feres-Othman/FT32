@@ -13158,16 +13158,42 @@ const readChampionships = async (req, res, next) => {
 }
 
 
+const deleteChampionship = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  await Championship.findByIdAndRemove(id);
+
+  res.json({ message: "Championship deleted successfully." });
+}
+
+
 const readChampionship = async (req, res, next) => {
   console.log(req.params._id)
   const { id } = req.params._id;
   try {
 
     const championship = await Championship.findOne({ _id: req.params._id })
-      .populate("phase1")
-      .populate("phase2")
-      .populate("phase3")
+      .populate({
+        path: "phase1",
+        populate: {
+          path: 'team'
+        }
+      })
+      .populate({
+        path: "phase2",
+        populate: {
+          path: 'team'
+        }
+      })
+      .populate({
+        path: "phase3",
+        populate: {
+          path: 'team'
+        }
+      })
       .populate("category")
+
       .exec();
 
     console.log(championship)
@@ -13207,5 +13233,6 @@ module.exports = {
   addBonuses,
   addChampionship,
   readChampionships,
-  readChampionship
+  readChampionship,
+  deleteChampionship,
 }

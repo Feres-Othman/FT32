@@ -10,6 +10,9 @@ const TeamSchema = new Schema(
         players: {
             type: [{ type: mongoose.Types.ObjectId, ref: 'Player' }],
         },
+        zone: {
+            type: String, default: "A"
+        },
         isBanned: { type: Boolean, default: false }
     },
     { timestamps: true, toJSON: { virtuals: true } })

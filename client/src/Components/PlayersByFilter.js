@@ -224,19 +224,25 @@ export default function PlayersByFilter({ canShow500 = true }) {
             center: true,
             // cell: row => <CustomName row={row} />,
         },
-        {
-            name: 'Etat',
-            selector: row => row.isValid,
-            sortable: true,
-            center: true,
-            cell: row => <CustomState row={row} />,
-        },
-        {
-            name: 'Points',
-            selector: row => row.score,
-            sortable: true,
-            center: true,
-        },
+        ...[canShow500 ?
+            {
+                name: 'Etat',
+                selector: row => row.isValid,
+                sortable: true,
+                center: true,
+                cell: row => <CustomState row={row} />,
+            } :
+            { width: '0px' }
+        ],
+        ...[!canShow500 ?
+            {
+                name: 'Points',
+                selector: row => row.score,
+                sortable: true,
+                center: true,
+            } :
+            { width: '0px' }
+        ],
         {
             name: "actions",
             maxWidth: '170px',
@@ -395,22 +401,22 @@ export default function PlayersByFilter({ canShow500 = true }) {
                     }}>Ajouter un joueur</Btn>
             }
 
-            <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 89, backgroundColor: "white", borderRadius: 20, padding: 10, fontSize: 12 }} >
+            {canShow500 && <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 89, backgroundColor: "white", borderRadius: 20, padding: 10, fontSize: 12 }} >
 
                 <div style={{ display: 'flex', flexDirection: "row", justifyContent: "start", alignItems: "center", gap: 10 }}>
-                    <input type="checkbox" checked={isPayed} onChange={(e) => { setIsPayed(e.target.checked) }} style={{ marginTop: -8 }} /> <label><Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> le joueur a payé sa licence</label>
+                    <input type="checkbox" checked={isPayed} onChange={(e) => { setIsPayed(e.target.checked) }} style={{ marginTop: -8 }} /> <label><Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> licence valide</label>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: "row", justifyContent: "start", alignItems: "center", gap: 10 }}>
-                    <input type="checkbox" checked={isNotPayed} onChange={(e) => { setIsNotPayed(e.target.checked) }} style={{ marginTop: -8 }} /> <label><Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} /> le joueur n'a pas payé sa licence</label>
+                    <input type="checkbox" checked={isNotPayed} onChange={(e) => { setIsNotPayed(e.target.checked) }} style={{ marginTop: -8 }} /> <label><Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} /> licence non valide</label>
                 </div>
-
 
                 <div>
-                    <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} /> le joueur est mutee
+                    <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} /> mute
                 </div>
 
-            </div>
+            </div>}
+
 
             <div style={{
                 display: "flex",

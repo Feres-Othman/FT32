@@ -151,60 +151,14 @@ export default function AddMatch() {
     const types = [
         {
             _id: 1,
-            name: "Championnat individuel – phase nationale + TOP 5",
-            isTeam: false
-        },
-        {
-            _id: 2,
-            name: "Championnat individuel – phase régionale ",
+            name: "Championnat individuel",
             isTeam: false
         },
         {
             _id: 10,
             name: "Super Championnat individuel",
             isTeam: false
-        },
-        {
-            _id: 11,
-            name: "Coupe des individuelles",
-            isTeam: false
-        },
-        {
-            _id: 3,
-            name: "Critérium national",
-            isTeam: false
-        },
-        {
-            _id: 4,
-            name: "Critérium régional ",
-            isTeam: false
-        },
-        // {
-        //     _id: 5,
-        //     name: "Championnat par équipe – super div nationale",
-        //     isTeam: true
-        // },
-        // {
-        //     _id: 6,
-        //     name: "Championnat par équipe –div nationale 1 et 2",
-        //     isTeam: true
-        // },
-        // {
-        //     _id: 7,
-        //     name: "Championnat par équipe jeune – phase régionale et inter - régionale",
-        //     isTeam: true
-        // },
-        // {
-        //     _id: 8,
-        //     name: "Championnat par équipe jeune –phase finale ",
-        //     isTeam: true
-        // },
-        // {
-        //     _id: 9,
-        //     name: "Coupe de Tunisie par équipes",
-        //     isTeam: true
-        // },
-
+        }
     ]
 
 
@@ -247,7 +201,7 @@ export default function AddMatch() {
                     //     notifier.success("match ajoutee");
                     //     history.go(0)
                     // }
-                    notifier.success("championat ajoutee");
+                    notifier.success("Classement ajoute");
                     history.push("/");
                 } else {
                     console.log(res)
@@ -412,8 +366,8 @@ export default function AddMatch() {
                 // overflowY: "scroll"
             }} >
 
-                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
-                <DrpDown style={{ width: "30%", minWidth: 450 }} dataset={types} setData={setType} data={type} > Selectionner une type </DrpDown>
+                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={genders} setData={setGender} data={gender} > Selectionner un Genre </DrpDown>
+                <DrpDown style={{ width: "30%", minWidth: 450 }} dataset={types} setData={setType} data={type} > Selectionner une competition </DrpDown>
                 {/* <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown> */}
                 <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
 

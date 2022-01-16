@@ -199,7 +199,9 @@ const banTeam = (req, res, next) => {
 const updateTeam = async (req, res) => {
     console.log("qweqwe", req.body)
     const id = req.params._id;
-    const name = req.body.Nom; console.log(req.params._id)
+    const name = req.body.Nom;
+    const zone = req.body.Zone;
+    console.log(req.params._id)
 
     try {
 
@@ -220,6 +222,7 @@ const updateTeam = async (req, res) => {
             await Team.findOneAndUpdate({ _id: req.params._id }, {
                 $set: {
                     isBanned,
+                    zone,
 
                 }
             });
@@ -251,6 +254,7 @@ const updateTeam = async (req, res) => {
                 await Team.findOneAndUpdate({ _id: req.params._id }, {
                     $set: {
                         name,
+                        zone,
                         isBanned,
 
                     }
