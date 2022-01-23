@@ -107,7 +107,7 @@ export default function Profile() {
                     let zoneB = tempPhase.filter((item) => (item.team.zone === "B")).reduce(reducer, 0);
                     let zoneC = tempPhase.filter((item) => (item.team.zone === "C")).reduce(reducer, 0);
                     let zoneD = tempPhase.filter((item) => (item.team.zone === "D")).reduce(reducer, 0);
-                    // console.log(zoneA);
+                    console.log(zoneA);
                     let tempData = { ...chartData }
                     tempData.datasets[0].data = [zoneA, zoneB, zoneC, zoneD]
                     setChartData(tempData)
