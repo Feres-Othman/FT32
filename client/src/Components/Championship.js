@@ -355,7 +355,7 @@ export default function Profile() {
 
                         </div>
 
-                        <div style={{ width: isSmall ? "70vw" : "20vw" }}>
+                        <div style={{ width: isSmall ? "80vw" : "20vw" }}>
                             <Pie
                                 data={teamChartData}
                                 style={{ width: 500, marginTop: 40 }}
