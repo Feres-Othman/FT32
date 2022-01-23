@@ -81,7 +81,7 @@ export default function Home() {
             backgroundImage: `url(${bg})`,
             gap: 30
         }}>
-            <div style={{ width: '50vw', height: '25vh', backgroundColor: "#333b", borderRadius: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
+            <div style={{ width: isSmall ? '70vw' : '50vw', height: '25vh', backgroundColor: "#333b", borderRadius: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
 
                 <img src={logo} style={{ width: 100 }} />
                 <div style={{ textAlign: 'center', fontSize: 17, fontWeight: 'bolder', color: "#fff" }}>
@@ -91,7 +91,7 @@ export default function Home() {
 
             </div>
 
-            <div style={{ width: '50vw', height: '60vh', backgroundColor: "#333b", borderRadius: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20, overflow: "hidden" }}>
+            <div style={{ width: isSmall ? '70vw' : '50vw', height: '60vh', backgroundColor: "#333b", borderRadius: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 20, overflow: "hidden" }}>
                 <Carousel images={images} hasIndexBoard={false} style={{ height: "100%", width: "100%" }} />
             </div>
 

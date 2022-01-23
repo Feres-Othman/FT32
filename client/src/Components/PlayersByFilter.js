@@ -166,6 +166,21 @@ export default function PlayersByFilter({ canShow500 = true }) {
         }} >{row.lastName}</div>
     );
 
+    const CustomFirstLastName = ({ row }) => (
+        <div>
+            <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
+                history.push(`/player/${row._id}`);
+            }} >{row.firstName} {row.lastName}</div>
+            <div style={{ cursor: "pointer" }} className="hoverScale" >
+
+                {row.isValid ? <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> : <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} />}
+
+
+                {new Date() - new Date(row.changedTeam) < (1000 * 60 * 60 * 24 * 365 * 2) && <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} />}
+            </div>
+        </div>
+    );
+
     const CustomState = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" >
 
@@ -313,6 +328,67 @@ export default function PlayersByFilter({ canShow500 = true }) {
 
     ];
 
+    const columnsSmall = [
+        // {
+        //     name: 'Rang',
+        //     selector: row => row.rang,
+        //     sortable: true,
+        //     center: true,
+        //     maxWidth: '150px',
+        // },
+        {
+            name: 'Num',
+            selector: row => row.number,
+            sortable: true,
+            center: true,
+            maxWidth: '150px',
+        },
+        {
+            name: 'Nom Prenom',
+            selector: row => row.lastName,
+            sortable: true,
+            center: true,
+            cell: row => <CustomFirstLastName row={row} />,
+            maxWidth: '220px',
+        },
+        // {
+        //     name: 'Prenom',
+        //     selector: row => row.firstName,
+        //     sortable: true,
+        //     center: true,
+        //     cell: row => <CustomFirstName row={row} />,
+        //     maxWidth: '220px',
+        // },
+        {
+            name: 'Club',
+            selector: row => row.team.name,
+            sortable: true,
+            center: true,
+            cell: row => <CustomName row={row} />,
+        },
+        {
+            name: 'Categorie',
+            selector: row => row.category.name,
+            sortable: true,
+            center: true,
+            // cell: row => <CustomName row={row} />,
+        },
+        // {
+        //     name: 'Etat',
+        //     selector: row => row.isValid,
+        //     sortable: true,
+        //     center: true,
+        //     cell: row => <CustomState row={row} />,
+        // },
+        // {
+        //     name: 'Points',
+        //     selector: row => row.score,
+        //     sortable: true,
+        //     center: true,
+        // }
+
+    ];
+
     // const data = [
     //     {
     //         id: 1,
@@ -383,7 +459,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
 
     return (
         <>
-            <h1 style={{ textAlign: 'center', marginTop: 60, marginBottom: 20 }} >{sex.toUpperCase() == "M" ? "Homme" : sex.toUpperCase() == "F" ? "Femme" : ""} {category.toUpperCase().includes("TOUT") ? "" : <>: {category.toLowerCase()[0].toUpperCase() + category.toLowerCase().substring(1)}</>}</h1>
+            <h1 style={{ textAlign: 'center', marginTop: 60, marginBottom: 20, height: isSmall ? 0 : 100 }} >{sex.toUpperCase() == "M" ? "Homme" : sex.toUpperCase() == "F" ? "Femme" : ""} {category.toUpperCase().includes("TOUT") ? "" : <>: {category.toLowerCase()[0].toUpperCase() + category.toLowerCase().substring(1)}</>}</h1>
             {isLoggedIn &&
 
                 <Btn
@@ -401,7 +477,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
                     }}>Ajouter un joueur</Btn>
             }
 
-            {canShow500 && <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 89, backgroundColor: "white", borderRadius: 20, padding: 10, fontSize: 12 }} >
+            {canShow500 && <div style={{ position: 'absolute', top: isSmall ? 150 : 30, left: isSmall ? 20 : 100, width: 300, height: 89, backgroundColor: "white", borderRadius: 20, padding: 10, fontSize: 12 }} >
 
                 <div style={{ display: 'flex', flexDirection: "row", justifyContent: "start", alignItems: "center", gap: 10 }}>
                     <input type="checkbox" checked={isPayed} onChange={(e) => { setIsPayed(e.target.checked) }} style={{ marginTop: -8 }} /> <label><Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> licence valide</label>
@@ -427,11 +503,12 @@ export default function PlayersByFilter({ canShow500 = true }) {
                 marginLeft: "5%",
                 textAlign: 'center',
                 overflow: 'hidden',
+                marginTop: (isSmall && canShow500) ? '200px' : '100px'
                 // borderRadius: 20
             }} >
 
                 <DataTable
-                    columns={isLoggedIn ? columnsLoggedIn : columns}
+                    columns={isLoggedIn ? columnsLoggedIn : isSmall ? columnsSmall : columns}
                     data={filteredItems}
                     pagination
                     responsive={true}

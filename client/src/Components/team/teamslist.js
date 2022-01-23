@@ -144,6 +144,17 @@ export default function Teams() {
         return score;
     }
 
+    const CustomState = ({ row }) => (
+        <div style={{ cursor: "pointer" }} className="hoverScale" >
+            {row.players_v2.filter(player => player.category == "615c7c026a276c684c988b61").length} /
+            {row.players_v2.filter(player => player.category == "615c7c036a276c684c988e9e").length} /
+            {row.players_v2.filter(player => player.category == "615c7bfd6a276c684c9884b9").length} /
+            {row.players_v2.filter(player => player.category == "615c7bfe6a276c684c988553").length} /
+            {row.players_v2.filter(player => player.category == "615c7c006a276c684c988858").length} /
+            {row.players_v2.filter(player => player.category == "615c7c006a276c684c988938").length}
+        </div>
+    );
+
     const columnsLoggedIn = [
         {
             name: 'Nom',
@@ -298,6 +309,23 @@ export default function Teams() {
 
     ];
 
+    const columnsSmall = [
+        {
+            name: 'Nom',
+            selector: row => row.name,
+            sortable: true,
+            center: true
+        },
+        {
+            name: 'Composition',
+            selector: row => <CustomState row={row} />,
+            sortable: true,
+            center: true,
+            maxWidth: '160px'
+        }
+
+    ];
+
     // const data = [
     //     {
     //         id: 1,
@@ -320,6 +348,7 @@ export default function Teams() {
     return (
         <>
             <h1 style={{ textAlign: 'center', marginTop: 60, marginBottom: 20 }} >Les Équipes </h1>
+            <h6 style={{ textAlign: 'center', marginTop: 60, marginBottom: 20 }}><strong>La composition:</strong> Poussins / Pupilles / Minimes / Cadets / Juniors / Seniors </h6>
             {isLoggedIn &&
                 <Btn
                     onClick={() => {
@@ -351,7 +380,7 @@ export default function Teams() {
             }} >
 
                 <DataTable
-                    columns={isLoggedIn ? columnsLoggedIn : columns}
+                    columns={isLoggedIn ? columnsLoggedIn : isSmall ? columnsSmall : columns}
                     data={items}
                     pagination
                     paginationComponentOptions={paginationComponentOptions}
