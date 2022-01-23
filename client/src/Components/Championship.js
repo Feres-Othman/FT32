@@ -110,9 +110,9 @@ export default function Profile() {
                     console.log(zoneA);
                     let tempData = { ...chartData }
                     tempData.datasets[0].data = [zoneA, zoneB, zoneC, zoneD]
-                    setChartData(tempData)
+                    setChartData({ ...tempData })
 
-
+                    console.log(tempData);
                     let teams = getTeams(tempPhase)
 
                     let tempTeamData = { ...teamChartData };

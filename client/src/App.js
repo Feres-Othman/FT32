@@ -196,6 +196,12 @@ function App() {
       setRender(true);
 
     }
+
+    else if (location.pathname.includes("/championship")) {
+
+      setRender(true);
+
+    }
     //end public routes
 
     else if (location.pathname.includes("/reset/password")) {
