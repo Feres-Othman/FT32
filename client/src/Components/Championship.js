@@ -13,7 +13,7 @@ import { Doughnut, Line, Pie } from 'react-chartjs-2';
 import DataTable from 'react-data-table-component';
 import profile from '../Medias/avatar.jpg'
 import FilterComponent from './FilterComponent';
-
+import stc from 'string-to-color';
 
 export default function Profile() {
 
@@ -25,41 +25,53 @@ export default function Profile() {
         labels: [
             'Zone A',
             'Zone B',
-            'Zone C'
+            'Zone C',
+            'Zone D'
         ],
         datasets: [{
             label: 'My First Dataset',
-            data: [600, 120, 265],
+            data: [50, 50, 50, 50],
             backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
+                'rgb(255, 205, 86)',
+                'rgb(25, 205, 86)'
+
             ],
             hoverOffset: 4
         }]
     })
 
     const [teamChartData, setTeamChartData] = useState({
-        labels: [
-            'AS',
-            'S-CLUB',
-            'ROB',
-            'GOG',
-            'ASCB'
-        ],
+        labels: [],
         datasets: [{
             label: 'My First Dataset',
-            data: [350, 120, 265, 30, 10],
-            backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)',
-                'rgb(255, 20, 86)',
-                'rgb(25, 205, 86)',
-            ],
+            data: [],
+            backgroundColor: [],
             hoverOffset: 4
         }]
     })
+
+    const doesExist = (id, teams) => {
+        for (const team of teams) {
+            if (team._id == id) {
+                return true;
+            }
+        }
+
+        return false
+    }
+
+    const getTeams = (players) => {
+        let teams = []
+        for (const player of players) {
+            if (!doesExist(player.team._id, teams)) {
+                teams.push(player.team)
+            }
+
+        }
+        return teams;
+    }
 
     const getProducts = async () => {
 
@@ -88,6 +100,28 @@ export default function Profile() {
                         tempPhase[i].total = tempPhase[i].phase1 + tempPhase[i].phase2 + tempPhase[i].phase3;
 
                     }
+
+                    const reducer = (previousValue, currentValue) => previousValue + currentValue.total;
+                    let zoneA = tempPhase.filter((item) => (item.team.zone === "A")).reduce(reducer, 0);
+                    let zoneB = tempPhase.filter((item) => (item.team.zone === "B")).reduce(reducer, 0);
+                    let zoneC = tempPhase.filter((item) => (item.team.zone === "C")).reduce(reducer, 0);
+                    let zoneD = tempPhase.filter((item) => (item.team.zone === "D")).reduce(reducer, 0);
+                    // console.log(zoneA);
+                    let tempData = { ...chartData }
+                    tempData.datasets[0].data = [zoneA, zoneB, zoneC, zoneD]
+                    setChartData(tempData)
+
+
+                    let teams = getTeams(tempPhase)
+
+                    let tempTeamData = { ...teamChartData };
+
+                    tempTeamData.labels = teams.map(item => item.name)
+                    tempTeamData.datasets[0].backgroundColor = teams.map(item => stc(item._id))
+
+                    tempTeamData.datasets[0].data = teams.map(team => tempPhase.filter((item) => (item.team._id === team._id)).reduce(reducer, 0))
+
+                    setTeamChartData(tempTeamData)
 
 
                     let tempPhaseSorted = tempPhase.sort((firstEl, secondEl) => {
@@ -155,7 +189,7 @@ export default function Profile() {
 
     const getIndex = (phase, id) => {
         // console.log(phase)
-        if(!phase) return Infinity;
+        if (!phase) return Infinity;
         let i = 0
         for (const element of phase) {
             if (element._id == id) {
