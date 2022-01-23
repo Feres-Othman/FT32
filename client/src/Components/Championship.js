@@ -343,6 +343,7 @@ export default function Profile() {
                     <div style={{ display: 'flex', flexDirection: isSmall ? "column" : "row", justifyContent: "space-around", alignItems: "center", marginBottom: 50 }}>
                         <div style={{ width: isSmall ? "70vw" : "20vw" }}>
                             <Doughnut
+                                key={Math.random()}
                                 data={chartData}
                                 style={{ width: 500, marginTop: 40 }}
                                 options={{
@@ -357,6 +358,7 @@ export default function Profile() {
 
                         <div style={{ width: isSmall ? "80vw" : "20vw" }}>
                             <Pie
+                                key={Math.random()}
                                 data={teamChartData}
                                 style={{ width: 500, marginTop: 40 }}
                                 options={{
