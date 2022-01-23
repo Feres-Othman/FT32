@@ -96,6 +96,7 @@ export default function Players({ canShow500 = true }) {
             // overflowY: "scroll"
         }} >
 
+
             <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
             <br />
             <DrpDown dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
@@ -112,7 +113,7 @@ export default function Players({ canShow500 = true }) {
                 }
 
                 history.push(!canShow500 ? `/indiv/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}` : `/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}`);
-            }} style={{ width: 400 }}>Valider</Btn>
+            }} style={{ width: isSmall ? 300 : 400 }}>Valider</Btn>
 
         </div >
     )

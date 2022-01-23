@@ -20,6 +20,7 @@ export default function Profile() {
     const { id } = useParams();
     let history = useHistory();
     const [championship, setChampionship] = useStateWithCallbackLazy({})
+    const { isMedium, isSmall, isLarge, notifier, isLoggedIn } = useContext(RContext)
 
     const [chartData, setChartData] = useState({
         labels: [
@@ -155,7 +156,7 @@ export default function Profile() {
 
     const getIndex = (phase, id) => {
         // console.log(phase)
-        if(!phase) return Infinity;
+        if (!phase) return Infinity;
         let i = 0
         for (const element of phase) {
             if (element._id == id) {
@@ -305,8 +306,8 @@ export default function Profile() {
                 <div style={{ width: "80%", marginLeft: "10%", display: "flex", flexDirection: "column", justifyContent: "left", alignItems: 'left', marginTop: 40, marginBottom: 40 }}>
                     <div style={{ fontSize: 20, fontWeight: "bold", marginBottom: 40, textAlign: 'center', width: "100%" }} >Classement</div>
 
-                    <div style={{ display: 'flex', flexDirection: "row", justifyContent: "space-around", alignItems: "center", marginBottom: 50 }}>
-                        <div style={{ width: "20vw" }}>
+                    <div style={{ display: 'flex', flexDirection: isSmall ? "column" : "row", justifyContent: "space-around", alignItems: "center", marginBottom: 50 }}>
+                        <div style={{ width: isSmall ? "70vw" : "20vw" }}>
                             <Doughnut
                                 data={chartData}
                                 style={{ width: 500, marginTop: 40 }}
@@ -318,10 +319,9 @@ export default function Profile() {
                                 }}
                             />
 
-
                         </div>
 
-                        <div style={{ width: "20vw" }}>
+                        <div style={{ width: isSmall ? "70vw" : "20vw" }}>
                             <Pie
                                 data={teamChartData}
                                 style={{ width: 500, marginTop: 40 }}
@@ -333,8 +333,8 @@ export default function Profile() {
                                 }}
                             />
 
-
                         </div>
+
                     </div>
 
                     <DataTable
