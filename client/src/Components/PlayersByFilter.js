@@ -13,7 +13,8 @@ import { useDispatch } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import { deleteJouer } from "./actions/ajouterunjouer"
 import FilterComponent from './FilterComponent';
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Bars } from 'react-loader-spinner'
 
 export default function PlayersByFilter({ canShow500 = true }) {
 
@@ -351,14 +352,15 @@ export default function PlayersByFilter({ canShow500 = true }) {
             cell: row => <CustomFirstLastName row={row} />,
             maxWidth: '220px',
         },
-        // {
-        //     name: 'Prenom',
-        //     selector: row => row.firstName,
-        //     sortable: true,
-        //     center: true,
-        //     cell: row => <CustomFirstName row={row} />,
-        //     maxWidth: '220px',
-        // },
+        ...[!canShow500 ?
+            {
+                name: 'Points',
+                selector: row => row.score,
+                sortable: true,
+                center: true,
+            } :
+            { width: '0px' }
+        ],
         {
             name: 'Club',
             selector: row => row.team.name,
@@ -523,8 +525,13 @@ export default function PlayersByFilter({ canShow500 = true }) {
                     // fixedHeaderScrollHeight={"70vh"}
                     paginationRowsPerPageOptions={[10, 20, 30, 70, 100, 300]}
                     noDataComponent={
-                        <div style={{ padding: 30, fontSize: 17 }}>
-                            il n'y a pas encore de joueurs à afficher
+                        <div style={{ padding: 30, fontSize: 17, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center' }}>
+                            Veuillez patienter pendant que nous apportons les données souhaitées
+                            <Bars
+                                heigth="100"
+                                width="100"
+                                color='grey'
+                            />
                         </div>
                     }
                 />

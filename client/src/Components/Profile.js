@@ -12,7 +12,8 @@ import { useHistory } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import DataTable from 'react-data-table-component';
 import profile from '../Medias/avatar.jpg'
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Bars } from 'react-loader-spinner'
 
 export default function Profile() {
 
@@ -425,8 +426,13 @@ export default function Profile() {
                                     noHeader
                                     paginationComponentOptions={paginationComponentOptions}
                                     noDataComponent={
-                                        <div style={{ padding: 30, fontSize: 17 }}>
-                                            il n'y a pas encore de joueurs à afficher
+                                        <div style={{ padding: 30, fontSize: 17, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center' }}>
+                                            Veuillez patienter pendant que nous apportons les données souhaitées
+                                            <Bars
+                                                heigth="100"
+                                                width="100"
+                                                color='grey'
+                                            />
                                         </div>
                                     }
                                 />
@@ -464,8 +470,13 @@ export default function Profile() {
                                     pagination
                                     paginationComponentOptions={paginationComponentOptions}
                                     noDataComponent={
-                                        <div style={{ padding: 30, fontSize: 17 }}>
-                                            il n'y a pas encore de joueurs à afficher
+                                        <div style={{ padding: 30, fontSize: 17, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center' }}>
+                                            Veuillez patienter pendant que nous apportons les données souhaitées
+                                            <Bars
+                                                heigth="100"
+                                                width="100"
+                                                color='grey'
+                                            />
                                         </div>
                                     }
                                 />
@@ -485,8 +496,13 @@ export default function Profile() {
                             pagination
                             paginationComponentOptions={paginationComponentOptions}
                             noDataComponent={
-                                <div style={{ padding: 30, fontSize: 17 }}>
-                                    il n'y a pas encore de matches à afficher
+                                <div style={{ padding: 30, fontSize: 17, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center' }}>
+                                    Veuillez patienter pendant que nous apportons les données souhaitées
+                                    <Bars
+                                        heigth="100"
+                                        width="100"
+                                        color='grey'
+                                    />
                                 </div>
                             }
                             defaultSortFieldId="date"

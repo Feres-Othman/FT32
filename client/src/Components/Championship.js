@@ -14,7 +14,8 @@ import DataTable from 'react-data-table-component';
 import profile from '../Medias/avatar.jpg'
 import FilterComponent from './FilterComponent';
 import stc from 'string-to-color';
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Bars } from 'react-loader-spinner'
 export default function Profile() {
 
     const { id } = useParams();
@@ -389,8 +390,13 @@ export default function Profile() {
                         // fixedHeaderScrollHeight={"70vh"}
                         paginationRowsPerPageOptions={[10, 20, 30, 70, 100, 300]}
                         noDataComponent={
-                            <div style={{ padding: 30, fontSize: 17 }}>
-                                il n'y a pas encore de joueurs à afficher
+                            <div style={{ padding: 30, fontSize: 17, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center' }}>
+                                Veuillez patienter pendant que nous apportons les données souhaitées
+                                <Bars
+                                    heigth="100"
+                                    width="100"
+                                    color='grey'
+                                />
                             </div>
                         }
                     // defaultSortFieldId="Total"

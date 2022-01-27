@@ -400,7 +400,7 @@ const Updatejouer = () => {
                 <div>
                     <Row>
 
-                        <Col><DrpDown name="sex" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>
+                        <Col><DrpDown name="sex" handleChange={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner un Genre </DrpDown></Col>
 
 
                         <Col>
@@ -423,7 +423,7 @@ const Updatejouer = () => {
                     <br />
                 </div>
                 <h4 style={{ textAlign: 'left' }}>le joueur a payé: </h4>
-                <DrpDown name="isValid" handleChange={handleChange} style={{ width: "400px", zIndex: 5 }} dataset={isvalids} setData={setIsValid} data={isValid} > Selectionner une Genre </DrpDown>
+                <DrpDown name="isValid" handleChange={handleChange} style={{ width: "400px", zIndex: 5 }} dataset={isvalids} setData={setIsValid} data={isValid} > Selectionner un Genre </DrpDown>
                 <br />
 
                 <br />

@@ -348,7 +348,7 @@ export default function AddMatch() {
                 // overflowY: "scroll"
             }} >
 
-                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
+                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={genders} setData={setGender} data={gender} > Selectionner un Genre </DrpDown>
                 <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={coefTypes} setData={setCoefType} data={coefType} > Selectionner une type </DrpDown>
                 {/* <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown> */}
                 <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>

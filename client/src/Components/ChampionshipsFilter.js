@@ -98,7 +98,7 @@ export default function Players() {
 
             <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
             <br />
-            <DrpDown dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown>
+            <DrpDown dataset={genders} setData={setGender} data={gender} > Selectionner un Genre </DrpDown>
             <br />
             <Btn onClick={() => {
                 if (gender._id == undefined) {

@@ -315,7 +315,7 @@ const Ajoutjouer = () => {
                 <div>
                     <Row>
 
-                        <Col><DrpDown name="Gender" handleChangeEvent={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner une Genre </DrpDown></Col>
+                        <Col><DrpDown name="Gender" handleChangeEvent={handleChange} style={{ width: "200px", zIndex: 5 }} dataset={genders} setData={setGender} data={gender} > Selectionner un Genre </DrpDown></Col>
 
 
                         <Col>
