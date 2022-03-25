@@ -13066,6 +13066,44 @@ const addChampionship = async (req, res, next) => {
   return;
 }
 
+
+const editChampionship = async (req, res, next) => {
+
+
+  const players1 = req.body.players1;
+  const players2 = req.body.players2;
+  const players3 = req.body.players3;
+  const players4 = req.body.players4;
+  const players5 = req.body.players5;
+  const players6 = req.body.players6;
+  const players7 = req.body.players7;
+  const players8 = req.body.players8;
+
+
+  let championship = await Championship.findOneAndUpdate({ _id: req.body._id }, {
+    phase1: [...players1[0], ...players2[0], ...players3[0], ...players4[0], ...players5[0], ...players6[0], ...players7[0], ...players8[0]],
+    phase2: [...players1[1], ...players2[1], ...players3[1], ...players4[1], ...players5[1], ...players6[1], ...players7[1], ...players8[1]],
+    phase3: [...players1[2], ...players2[2], ...players3[2], ...players4[2], ...players5[2], ...players6[2], ...players7[2], ...players8[2]]
+  })
+
+  // category: category,
+  // type: type,
+  // gender: gender,
+  // phase1: [...players1[0], ...players2[0], ...players3[0], ...players4[0], ...players5[0], ...players6[0], ...players7[0], ...players8[0]],
+  // phase2: [...players1[1], ...players2[1], ...players3[1], ...players4[1], ...players5[1], ...players6[1], ...players7[1], ...players8[1]],
+  // phase3: [...players1[2], ...players2[2], ...players3[2], ...players4[2], ...players5[2], ...players6[2], ...players7[2], ...players8[2]]
+
+
+  // championship.save();
+
+  res.json({
+    success: true,
+    // newMatch: newMatch
+  })
+
+  return;
+}
+
 const readChampionships = async (req, res, next) => {
 
   try {
@@ -13235,4 +13273,5 @@ module.exports = {
   readChampionships,
   readChampionship,
   deleteChampionship,
+  editChampionship
 }

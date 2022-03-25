@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { RContext } from '../RContext'
 
-export default function DrpDown({ name, dataset, data, value, handleChange, setData, children, label, style = null }) {
+export default function DrpDown({ name, dataset, data, value, handleChange, setData, children, label, style = null, disabled = false }) {
 
     const { isMedium, isSmall, isLarge, notifier } = useContext(RContext)
     return (
@@ -10,9 +10,9 @@ export default function DrpDown({ name, dataset, data, value, handleChange, setD
             {label ?
                 <div style={{ display: 'flex', flexDirection: isSmall ? 'column' : 'row', justifyContent: 'space-between', alignItems: isSmall ? '' : 'center' }}>
                     <div style={{ fontSize: isSmall ? 13 : 15 }}>{label}</div>
-                    <Dropdown name={name} onChange={handleChange} value={value} style={{ width: "100%" }}>
+                    <Dropdown disabled={disabled} name={name} onChange={handleChange} value={value} style={{ width: "100%" }}>
 
-                        <Dropdown.Toggle variant="success" variant="Primary"
+                        <Dropdown.Toggle disabled={disabled} variant="success" variant="Primary"
                             style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
                             {data.name || children}
                         </Dropdown.Toggle>
@@ -32,9 +32,9 @@ export default function DrpDown({ name, dataset, data, value, handleChange, setD
                     </Dropdown>
                 </div> :
                 <div style={{ display: 'flex', flexDirection: isSmall ? 'column' : 'row', justifyContent: 'space-between', alignItems: isSmall ? '' : 'center' }}>
-                    <Dropdown name={name} onChange={handleChange} value={value} style={{ width: isSmall ? 300 : 400, ...style }}>
+                    <Dropdown disabled={disabled} name={name} onChange={handleChange} value={value} style={{ width: isSmall ? 300 : 400, ...style }}>
 
-                        <Dropdown.Toggle variant="success" variant="Primary"
+                        <Dropdown.Toggle disabled={disabled} variant="success" variant="Primary"
                             style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: isSmall ? 300 : 400, ...style }}>
                             {(data.name?.length > 0 ? ((data.name.toLowerCase())[0].toUpperCase() + (data.name.toLowerCase()).substring(1)) : "") || children}
                         </Dropdown.Toggle>

@@ -59,7 +59,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
 
     const handleUpdate = (e, _id) => {
         e.preventDefault();
-        history.push(`/updatejoueur/${_id}`);
+        history.push(`/classement/indiv/edit/${_id}`);
     }
 
     const getProducts = async () => {

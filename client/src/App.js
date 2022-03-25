@@ -35,6 +35,7 @@ import { slide as Menu } from 'react-burger-menu'
 import AddMatch from './Components/AddMatch';
 import AddBonus from './Components/AddBonus';
 import AddClassement from './Components/AddClassement';
+import EditClassement from './Components/EditClassement';
 import Teams from './Components/team/teamslist';
 import Championships from './Components/championships';
 import Championship from './Components/Championship';
@@ -426,6 +427,10 @@ function App() {
 
                     <Route path="/players" >
                       <Players />
+                    </Route>
+
+                    <Route path="/classement/indiv/edit/:id" >
+                      <EditClassement />
                     </Route>
 
                     <Route path="/classement/indiv/add" >
