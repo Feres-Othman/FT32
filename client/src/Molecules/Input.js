@@ -9,7 +9,7 @@ export default function Input({ name, label, type = "text", placeholder, value, 
 
     return (
         <div style={{ display: 'flex', flexDirection: isSmall ? 'column' : 'row', justifyContent: 'space-between', alignItems: isSmall ? '' : 'center', alignContent: 'right' }}>
-            <div style={{ fontSize: isSmall ? 13 : 15 }}>{label}</div>
+            <div style={{ fontSize: isSmall ? 13 : 15, marginRight: 15 }}>{label}</div>
             <br />
             <input
                 name={name}

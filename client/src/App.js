@@ -43,6 +43,9 @@ import ChampionshipsFilter from './Components/ChampionshipsFilter';
 
 import logo from './Atoms/logo.png';
 import Profile from './Components/Profile';
+import Leagues from './Components/team/league/Leagues';
+import League from './Components/team/league/League';
+import AddLeague from './Components/team/league/AddLeague';
 
 
 
@@ -312,6 +315,7 @@ function App() {
                       <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/classement/indiv">RANKING FTTT</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/teams">EQUIPES</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/championships/x/tout">CHAMPIONATS INDIV</NavLink>
+                      <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/leagues">CHAMPIONATS</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/help">COMMENT CA MARCHE</NavLink>
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/match/add">AJOUTER UN MATCH</NavLink>}
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/bonus/add">AJOUTER BONUS INDIV</NavLink>}
@@ -473,6 +477,17 @@ function App() {
                       <AddBonus />
                     </Route>
 
+                    <Route path="/leagues" >
+                      <Leagues />
+                    </Route>
+
+                    <Route path="/league/add" >
+                      <AddLeague />
+                    </Route>
+
+                    <Route path="/league/:id" >
+                      <League />
+                    </Route>
 
 
                     {/* <Route path="/user/view" >

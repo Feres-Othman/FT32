@@ -10,6 +10,7 @@ const mongoose = require('mongoose')
 
 const UserRouter = require('./routes/UserRouter')
 const PlayerRouter = require('./routes/PlayerRouter')
+const LeagueRouter = require('./routes/LeagueRouter')
 const CategoryRouter = require('./routes/CategoryRouter')
 const TeamRouter = require('./routes/TeamRouter')
 const MatchRouter = require('./routes/MatchRouter')
@@ -49,6 +50,7 @@ const connect = mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost
 app.use('/api/user', UserRouter)
 app.use('/api/match', MatchRouter)
 app.use('/api/player', PlayerRouter)
+app.use('/api/league', LeagueRouter)
 app.use('/api/category', CategoryRouter)
 app.use('/api/team', TeamRouter)
 
