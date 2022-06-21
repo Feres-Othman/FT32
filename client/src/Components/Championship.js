@@ -16,7 +16,37 @@ import FilterComponent from './FilterComponent';
 import stc from 'string-to-color';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Bars } from 'react-loader-spinner'
+import { faExpeditedssl } from '@fortawesome/free-brands-svg-icons';
 export default function Profile() {
+
+
+    const itemExist = (array, id) => {
+        for (const item of array) {
+            if (item._id === id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    const strictMerge = (array1, array2, array3) => {
+        //merge 3 arrays without repetition
+        let tempArray = [...array1]
+        for (const item of array2) {
+            if (!itemExist(tempArray, item._id)) {
+                tempArray.push(item)
+            }
+        }
+
+        for (const item of array3) {
+            if (!itemExist(tempArray, item._id)) {
+                tempArray.push(item)
+            }
+        }
+
+        return tempArray
+    }
 
     const { id } = useParams();
     let history = useHistory();
@@ -92,7 +122,8 @@ export default function Profile() {
                     console.log(res)
 
 
-                    let tempPhase = res.championship.phase1;
+                    let tempPhase = strictMerge(res.championship.phase1, res.championship.phase2, res.championship.phase3);
+                    console.log(tempPhase)
 
                     for (const i in tempPhase) {
 
