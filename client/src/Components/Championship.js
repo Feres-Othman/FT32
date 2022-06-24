@@ -33,6 +33,10 @@ export default function Profile() {
     const strictMerge = (array1, array2, array3) => {
         //merge 3 arrays without repetition
         let tempArray = [...array1]
+        while (tempArray.length < 32) tempArray.push({});
+
+        console.log([...tempArray])
+
         for (const item of array2) {
             if (!itemExist(tempArray, item._id)) {
                 tempArray.push(item)
@@ -126,13 +130,15 @@ export default function Profile() {
                     console.log(tempPhase)
 
                     for (const i in tempPhase) {
-
+                        if (!tempPhase[i]._id) continue;
                         tempPhase[i].phase1 = getScoreFronIndex(i);
                         tempPhase[i].phase2 = getScoreFronIndex(getIndex(res.championship.phase2, tempPhase[i]._id));
                         tempPhase[i].phase3 = getScoreFronIndex(getIndex(res.championship.phase3, tempPhase[i]._id));
                         tempPhase[i].total = tempPhase[i].phase1 + tempPhase[i].phase2 + tempPhase[i].phase3;
 
                     }
+
+                    tempPhase = tempPhase.filter(item => item._id)
 
                     const reducer = (previousValue, currentValue) => previousValue + currentValue.total;
                     let zoneA = tempPhase.filter((item) => (item.team.zone === "A")).reduce(reducer, 0);
@@ -244,7 +250,7 @@ export default function Profile() {
         } else if (index == 2) {
             return 84
         } else if (index == 3) {
-            return 76
+            return 78
         } else if (index >= 4 && index <= 7) {
             return 65
         } else if (index >= 8 && index <= 15) {
