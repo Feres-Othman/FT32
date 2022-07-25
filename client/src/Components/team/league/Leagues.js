@@ -269,6 +269,7 @@ export default function Leagues({ }) {
                         display: "flex",
                         justifyContent: "start",
                         alignItems: "start",
+                        marginTop: "40px",
                         marginRight: "5%",
                         marginBottom: "20px",
                         textAlign: 'center',
