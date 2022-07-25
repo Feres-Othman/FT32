@@ -24,11 +24,17 @@ export default function AddMatch() {
 
 
     const [categories, setCategories] = useState([])
+
+    const [calendars, setCalendars] = useState([])
+
     const [selectedCategories, setSelectedCategories] = useState([])
+
+    const [selectedCalendar, setSelectedCalendar] = useState({})
+
     const [category, setCategory] = useState({})
     const [phaseNumber, setPhaseNumber] = useState(0)
 
-    const [poolNumber, setPoolNumber] = useState(3)
+    const [poolNumber, setPoolNumber] = useState(0)
 
     const [teams, setTeams] = useState([])
     const [pools, setPools] = useState([])
@@ -68,6 +74,41 @@ export default function AddMatch() {
 
     useEffect(() => {
         getCategories();
+    }, [])
+
+    const getCalendars = async () => {
+
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
+        axios.post("/api/calendar/read/all", {}, config)
+            .then((response) => {
+                let res = response.data;
+                if (res.success) {
+                    console.log(res)
+
+
+
+                    setCalendars(res.calendars);
+
+
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
+
+    useEffect(() => {
+        getCalendars();
     }, [])
 
 
@@ -184,175 +225,79 @@ export default function AddMatch() {
     const submit = async (isTeam) => {
 
 
-        // var session = Ls.getObject('session', { 'isLoggedIn': false });
-        // let config = {
-        //     headers: {
-        //         "auth-token": session.token,
-        //     }
-        // }
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
 
-        // let content = {
-        //     category: category._id,
-        //     type: type,
-        //     gender: gender._id,
-        //     players1: [[...players1[0].map(item => item._id)], [...players1[1].map(item => item._id)], [...players1[2].map(item => item._id)]],
-        //     players2: [[...players2[0].map(item => item._id)], [...players2[1].map(item => item._id)], [...players2[2].map(item => item._id)]],
-        //     players3: [[...players3[0].map(item => item._id)], [...players3[1].map(item => item._id)], [...players3[2].map(item => item._id)]],
-        //     players4: [[...players4[0].map(item => item._id)], [...players4[1].map(item => item._id)], [...players4[2].map(item => item._id)]],
-        //     players5: [[...players5[0].map(item => item._id)], [...players5[1].map(item => item._id)], [...players5[2].map(item => item._id)]],
-        //     players6: [[...players6[0].map(item => item._id)], [...players6[1].map(item => item._id)], [...players6[2].map(item => item._id)]],
-        //     players7: [[...players7[0].map(item => item._id)], [...players7[1].map(item => item._id)], [...players7[2].map(item => item._id)]],
-        //     players8: [[...players8[0].map(item => item._id)], [...players8[1].map(item => item._id)], [...players8[2].map(item => item._id)]],
+        let content = {
+            category: category._id,
+            type: type,
+            gender: gender._id,
+            pools: pools,
+            calendar: selectedCalendar
 
-        // }
+        }
 
-        // axios.post("/api/player/championship", content, config)
-        //     .then((response) => {
-        //         let res = response.data;
-        //         if (res.success) {
+        axios.post("/api/league/add", content, config)
+            .then((response) => {
+                let res = response.data;
+                if (res.success) {
 
-        //             // if (isTeam) {
-        //             //     notifier.success("match ajoutee");
-        //             //     history.push("/");
-        //             // } else {
-        //             //     notifier.success("match ajoutee");
-        //             //     history.go(0)
-        //             // }
-        //             notifier.success("Classement ajoute");
-        //             history.push("/");
-        //         } else {
-        //             console.log(res)
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+                    // if (isTeam) {
+                    //     notifier.success("match ajoutee");
+                    //     history.push("/");
+                    // } else {
+                    //     notifier.success("match ajoutee");
+                    //     history.go(0)
+                    // }
+                    notifier.success("Classement ajoute");
+                    history.push("/");
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     }
 
-
-
-    const setPlayers = (setPlayersNumber, playersNumber, item) => {
-
-        // let tempPlayers = [...playersNumber];
-
-        // tempPlayers[phaseNumber] = [...playersNumber[phaseNumber], item]
-
-        // setPlayersNumber([...tempPlayers])
-
-    }
 
     const addToList = (item, index) => {
 
-        // if (index == 0) {
+        let tempPools = [...pools];
 
+        tempPools[index].teams = [...pools[index].teams,
+        {
+            _id: item._id,
+            name: item.name,
+            points: 0,
+            played: 0,
+            won: 0,
+            forfit: 0,
+            lost: 0,
+            p: 0,
+            c: 0,
+            scoreChange: 0
+        }]
 
-        //     if (players1[phaseNumber].length >= 1) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     // setPlayers1([...players1, item])
-        //     setPlayers(setPlayers1, players1, item)
-
-
-        // } else if (index == 1) {
-
-
-        //     if (players2[phaseNumber].length >= 1) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     setPlayers(setPlayers2, players2, item)
-
-        // } else if (index == 2) {
-
-
-        //     if (players3[phaseNumber].length >= 1) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     setPlayers(setPlayers3, players3, item)
-
-        // } else if (index == 3) {
-
-
-        //     if (players4[phaseNumber].length >= 1) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     setPlayers(setPlayers4, players4, item)
-
-        // } else if (index == 4) {
-
-
-        //     if (players5[phaseNumber].length >= 4) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     setPlayers(setPlayers5, players5, item)
-
-        // } else if (index == 5) {
-
-
-        //     if (players6[phaseNumber].length >= 8) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     setPlayers(setPlayers6, players6, item)
-
-        // } else if (index == 6) {
-
-
-        //     if (players7[phaseNumber].length >= 8) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     setPlayers(setPlayers7, players7, item)
-
-        // } else if (index == 7) {
-
-
-        //     if (players8[phaseNumber].length >= 8) {
-        //         notifier.info("ce niveau a atteint son max de joueurs");
-        //         return;
-        //     }
-        //     setPlayers(setPlayers8, players8, item)
-
-        // }
-
+        setPools([...tempPools])
 
     }
 
 
-    const removePlayers = (setPlayersNumber, playersNumber, item) => {
-
-        // let tempPlayers = [...playersNumber];
-
-        // tempPlayers[phaseNumber] = [...tempPlayers[phaseNumber].filter(player => player._id != item._id)]
-
-        // setPlayersNumber([...tempPlayers])
-
-    }
 
     const removeFromList = (item, index) => {
 
-        // if (index == 0) {
-        //     removePlayers(setPlayers1, players1, item)
-        // } else if (index == 1) {
-        //     removePlayers(setPlayers2, players2, item)
-        // } else if (index == 2) {
-        //     removePlayers(setPlayers3, players3, item)
-        // } else if (index == 3) {
-        //     removePlayers(setPlayers4, players4, item)
-        // } else if (index == 4) {
-        //     removePlayers(setPlayers5, players5, item)
-        // } else if (index == 5) {
-        //     removePlayers(setPlayers6, players6, item)
-        // } else if (index == 6) {
-        //     removePlayers(setPlayers7, players7, item)
-        // } else if (index == 7) {
-        //     removePlayers(setPlayers8, players8, item)
-        // }
+        let tempPools = [...pools];
+
+        tempPools[index].teams = [...tempPools[index].teams.filter(team => team._id != item._id)]
+
+        setPools([...tempPools])
+
 
 
     }
@@ -379,127 +324,40 @@ export default function AddMatch() {
                 <DrpDown style={{ width: "30%", minWidth: 450 }} dataset={types} setData={setType} data={type} > Selectionner une competition </DrpDown>
                 {/* <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown> */}
                 <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
+                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={calendars.map(ev => { return { ...ev, name: ev.name + " - " + new Date(ev.startDate).toLocaleDateString("fr-FR") } })} setData={setSelectedCalendar} data={selectedCalendar} > Selectionner un événement </DrpDown>
                 <Input handleChange={(value) => {
-                    setPoolNumber(parseInt(value));
-                    setPools(Array(poolNumber).fill({
-                        name: "Poule A",
-                        teams: [
-                            {
-                                name: "AchS",
-                                points: 12,
-                                played: 6,
-                                won: 4,
-                                forfit: 0,
-                                lost: 2,
-                                p: 18,
-                                c: 10,
-                                scoreChange: 8
-                            },
-                            {
-                                name: "Ars",
-                                points: 11,
-                                played: 6,
-                                won: 3,
-                                forfit: 2,
-                                lost: 1,
-                                p: 13,
-                                c: 8,
-                                scoreChange: 5
-                            },
-                            {
-                                name: "Ams",
-                                points: 7,
-                                played: 6,
-                                won: 2,
-                                forfit: 1,
-                                lost: 3,
-                                p: 15,
-                                c: 14,
-                                scoreChange: 1
-                            },
-                            {
-                                name: "As",
-                                points: 4,
-                                played: 6,
-                                won: 1,
-                                forfit: 1,
-                                lost: 4,
-                                p: 6,
-                                c: 20,
-                                scoreChange: -14
-                            }
-                        ],
-                        days: [
-                            {
-                                date: "15 sep",
-                                matches: [
-                                    {
-                                        team1: "AchS",
-                                        team2: "Ams",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    },
-                                    {
-                                        team1: "As",
-                                        team2: "Ars",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    }
+                    value = parseInt(value)
+
+                    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+                    setPoolNumber(value);
+                    let temp = [...pools];
+                    if (value > temp.length) {
+                        for (let index = temp.length; index < value; index++) {
+                            temp.push({
+                                name: "Poule " + alphabet[index],
+                                teams: [
+                                    // {
+                                    //     name: "AchS",
+                                    //     points: 12,
+                                    //     played: 6,
+                                    //     won: 4,
+                                    //     forfit: 0,
+                                    //     lost: 2,
+                                    //     p: 18,
+                                    //     c: 10,
+                                    //     scoreChange: 8
+                                    // }
+
                                 ]
-                            },
-                            {
-                                date: "28 sep",
-                                matches: [
-                                    {
-                                        team1: "AchS",
-                                        team2: "Ams",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    },
-                                    {
-                                        team1: "As",
-                                        team2: "Ars",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    }
-                                ]
-                            },
-                            {
-                                date: "19 oct",
-                                matches: [
-                                    {
-                                        team1: "AchS",
-                                        team2: "Ams",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    },
-                                    {
-                                        team1: "As",
-                                        team2: "Ars",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    }
-                                ]
-                            },
-                            {
-                                date: "3 nov",
-                                matches: [
-                                    {
-                                        team1: "AchS",
-                                        team2: "Ams",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    },
-                                    {
-                                        team1: "As",
-                                        team2: "Ars",
-                                        team1Score: 6,
-                                        team2Score: 3,
-                                    }
-                                ]
-                            }
-                        ]
-                    }))
+                            })
+                        }
+                    } else {
+                        for (let index = temp.length - 1; index >= value; index--) {
+                            temp.pop()
+                        }
+                    }
+                    setPools(temp)
                 }} value={poolNumber} name="poolNumber" label="Nombre des poules" type="number" width="200px" min="3" max="40" />
 
             </div >

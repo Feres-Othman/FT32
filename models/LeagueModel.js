@@ -6,16 +6,9 @@ const LeagueSchema = new Schema(
     {
         type: { type: Object },
         category: { type: mongoose.Types.ObjectId, ref: 'Category' },
+        calendar: { type: mongoose.Types.ObjectId, ref: 'Calendar' },
         gender: { type: String },
-        phase1: {
-            type: [{ type: mongoose.Types.ObjectId, ref: 'Player' }],
-        },
-        phase2: {
-            type: [{ type: mongoose.Types.ObjectId, ref: 'Player' }],
-        },
-        phase3: {
-            type: [{ type: mongoose.Types.ObjectId, ref: 'Player' }],
-        }
+        pools: { type: Array }
     },
     {
         timestamps: true, toJSON: { virtuals: true }

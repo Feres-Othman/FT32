@@ -10,7 +10,7 @@ import Btn from '../../../Molecules/Btn'
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import DataTable from 'react-data-table-component';
-import { deleteChampionship } from "../../actions/ajouterunjouer"
+import { deleteLeague } from "../../actions/ajouterunjouer"
 import FilterComponent from '../../FilterComponent';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Bars } from 'react-loader-spinner'
@@ -42,7 +42,7 @@ export default function Leagues({ }) {
                     }
                 }
 
-                dispatch(deleteChampionship(_id, config)); history.go(0)
+                dispatch(deleteLeague(_id, config)); history.go(0)
             },
             () => { },
             {
@@ -101,9 +101,9 @@ export default function Leagues({ }) {
 
     const CustomTitle = ({ row }) => (
         <div>
-            <Btn onClick={e => handleUpdate(e, row._id)} style={{ margin: "10px" }}>
+            {/* <Btn onClick={e => handleUpdate(e, row._id)} style={{ margin: "10px" }}>
                 {true ? <Icon icon={faEdit} className="hoverScale" size="sm" /> : "mettre à jour"}
-            </Btn>
+            </Btn> */}
             <Btn onClick={e => handleDelete(e, row._id)} style={{ backgroundColor: "red", margin: "10px" }}>
                 {true ? <Icon icon={faTrash} className="hoverScale" size="sm" /> : "Supprimer"}
             </Btn>
@@ -114,7 +114,7 @@ export default function Leagues({ }) {
     const CustomFirstName = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
             history.push(`/league/${row._id}`);
-        }} >{row.type.name}</div>
+        }} >{row.calendar.name + " - " + new Date(row.calendar.startDate).toLocaleDateString("fr-FR")}</div>
     );
 
 
@@ -132,7 +132,7 @@ export default function Leagues({ }) {
 
     const columnsLoggedIn = [
         {
-            name: 'type',
+            name: 'Nom',
             selector: row => row.type._id,
             sortable: true,
             center: true,

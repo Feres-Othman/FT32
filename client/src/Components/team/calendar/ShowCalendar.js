@@ -18,6 +18,7 @@ import { Bars } from 'react-loader-spinner'
 
 import Calendar from 'rc-year-calendar';
 import 'rc-year-calendar/locales/rc-year-calendar.fr';
+import { Update } from '../../../api';
 
 export default function ShowCalendar({ }) {
 
@@ -43,85 +44,86 @@ export default function ShowCalendar({ }) {
             }
         }
 
-        axios.post("/api/league/read/all", { sex: "X", category: "Tout" }, config)
+        axios.post("/api/calendar/read/all", { sex: "X", category: "Tout" }, config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {
                     console.log(res)
 
-                    let leagues = res.leagues;
+                    let calendars = res.calendars.map(ev => { return { ...ev, id: ev._id, startDate: new Date(ev.startDate), endDate: new Date(ev.endDate) } });
 
                     setDataSource([
-                        {
-                            id: 0,
-                            name: 'Google I/O',
-                            location: 'San Francisco, CA',
-                            startDate: new Date(currentYear, 4, 28),
-                            endDate: new Date(currentYear, 4, 29)
-                        },
-                        {
-                            id: 1,
-                            name: 'Microsoft Convergence',
-                            location: 'New Orleans, LA',
-                            startDate: new Date(currentYear, 2, 16),
-                            endDate: new Date(currentYear, 2, 19)
-                        },
-                        {
-                            id: 2,
-                            name: 'Microsoft Build Developer Conference',
-                            location: 'San Francisco, CA',
-                            startDate: new Date(currentYear, 3, 29),
-                            endDate: new Date(currentYear, 4, 1)
-                        },
-                        {
-                            id: 3,
-                            name: 'Apple Special Event',
-                            location: 'San Francisco, CA',
-                            startDate: new Date(currentYear, 8, 1),
-                            endDate: new Date(currentYear, 8, 1)
-                        },
-                        {
-                            id: 4,
-                            name: 'Apple Keynote',
-                            location: 'San Francisco, CA',
-                            startDate: new Date(currentYear, 8, 9),
-                            endDate: new Date(currentYear, 8, 9)
-                        },
-                        {
-                            id: 5,
-                            name: 'Chrome Developer Summit',
-                            location: 'Mountain View, CA',
-                            startDate: new Date(currentYear, 10, 17),
-                            endDate: new Date(currentYear, 10, 18)
-                        },
-                        {
-                            id: 6,
-                            name: 'F8 2015',
-                            location: 'San Francisco, CA',
-                            startDate: new Date(currentYear, 2, 25),
-                            endDate: new Date(currentYear, 2, 26)
-                        },
-                        {
-                            id: 7,
-                            name: 'Yahoo Mobile Developer Conference',
-                            location: 'New York',
-                            startDate: new Date(currentYear, 7, 25),
-                            endDate: new Date(currentYear, 7, 26)
-                        },
-                        {
-                            id: 8,
-                            name: 'Android Developer Conference',
-                            location: 'Santa Clara, CA',
-                            startDate: new Date(currentYear, 11, 1),
-                            endDate: new Date(currentYear, 11, 4)
-                        },
-                        {
-                            id: 9,
-                            name: 'LA Tech Summit',
-                            location: 'Los Angeles, CA',
-                            startDate: new Date(currentYear, 10, 17),
-                            endDate: new Date(currentYear, 10, 17)
-                        }
+                        ...calendars
+                        // {
+                        //     id: 0,
+                        //     name: 'Google I/O',
+                        //     location: 'San Francisco, CA',
+                        //     startDate: new Date(currentYear, 4, 28),
+                        //     endDate: new Date(currentYear, 4, 29)
+                        // },
+                        // {
+                        //     id: 1,
+                        //     name: 'Microsoft Convergence',
+                        //     location: 'New Orleans, LA',
+                        //     startDate: new Date(currentYear, 2, 16),
+                        //     endDate: new Date(currentYear, 2, 19)
+                        // },
+                        // {
+                        //     id: 2,
+                        //     name: 'Microsoft Build Developer Conference',
+                        //     location: 'San Francisco, CA',
+                        //     startDate: new Date(currentYear, 3, 29),
+                        //     endDate: new Date(currentYear, 4, 1)
+                        // },
+                        // {
+                        //     id: 3,
+                        //     name: 'Apple Special Event',
+                        //     location: 'San Francisco, CA',
+                        //     startDate: new Date(currentYear, 8, 1),
+                        //     endDate: new Date(currentYear, 8, 1)
+                        // },
+                        // {
+                        //     id: 4,
+                        //     name: 'Apple Keynote',
+                        //     location: 'San Francisco, CA',
+                        //     startDate: new Date(currentYear, 8, 9),
+                        //     endDate: new Date(currentYear, 8, 9)
+                        // },
+                        // {
+                        //     id: 5,
+                        //     name: 'Chrome Developer Summit',
+                        //     location: 'Mountain View, CA',
+                        //     startDate: new Date(currentYear, 10, 17),
+                        //     endDate: new Date(currentYear, 10, 18)
+                        // },
+                        // {
+                        //     id: 6,
+                        //     name: 'F8 2015',
+                        //     location: 'San Francisco, CA',
+                        //     startDate: new Date(currentYear, 2, 25),
+                        //     endDate: new Date(currentYear, 2, 26)
+                        // },
+                        // {
+                        //     id: 7,
+                        //     name: 'Yahoo Mobile Developer Conference',
+                        //     location: 'New York',
+                        //     startDate: new Date(currentYear, 7, 25),
+                        //     endDate: new Date(currentYear, 7, 26)
+                        // },
+                        // {
+                        //     id: 8,
+                        //     name: 'Android Developer Conference',
+                        //     location: 'Santa Clara, CA',
+                        //     startDate: new Date(currentYear, 11, 1),
+                        //     endDate: new Date(currentYear, 11, 4)
+                        // },
+                        // {
+                        //     id: 9,
+                        //     name: 'LA Tech Summit',
+                        //     location: 'Los Angeles, CA',
+                        //     startDate: new Date(currentYear, 10, 17),
+                        //     endDate: new Date(currentYear, 10, 17)
+                        // }
                     ])
 
                 } else {
@@ -140,7 +142,90 @@ export default function ShowCalendar({ }) {
     }, [])
 
 
+    const submit = async () => {
 
+
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
+        let content = {
+            name: currentEvent.name,
+            location: currentEvent.location,
+            startDate: currentEvent.startDate,
+            endDate: currentEvent.endDate,
+
+        }
+
+        axios.post("/api/calendar/add", content, config)
+            .then((response) => {
+                let res = response.data;
+                if (res.success) {
+
+                    // if (isTeam) {
+                    //     notifier.success("match ajoutee");
+                    //     history.push("/");
+                    // } else {
+                    //     notifier.success("match ajoutee");
+                    //     history.go(0)
+                    // }
+                    notifier.success("événement ajoute");
+                    history.go(0)
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
+    const update = async () => {
+
+
+        var session = Ls.getObject('session', { 'isLoggedIn': false });
+        let config = {
+            headers: {
+                "auth-token": session.token,
+            }
+        }
+
+        let content = {
+            _id: currentEvent._id,
+            name: currentEvent.name,
+            location: currentEvent.location,
+            startDate: currentEvent.startDate,
+            endDate: currentEvent.endDate,
+
+        }
+
+        axios.post("/api/calendar/edit", content, config)
+            .then((response) => {
+                let res = response.data;
+                if (res.success) {
+
+                    // if (isTeam) {
+                    //     notifier.success("match ajoutee");
+                    //     history.push("/");
+                    // } else {
+                    //     notifier.success("match ajoutee");
+                    //     history.go(0)
+                    // }
+                    notifier.success("événement modifiee");
+                    history.go(0)
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
 
 
 
@@ -150,6 +235,7 @@ export default function ShowCalendar({ }) {
             currentEvent.id = Math.max(...dataSourceState.map(evt => evt.id)) + 1;
 
             setDataSource(dataSourceState.concat([currentEvent]))
+            submit()
             setCurrentEvent(null)
         }
         else {
@@ -159,6 +245,9 @@ export default function ShowCalendar({ }) {
             ds[index] = { ...currentEvent };
             // this.setState({ dataSource: ds, currentEvent: null });
             setDataSource([...ds])
+
+            update()
+
             setCurrentEvent(null)
         }
 
@@ -227,29 +316,29 @@ export default function ShowCalendar({ }) {
                         currentEvent &&
                         <div>
                             <Modal.Header closeButton>
-                                <Modal.Title>{currentEvent.id !== undefined ? "Update event" : "Add event"}</Modal.Title>
+                                <Modal.Title>{currentEvent.id !== undefined ? "Modifier événement" : "Ajouter événement"}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <form className="form-horizontal">
                                     <div className="form-group row">
-                                        <label htmlFor="event-name" className="col-sm-2 control-label">Name</label>
-                                        <div className="col-sm-10">
+                                        <label htmlFor="event-name" className="col-sm-3 control-label">Nom</label>
+                                        <div className="col-sm-9">
                                             <input id="event-name" type="text" className="form-control" value={currentEvent.name} onChange={e => setCurrentEvent({ ...currentEvent, name: e.target.value })} />
                                         </div>
                                     </div>
                                     <div className="form-group row">
-                                        <label htmlFor="event-location" className="col-sm-2 control-label">Location</label>
-                                        <div className="col-sm-10">
+                                        <label htmlFor="event-location" className="col-sm-3 control-label">Emplacement</label>
+                                        <div className="col-sm-9">
                                             <input id="event-location" type="text" className="form-control" value={currentEvent.location} onChange={e => setCurrentEvent({ ...currentEvent, location: e.target.value })} />
                                         </div>
                                     </div>
                                     <div className="form-group row">
-                                        <label htmlFor="min-date" className="col-sm-2 control-label">Dates</label>
-                                        <div className="col-sm-10">
+                                        <label htmlFor="min-date" className="col-sm-3 control-label">Dates</label>
+                                        <div className="col-sm-9">
                                             <div className="input-group input-daterange">
                                                 <input id="min-date" type="date" className="form-control" value={currentEvent.startDate.toISOString().substr(0, 10)} onChange={e => setCurrentEvent({ ...currentEvent, startDate: e.target.valueAsDate })} />
                                                 <div className="input-group-prepend input-group-append">
-                                                    <div className="input-group-text">to</div>
+                                                    <div className="input-group-text">à</div>
                                                 </div>
                                                 <input type="date" className="form-control" value={currentEvent.endDate.toISOString().substr(0, 10)} onChange={e => setCurrentEvent({ ...currentEvent, endDate: e.target.valueAsDate })} />
                                             </div>

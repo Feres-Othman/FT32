@@ -20,14 +20,14 @@ export default function TeamPoints({ teams }) {
         },
         {
             name: 'Pts',
-            selector: row => row.points,
-            cell: row => <b>{row.points}</b>,
+            selector: row => row.won * 3 + row.forfit * 2 + row.lost,
+            cell: row => <b>{row.won * 3 + row.forfit * 2 + row.lost}</b>,
             center: true,
             maxWidth: '30px',
         },
         {
             name: 'J.',
-            selector: row => row.played,
+            selector: row => row.won + row.forfit + row.lost,
             center: true,
             maxWidth: '30px',
         },
@@ -63,7 +63,7 @@ export default function TeamPoints({ teams }) {
         },
         {
             name: '+/-',
-            selector: row => row.scoreChange > 0 ? `+${row.scoreChange}` : row.scoreChange,
+            selector: row => row.p - row.c > 0 ? `+${row.p - row.c}` : row.p - row.c,
             center: true,
             maxWidth: '30px',
         }
