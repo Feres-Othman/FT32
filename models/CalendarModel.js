@@ -6,6 +6,7 @@ const CalendarSchema = new Schema(
     {
         name: { type: String },
         location: { type: String },
+        color: { type: String },
         startDate: { type: Date },
         endDate: { type: Date }
     },

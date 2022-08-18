@@ -59,6 +59,16 @@ export const deleteLeague = (_id) => async (dispatch) => {
   }
 };
 
+export const deleteDesignation = (_id) => async (dispatch) => {
+
+  try {
+    console.log(_id)
+    await api.DeleteDesignation(_id);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const deleteTeam = (_id) => async (dispatch) => {
 

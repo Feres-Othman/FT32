@@ -906,7 +906,7 @@ export default function AddMatch() {
                 }} >
                     <Dropdown style={{ width: "30%", minWidth: 350 }}>
 
-                        <Dropdown.Toggle variant="success" variant="Primary"
+                        <Dropdown.Toggle variant="success"
                             style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
                             {competition?.name || "Selectionner une type de compétition"}
                         </Dropdown.Toggle>

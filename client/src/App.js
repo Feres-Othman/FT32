@@ -44,6 +44,8 @@ import ChampionshipsFilter from './Components/ChampionshipsFilter';
 import logo from './Atoms/logo.png';
 import Profile from './Components/Profile';
 import Leagues from './Components/team/league/Leagues';
+import Designation from './Components/team/designation/Designation';
+import AddDesignation from './Components/team/designation/AddDesignation';
 import League from './Components/team/league/League';
 import AddLeague from './Components/team/league/AddLeague';
 import ShowCalendar from './Components/team/calendar/ShowCalendar';
@@ -322,7 +324,8 @@ function App() {
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/bonus/add">AJOUTER BONUS INDIV</NavLink>}
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/calendar">CALENDRIER</NavLink>
                       {/* {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/classement/indiv/add">AJOUTER CLASSEMENT INDIV</NavLink>} */}
-                      {/* <NavLink onClick={() => {setIsOpen(false)}} id="contact" style={{ color: "white" }} className="menu-item" to="/presse">PRESSE</NavLink> */}
+                      <NavLink onClick={() => { setIsOpen(false) }} id="contact" style={{ color: "white" }} className="menu-item" to="/news">NOUVEAUTES</NavLink>
+                      <NavLink onClick={() => { setIsOpen(false) }} id="contact" style={{ color: "white" }} className="menu-item" to="/designations">DESIGNATION</NavLink>
                       <div style={{ width: 100, height: "24vh", marginBottom: 25, borderBottom: "1px solid white" }} ></div>
 
                       <a target="blank" href="https://www.google.com/maps/dir/?api=1&destination=36.8%2C10.1833&fbclid=IwAR1UuOjlFCVSWEaluFADgfByp9d6Got1kJPTwMN0MnWjV5rhoo_5snn4u7o" onClick={() => { setIsOpen(false) }} id="location" style={{ color: "white", cursor: "pointer" }} className="menu-item" >LOCALISATION</a>
@@ -459,6 +462,10 @@ function App() {
                       <Help />
                     </Route>
 
+                    <Route path="/news" >
+                      <Help />
+                    </Route>
+
                     <Route path="/Ajouterjoueur" >
                       <Ajouterjouer />
                     </Route>
@@ -483,8 +490,16 @@ function App() {
                       <Leagues />
                     </Route>
 
+                    <Route path="/designations" >
+                      <Designation />
+                    </Route>
+
                     <Route path="/league/add" >
                       <AddLeague />
+                    </Route>
+
+                    <Route path="/designation/add" >
+                      <AddDesignation />
                     </Route>
 
                     <Route path="/league/:id" >

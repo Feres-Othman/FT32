@@ -16,6 +16,7 @@ import FilterComponent from '../../FilterComponent';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Bars } from 'react-loader-spinner'
 
+import DrpDown from '../../../Molecules/DrpDown';
 import Calendar from 'rc-year-calendar';
 import 'rc-year-calendar/locales/rc-year-calendar.fr';
 import { Update } from '../../../api';
@@ -155,6 +156,7 @@ export default function ShowCalendar({ }) {
         let content = {
             name: currentEvent.name,
             location: currentEvent.location,
+            color: currentEvent.color,
             startDate: currentEvent.startDate,
             endDate: currentEvent.endDate,
 
@@ -271,6 +273,126 @@ export default function ShowCalendar({ }) {
         setCurrentDelete(evt.id)
     }
 
+    const colorFromType = (value) => {
+        switch (value._id) {
+            case 1:
+                return "#ffff00";
+            case 2:
+                return "#0000ff";
+            case 3:
+                return "#ff7f00";
+            case 4:
+                return "#7308a5";
+            case 5:
+                return "#00ff00";
+            case 6:
+                return "#ba00ff";
+            case 7:
+                return "#cc00af";
+            case 8:
+                return "#feb300";
+            default:
+                return "#feb300";
+        }
+    }
+
+    const typeFromColor = (value) => {
+        switch (value) {
+            case "#ffff00":
+                return {
+                    _id: 1,
+                    name: "Championnat par équipe jeunes"
+                };
+            case "#0000ff":
+                return {
+                    _id: 2,
+                    name: "Championnat par équipe filles"
+                };
+            case "#ff7f00":
+                return {
+                    _id: 3,
+                    name: "Championnat par équipe seniors hommes"
+                };
+            case "#7308a5":
+                return {
+                    _id: 4,
+                    name: "Championnat par équipe seniors dames"
+                };
+            case "#00ff00":
+                return {
+                    _id: 5,
+                    name: "coupe de tunisie par équipe"
+                };
+            case "#ba00ff":
+                return {
+                    _id: 6,
+                    name: "Championnats individuelles"
+                };
+            case "#cc00af":
+                return {
+                    _id: 7,
+                    name: "Evennements internationals"
+                };
+            case "#feb300":
+                return {
+                    _id: 8,
+                    name: "Autres"
+                };
+            default:
+                return {
+                    _id: 8,
+                    name: "Autres"
+                };
+        }
+    }
+
+    const types = [
+        {
+            _id: 1,
+            name: "Championnat par équipe jeunes",
+            color: "#ffff00"
+        },
+        {
+            _id: 2,
+            name: "Championnat par équipe filles",
+            color: "#0000ff"
+        },
+        {
+            _id: 3,
+            name: "Championnat par équipe seniors hommes",
+            color: "#ff7f00"
+        },
+        {
+            _id: 4,
+            name: "Championnat par équipe seniors dames",
+            color: "#7308a5"
+        },
+        {
+            _id: 5,
+            name: "coupe de tunisie par équipe",
+            color: "#00ff00"
+        },
+        {
+            _id: 6,
+            name: "Championnats individuelles",
+            color: "#ba00ff"
+        },
+        {
+            _id: 7,
+            name: "Evennements internationals",
+            color: "#cc00af"
+        },
+        {
+            _id: 8,
+            name: "Autres",
+            color: "#feb300"
+        }
+
+    ]
+
+
+    const [type, setType] = useState({})
+
     return (
         <>
 
@@ -278,11 +400,40 @@ export default function ShowCalendar({ }) {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
-                alignItems: "centrer",
+                alignItems: "center",
                 textAlign: "center",
                 paddingTop: 60
             }}>
                 <h1>Calendrier des Championats 2022</h1>
+            </div>
+
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "start",
+                textAlign: "center",
+                position: "absolute",
+                top: 20,
+                right: 20
+            }}>
+                {types.map((type, index) => {
+                    return <h6 style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10
+                    }}>
+                        <div style={{
+                            width: 20,
+                            height: 20,
+                            backgroundColor: type.color,
+                        }}></div>
+                        {type.name}
+                    </h6>
+                })}
+
             </div>
 
             <div style={{
@@ -344,6 +495,9 @@ export default function ShowCalendar({ }) {
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    <DrpDown style={{ width: "30%", minWidth: 450 }} dataset={types} setData={(item) => { setCurrentEvent({ ...currentEvent, color: colorFromType(item) }) }} data={typeFromColor(currentEvent.color)} label={"Type"} > Selectionner un type </DrpDown>
                                 </form>
                             </Modal.Body>
 
