@@ -197,7 +197,7 @@ const addLeague = async (req, res, next) => {
     category: category,
     type: type,
     gender: gender,
-    calendar: calendar || "62de6a01d1a015170ce8dd8b",
+    calendar: "62de6a01d1a015170ce8dd8b",
     pools: pools
   })
 
