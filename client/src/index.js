@@ -13,21 +13,41 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 import HttpsRedirect from 'react-https-redirect';
 import { reducers } from './Components/reducers';
-
+import axios from 'axios';
 const store = createStore(reducers, {}, compose(applyMiddleware(thunk)));
 
+
+axios.defaults.baseURL = 'https://www.fttt-competition.com';
+
+axios.interceptors.request.use(request => {
+  console.log(request);
+  // Edit request config
+  return request;
+}, error => {
+  console.log(error);
+  return Promise.reject(error);
+});
+
+axios.interceptors.response.use(response => {
+  console.log(response);
+  // Edit response config
+  return response;
+}, error => {
+  console.log(error);
+  return Promise.reject(error);
+});
 
 
 ReactDOM.render(
   <Provider store={store}>
 
-  <React.StrictMode>
-    <HttpsRedirect>
-      <Router>
-        <App />
-      </Router>
-    </HttpsRedirect>
-  </React.StrictMode>,
+    <React.StrictMode>
+      <HttpsRedirect>
+        <Router>
+          <App />
+        </Router>
+      </HttpsRedirect>
+    </React.StrictMode>,
   </Provider>,
 
   document.getElementById('root')

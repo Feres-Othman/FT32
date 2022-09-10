@@ -40,7 +40,7 @@ export default function Login() {
             };
             // console.log(user);
             axios
-                .post("/api/user/login", user)
+                .post("https://www.fttt-competition.com/api/user/login", user)
                 .then((res) => {
                     console.log(res.data)
                     if (res.data.success) {
