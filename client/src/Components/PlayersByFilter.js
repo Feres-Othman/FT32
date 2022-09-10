@@ -88,7 +88,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
                         let chosenScore = player.scores.filter(scoreItem => scoreItem.category === res.chosenCategory._id)[0].score
                         let chosenBonus = player.indivBonuses.filter(scoreItem => scoreItem.category === res.chosenCategory._id)[0].bonus
 
-                        let formattedPlayer = { ...player, score: canShow500 ? chosenScore : chosenScore + chosenBonus }
+                        let formattedPlayer = { ...player, chosenScore, chosenBonus, score: canShow500 ? chosenScore : chosenScore + chosenBonus }
 
                         if (!canShow500) {
                             if (formattedPlayer.score !== 500) {
@@ -253,7 +253,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
         ...[!canShow500 ?
             {
                 name: 'Points',
-                selector: row => row.score,
+                selector: row => `${row.chosenScore} + ${row.chosenBonus}`,
                 sortable: true,
                 center: true,
             } :
@@ -305,6 +305,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
             sortable: true,
             center: true,
             cell: row => <CustomName row={row} />,
+            maxWidth: '220px',
         },
         {
             name: 'Categorie',
@@ -313,19 +314,25 @@ export default function PlayersByFilter({ canShow500 = true }) {
             center: true,
             // cell: row => <CustomName row={row} />,
         },
-        {
-            name: 'Etat',
-            selector: row => row.isValid,
-            sortable: true,
-            center: true,
-            cell: row => <CustomState row={row} />,
-        },
-        {
-            name: 'Points',
-            selector: row => row.score,
-            sortable: true,
-            center: true,
-        }
+        ...[canShow500 ?
+            {
+                name: 'Etat',
+                selector: row => row.isValid,
+                sortable: true,
+                center: true,
+                cell: row => <CustomState row={row} />,
+            } :
+            { width: '0px' }
+        ],
+        ...[!canShow500 ?
+            {
+                name: 'Points',
+                selector: row => `${row.chosenScore} + ${row.chosenBonus}`,
+                sortable: true,
+                center: true,
+            } :
+            { width: '0px' }
+        ],
 
     ];
 

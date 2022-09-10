@@ -318,7 +318,7 @@ function App() {
                       <NavLink onClick={() => { setIsOpen(false) }} id="home" style={{ color: "white" }} className="menu-item" to="/classement/indiv">RANKING FTTT</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/teams">EQUIPES</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/championships/x/tout">CHAMPIONATS INDIV</NavLink>
-                      <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/leagues">CHAMPIONATS EN EQUIPES</NavLink>
+                      <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/leagues">CHAMPIONATS PAR EQUIPES</NavLink>
                       <NavLink onClick={() => { setIsOpen(false) }} id="about" style={{ color: "white" }} className="menu-item" to="/help">COMMENT CA MARCHE</NavLink>
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/match/add">AJOUTER UN MATCH</NavLink>}
                       {isLoggedIn && <NavLink onClick={() => { setIsOpen(false) }} id="add" style={{ color: "white" }} className="menu-item" to="/bonus/add">AJOUTER BONUS INDIV</NavLink>}

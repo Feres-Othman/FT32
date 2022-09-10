@@ -301,32 +301,32 @@ export default function ShowCalendar({ }) {
             case "#ffff00":
                 return {
                     _id: 1,
-                    name: "Championnat par équipe jeunes"
+                    name: "Championnat par équipes jeunes"
                 };
             case "#0000ff":
                 return {
                     _id: 2,
-                    name: "Championnat par équipe filles"
+                    name: "Championnat par équipes filles"
                 };
             case "#ff7f00":
                 return {
                     _id: 3,
-                    name: "Championnat par équipe seniors hommes"
+                    name: "Championnat par équipes seniors hommes"
                 };
             case "#7308a5":
                 return {
                     _id: 4,
-                    name: "Championnat par équipe seniors dames"
+                    name: "Championnat par équipes seniors dames"
                 };
             case "#00ff00":
                 return {
                     _id: 5,
-                    name: "coupe de tunisie par équipe"
+                    name: "coupe de tunisie par équipes"
                 };
             case "#ba00ff":
                 return {
                     _id: 6,
-                    name: "Championnats individuelles"
+                    name: "Compétitions individuelles"
                 };
             case "#cc00af":
                 return {
@@ -349,32 +349,32 @@ export default function ShowCalendar({ }) {
     const types = [
         {
             _id: 1,
-            name: "Championnat par équipe jeunes",
+            name: "Championnat par équipes jeunes",
             color: "#ffff00"
         },
         {
             _id: 2,
-            name: "Championnat par équipe filles",
+            name: "Championnat par équipes filles",
             color: "#0000ff"
         },
         {
             _id: 3,
-            name: "Championnat par équipe seniors hommes",
+            name: "Championnat par équipes seniors hommes",
             color: "#ff7f00"
         },
         {
             _id: 4,
-            name: "Championnat par équipe seniors dames",
+            name: "Championnat par équipes seniors dames",
             color: "#7308a5"
         },
         {
             _id: 5,
-            name: "coupe de tunisie par équipe",
+            name: "coupe de tunisie par équipes",
             color: "#00ff00"
         },
         {
             _id: 6,
-            name: "Championnats individuelles",
+            name: "Compétitions individuelles",
             color: "#ba00ff"
         },
         {
@@ -404,7 +404,7 @@ export default function ShowCalendar({ }) {
                 textAlign: "center",
                 paddingTop: 60
             }}>
-                <h1>Calendrier des Championats 2022</h1>
+                <h1>Calendrier Général</h1>
             </div>
 
             <div style={{
