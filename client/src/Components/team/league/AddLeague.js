@@ -324,7 +324,7 @@ export default function AddMatch() {
                 <DrpDown style={{ width: "30%", minWidth: 450 }} dataset={types} setData={setType} data={type} > Selectionner une competition </DrpDown>
                 {/* <DrpDown dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown> */}
                 <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={categories} setData={setCategory} data={category} > Selectionner une categorie </DrpDown>
-                <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={calendars.map(ev => { return { ...ev, name: ev.name + " - " + new Date(ev.startDate).toLocaleDateString("fr-FR") } })} setData={setSelectedCalendar} data={selectedCalendar} > Selectionner un événement </DrpDown>
+                {/* <DrpDown style={{ width: "30%", minWidth: 350 }} dataset={calendars.map(ev => { return { ...ev, name: ev.name + " - " + new Date(ev.startDate).toLocaleDateString("fr-FR") } })} setData={setSelectedCalendar} data={selectedCalendar} > Selectionner un événement </DrpDown> */}
                 <Input handleChange={(value) => {
                     value = parseInt(value)
 

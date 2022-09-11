@@ -329,7 +329,7 @@ export default function Players() {
                         </div>
                     }
                     data={filteredItems}
-                    pagination
+                    // pagination
                     responsive={true}
                     paginationPerPage={10}
                     subHeader

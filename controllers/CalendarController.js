@@ -14,9 +14,10 @@ const addCalendar = async (req, res, next) => {
 
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
+  const public = req.body.isPublic;
 
   let calendar = new Calendar({
-    name, location, startDate, endDate, color
+    name, location, startDate, endDate, color, public
   })
 
   calendar.save();
@@ -40,10 +41,11 @@ const editCalendar = async (req, res, next) => {
 
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
+  const public = req.body.isPublic;
 
 
   let calendar = await Calendar.findOneAndUpdate({ _id: req.body._id }, {
-    name, location, startDate, endDate, color
+    name, location, startDate, endDate, color, public
   })
 
   // category: category,

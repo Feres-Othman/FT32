@@ -18,12 +18,13 @@ import { Bars } from 'react-loader-spinner'
 export default function Designations({ }) {
 
     const dispatch = useDispatch();
-    let { sex, category } = useParams();
+    let { id } = useParams();
 
     const { design } = useContext(DesignContext);
     const { isMedium, isSmall, isLarge, notifier, isLoggedIn } = useContext(RContext)
 
     const [items, setItems] = useState([])
+    const [arbitre, setArbitre] = useState({})
     const [rawitems, setRawItems] = useState([])
     const [isPayed, setIsPayed] = useState(true)
     const [isNotPayed, setIsNotPayed] = useState(true)
@@ -70,7 +71,7 @@ export default function Designations({ }) {
             }
         }
 
-        axios.post("/api/designation/read/all", { sex: "X", category: "Tout" }, config)
+        axios.post("/api/designation/read/arbitre", { _id: id }, config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {
@@ -78,7 +79,7 @@ export default function Designations({ }) {
 
                     let designations = res.designations;
 
-
+                    setArbitre({ ...designations[0].arbitre })
                     setItems(designations);
                     setRawItems(designations);
                 } else {
@@ -153,16 +154,6 @@ export default function Designations({ }) {
             maxWidth: '320px',
         },
         {
-            name: 'Arbitre',
-            selector: row => row.arbitre.name,
-            sortable: true,
-            center: true,
-            maxWidth: '320px',
-            cell: row => <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
-                history.push(`/arbitre/${row.arbitre._id}`);
-            }} >{row.arbitre.name}</div>
-        },
-        {
             name: "actions",
             maxWidth: '170px',
             cell: row => <CustomTitle row={row} />,
@@ -192,17 +183,7 @@ export default function Designations({ }) {
             sortable: true,
             center: true,
             maxWidth: '320px',
-        },
-        {
-            name: 'Arbitre',
-            selector: row => row.arbitre.name,
-            sortable: true,
-            center: true,
-            maxWidth: '320px',
-            cell: row => <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
-                history.push(`/arbitre/${row.arbitre._id}`);
-            }} >{row.arbitre.name}</div>
-        },
+        }
 
     ];
 
@@ -310,6 +291,16 @@ export default function Designations({ }) {
                 </div>
 
             </div> */}
+            <div style={{ marginTop: 40, marginBottom: 40 }}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 40 }}>
+                    <h2>{arbitre.description}</h2>
+                    <h2>{arbitre.name}</h2>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 40 }}>
+                    <h4>{arbitre.email}</h4>
+                    <h4>{arbitre.adresse}</h4>
+                </div>
+            </div>
 
             <div style={{
                 display: "flex",

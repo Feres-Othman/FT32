@@ -17,7 +17,19 @@ import axios from 'axios';
 const store = createStore(reducers, {}, compose(applyMiddleware(thunk)));
 
 
-axios.defaults.baseURL = 'https://www.fttt-competition.com';
+
+
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  // development build code
+  console.log("dev")
+  axios.defaults.baseURL = 'http://localhost:5000';
+
+} else {
+  // production build code
+  console.log("production")
+  axios.defaults.baseURL = 'https://www.fttt-competition.com';
+}
 
 axios.interceptors.request.use(request => {
   console.log(request);

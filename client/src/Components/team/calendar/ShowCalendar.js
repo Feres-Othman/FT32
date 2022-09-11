@@ -159,6 +159,7 @@ export default function ShowCalendar({ }) {
             color: currentEvent.color,
             startDate: currentEvent.startDate,
             endDate: currentEvent.endDate,
+            isPublic: currentEvent.public
 
         }
 
@@ -202,6 +203,8 @@ export default function ShowCalendar({ }) {
             location: currentEvent.location,
             startDate: currentEvent.startDate,
             endDate: currentEvent.endDate,
+            color: currentEvent.color,
+            isPublic: currentEvent.public
 
         }
 
@@ -447,20 +450,20 @@ export default function ShowCalendar({ }) {
                 padding: 100
             }}>
                 <Calendar
-                    enableRangeSelection={true}
-                    enableContextMenu={true}
+                    enableRangeSelection={isLoggedIn}
+                    enableContextMenu={isLoggedIn}
                     style="background"
                     roundRangeLimits={true}
                     language="fr"
                     // alwaysHalfDay={true}
                     contextMenuItems={[
-                        { text: "Update", click: evt => setCurrentEvent(evt) },
+                        { text: "modifier", click: evt => setCurrentEvent(evt) },
                         {
-                            text: "Delete", click: evt => { deleteFunc(evt) }
+                            text: "supprimer", click: evt => { deleteFunc(evt) }
                         }
                     ]}
                     onRangeSelected={e => setCurrentEvent({ startDate: e.startDate, endDate: e.endDate })}
-                    dataSource={dataSourceState}
+                    dataSource={isLoggedIn ? dataSourceState : dataSourceState.filter(evt => evt.public)}
                 />
                 <Modal show={currentEvent} onHide={() => setCurrentEvent(null)} >
                     {
@@ -496,8 +499,17 @@ export default function ShowCalendar({ }) {
                                         </div>
                                     </div>
 
+                                    <div className="form-group row">
+                                        <label htmlFor="event-public" className="col-sm-3 control-label">public</label>
+                                        <div className="col-sm-9">
+                                            <input id="event-public" type="checkbox" className="form-control" checked={currentEvent.public} onChange={e => setCurrentEvent({ ...currentEvent, public: e.target.checked })} />
+                                        </div>
+                                    </div>
 
                                     <DrpDown style={{ width: "30%", minWidth: 450 }} dataset={types} setData={(item) => { setCurrentEvent({ ...currentEvent, color: colorFromType(item) }) }} data={typeFromColor(currentEvent.color)} label={"Type"} > Selectionner un type </DrpDown>
+
+
+
                                 </form>
                             </Modal.Body>
 

@@ -45,10 +45,12 @@ import logo from './Atoms/logo.png';
 import Profile from './Components/Profile';
 import Leagues from './Components/team/league/Leagues';
 import Designation from './Components/team/designation/Designation';
+import ShowArbitre from './Components/team/designation/ShowArbitre';
 import AddDesignation from './Components/team/designation/AddDesignation';
 import League from './Components/team/league/League';
 import AddLeague from './Components/team/league/AddLeague';
 import ShowCalendar from './Components/team/calendar/ShowCalendar';
+import NewsList from './Components/news/NewsList';
 
 
 function App() {
@@ -459,7 +461,7 @@ function App() {
                     </Route>
 
                     <Route path="/news" >
-                      <Help />
+                      <NewsList />
                     </Route>
 
                     <Route path="/Ajouterjoueur" >
@@ -488,6 +490,10 @@ function App() {
 
                     <Route path="/designations" >
                       <Designation />
+                    </Route>
+
+                    <Route path="/arbitre/:id" >
+                      <ShowArbitre />
                     </Route>
 
                     <Route path="/league/add" >

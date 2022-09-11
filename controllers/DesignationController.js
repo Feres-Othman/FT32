@@ -100,6 +100,34 @@ const readDesignations = async (req, res, next) => {
 
 }
 
+const readArbitre = async (req, res, next) => {
+
+  try {
+
+    const designations = await Designation.find({ arbitre: req.body._id })
+      .sort({ datetime: -1 })
+      .populate("team1")
+      .populate("team2")
+      .populate("arbitre")
+      .exec();
+
+    if (!designations) return res.json({
+      success: false,
+      message: "designations-not-found"
+    })
+
+    return res.json({ success: true, designations: designations });
+
+  } catch (error) {
+    console.log(error)
+    return res.json({
+      success: false,
+      message: "server-error"
+    })
+  }
+
+}
+
 
 const readArbitres = async (req, res, next) => {
 
@@ -140,6 +168,7 @@ const deleteDesignation = async (req, res) => {
 module.exports = {
   addDesignation,
   readArbitres,
+  readArbitre,
   readDesignations,
   deleteDesignation,
   editDesignation
