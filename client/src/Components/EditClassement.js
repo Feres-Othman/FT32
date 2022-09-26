@@ -629,7 +629,7 @@ export default function AddMatch({ }) {
                                 playersList={players5}
                                 removeFromList={removeFromList}
                                 desc={"5-8"}
-                                bonus={"+ 65"}
+                                bonus={phaseNumber === 2 ? "+72/ +67/ +62/ +57" : "+ 65"}
                                 max={4}
                                 index={4}
                                 phase={phaseNumber}
@@ -643,7 +643,7 @@ export default function AddMatch({ }) {
                                 playersList={players6}
                                 removeFromList={removeFromList}
                                 desc={"9-16"}
-                                bonus={"+ 40"}
+                                bonus={phaseNumber === 2 ? "+52/ +48/ 0 ..." : "+ 40"}
                                 max={8}
                                 index={5}
                                 phase={phaseNumber}
@@ -657,7 +657,7 @@ export default function AddMatch({ }) {
                                 playersList={players7}
                                 removeFromList={removeFromList}
                                 desc={"17-24"}
-                                bonus={"+ 15"}
+                                bonus={phaseNumber === 2 ? "+0" : "+ 15"}
                                 max={8}
                                 index={6}
                                 phase={phaseNumber}
@@ -671,7 +671,7 @@ export default function AddMatch({ }) {
                                 playersList={players8}
                                 removeFromList={removeFromList}
                                 desc={"25-32"}
-                                bonus={"+ 10"}
+                                bonus={phaseNumber === 2 ? "+0" : "+ 10"}
                                 max={8}
                                 index={7}
                                 phase={phaseNumber}

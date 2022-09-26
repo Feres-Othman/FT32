@@ -131,9 +131,9 @@ export default function Profile() {
 
                     for (const i in tempPhase) {
                         if (!tempPhase[i]._id) continue;
-                        tempPhase[i].phase1 = getScoreFronIndex(i);
-                        tempPhase[i].phase2 = getScoreFronIndex(getIndex(res.championship.phase2, tempPhase[i]._id));
-                        tempPhase[i].phase3 = getScoreFronIndex(getIndex(res.championship.phase3, tempPhase[i]._id));
+                        tempPhase[i].phase1 = getScoreFronIndex(i, 1);
+                        tempPhase[i].phase2 = getScoreFronIndex(getIndex(res.championship.phase2, tempPhase[i]._id), 2);
+                        tempPhase[i].phase3 = getScoreFronIndex(getIndex(res.championship.phase3, tempPhase[i]._id), 3);
                         tempPhase[i].total = tempPhase[i].phase1 + tempPhase[i].phase2 + tempPhase[i].phase3;
 
                     }
@@ -241,27 +241,53 @@ export default function Profile() {
 
     }
 
-    const getScoreFronIndex = (index) => {
-
-        if (index == 0) {
-            return 100
-        } else if (index == 1) {
-            return 90
-        } else if (index == 2) {
-            return 84
-        } else if (index == 3) {
-            return 78
-        } else if (index >= 4 && index <= 7) {
-            return 65
-        } else if (index >= 8 && index <= 15) {
-            return 40
-        } else if (index >= 16 && index <= 23) {
-            return 15
-        } else if (index >= 24 && index <= 31) {
-            return 10
+    const getScoreFronIndex = (index, phase) => {
+        if (phase === 3) {
+            if (index == 0) {
+                return 100
+            } else if (index == 1) {
+                return 90
+            } else if (index == 2) {
+                return 84
+            } else if (index == 3) {
+                return 78
+            } else if (index == 4) {
+                return 72
+            } else if (index == 5) {
+                return 67
+            } else if (index == 6) {
+                return 62
+            } else if (index == 7) {
+                return 57
+            } else if (index == 8) {
+                return 52
+            } else if (index == 9) {
+                return 48
+            } else {
+                return 0
+            }
         } else {
-            return 0
+            if (index == 0) {
+                return 100
+            } else if (index == 1) {
+                return 90
+            } else if (index == 2) {
+                return 84
+            } else if (index == 3) {
+                return 78
+            } else if (index >= 4 && index <= 7) {
+                return 65
+            } else if (index >= 8 && index <= 15) {
+                return 40
+            } else if (index >= 16 && index <= 23) {
+                return 15
+            } else if (index >= 24 && index <= 31) {
+                return 10
+            } else {
+                return 0
+            }
         }
+
 
     }
 
