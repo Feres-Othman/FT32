@@ -1,10 +1,50 @@
-import React from 'react'
+
+import Btn from '../../Molecules/Btn'
 import NewsItem from './NewsItem'
 
+import React, { useContext, useEffect, useState, useMemo } from 'react'
+import { RContext } from '../../RContext'
+import { DesignContext } from '../../DesignContext';
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { faEdit, faTrash, faCircle } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
+import { reactLocalStorage as Ls } from 'reactjs-localstorage';
+import { useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import DataTable from 'react-data-table-component';
+import { deleteNews } from "../actions/ajouterunjouer"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Bars } from 'react-loader-spinner'
+
 function NewsList() {
+
+
+    const dispatch = useDispatch();
+    let { sex, category } = useParams();
+
+    const { design } = useContext(DesignContext);
+    const { isMedium, isSmall, isLarge, notifier, isLoggedIn } = useContext(RContext)
+
+    let history = useHistory();
     return (
         <div>
+            {isLoggedIn &&
 
+                <Btn
+                    onClick={() => {
+                        history.push(`/league/add`);
+                    }}
+                    style={{
+                        position: 'absolute',
+                        display: "flex",
+                        justifyContent: "start",
+                        alignItems: "start",
+                        top: 30,
+                        right: 40,
+                        textAlign: 'center',
+                    }}>Ajouter un Nouveautes</Btn>
+            }
             <h1 style={{ textAlign: "center", marginTop: 30, marginBottom: 30 }}>NOUVEAUTES</h1>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", flexWrap: "wrap" }}>
                 <NewsItem

@@ -2,6 +2,8 @@ const Player = require('../models/PlayerModel')
 const Category = require('../models/CategoryModel')
 const Team = require('../models/TeamModel');
 const League = require('../models/LeagueModel');
+const Arbitre = require('../models/ArbitreModel');
+const Designation = require('../models/DesignationModel');
 
 
 
@@ -213,10 +215,64 @@ const addLeague = async (req, res, next) => {
 
 const playLeague = async (req, res, next) => {
 
+  let matches = req.body.day.matches
 
+  for (const i in matches) {
+
+    const match = matches[i]
+
+    const dateTime = req.body.day.date;
+    const lieu = req.body.day.place;
+    const team1 = match.team1Id;
+    const team2 = match.team2Id;
+    const arbitre = match.arbitre._id;
+
+    console.log(dateTime);
+    console.log(new Date(dateTime));
+
+    if (match.designation) {
+      let designation = await Designation.findOneAndUpdate({ _id: match.designation }, {
+        dateTime: (new Date(dateTime)).toString(),
+        lieu,
+        team1,
+        team2,
+        arbitre
+      }, {
+        new: true,
+        upsert: true
+      })
+
+      matches[i].designation = designation._id
+
+    } else {
+      let designation = new Designation({
+        dateTime: (new Date(dateTime)).toString(),
+        lieu,
+        team1,
+        team2,
+        arbitre
+      })
+
+      designation.save();
+
+      matches[i].designation = designation._id
+    }
+
+
+
+
+  }
+
+
+
+
+
+  console.log(req.body.day)
   let league = await League.findOneAndUpdate({ _id: req.body._id, [`pools.${req.body.pool}.days.index`]: req.body.day.index }, {
     $set: {
-      [`pools.${req.body.pool}.days.$.matches`]: req.body.day.matches
+      [`pools.${req.body.pool}.days.$.matches`]: matches,
+      [`pools.${req.body.pool}.days.$.date`]: req.body.day.date,
+      [`pools.${req.body.pool}.days.$.place`]: req.body.day.place,
     }
   })
 

@@ -83,4 +83,17 @@ export const deleteTeam = (_id) => async (dispatch) => {
   }
 };
 
+export const deleteNews = (_id) => async (dispatch) => {
+
+  try {
+    console.log(_id)
+    await api.Deletenews(_id);
+
+
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 

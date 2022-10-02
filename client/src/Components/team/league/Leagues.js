@@ -28,6 +28,7 @@ export default function Leagues({ }) {
     const [isPayed, setIsPayed] = useState(true)
     const [isNotPayed, setIsNotPayed] = useState(true)
 
+    let history = useHistory();
 
     const handleDelete = (e, _id) => {
         e.preventDefault();
@@ -96,7 +97,6 @@ export default function Leagues({ }) {
         getProducts();
     }, [])
 
-    let history = useHistory();
 
 
     const CustomTitle = ({ row }) => (
@@ -273,7 +273,7 @@ export default function Leagues({ }) {
                         marginRight: "5%",
                         marginBottom: "20px",
                         textAlign: 'center',
-                    }}>Ajouter une Championnat</Btn>
+                    }}>Ajouter un Championnat</Btn>
             }
 
             {/* <div style={{ position: 'absolute', top: 30, left: 100, width: 300, height: 89, backgroundColor: "white", borderRadius: 20, padding: 10, fontSize: 12 }} >
