@@ -102,7 +102,7 @@ const readTeam = async (req, res, next) => {
             .populate({
                 path: "players_v2",
                 populate: {
-                    path: 'category'
+                    path: 'category2'
                 }
             })
             .exec();

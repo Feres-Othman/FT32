@@ -59,7 +59,7 @@ export default function TeamPlayers({ number, team, setTeam, teams, player1, set
         let selectedPlayers = [];
 
         for (const player of players) {
-            if (categories.includes(player.category)) {
+            if (categories.includes(player.category2)) {
                 if ((player.sex === gender._id) || (gender._id === "X")) {
                     selectedPlayers.push(player)
                 }

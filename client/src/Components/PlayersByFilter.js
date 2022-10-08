@@ -19,7 +19,7 @@ import { Bars } from 'react-loader-spinner'
 export default function PlayersByFilter({ canShow500 = true }) {
 
     const dispatch = useDispatch();
-    let { sex, category } = useParams();
+    let { sex, category, season } = useParams();
 
     const { design } = useContext(DesignContext);
     const { isMedium, isSmall, isLarge, notifier, isLoggedIn } = useContext(RContext)
@@ -71,7 +71,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
             }
         }
 
-        axios.post("/api/player/read/all", { sex: sex, category: category }, config)
+        axios.post("/api/player/read/all", { sex: sex, category: category, season }, config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {
@@ -151,26 +151,27 @@ export default function PlayersByFilter({ canShow500 = true }) {
 
     const CustomName = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
+            { console.log(row.team) }
             history.push(`/players/${row.team.name}`);
         }} >{row.team.name}</div>
     );
 
     const CustomFirstName = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
-            history.push(`/player/${row._id}`);
+            history.push(`/player/${row._id}/${season}`);
         }} >{row.firstName}</div>
     );
 
     const CustomLastName = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
-            history.push(`/player/${row._id}`);
+            history.push(`/player/${row._id}/${season}`);
         }} >{row.lastName}</div>
     );
 
     const CustomFirstLastName = ({ row }) => (
         <div>
             <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
-                history.push(`/player/${row._id}`);
+                history.push(`/player/${row._id}/${season}`);
             }} >{row.firstName} {row.lastName}</div>
             <div style={{ cursor: "pointer" }} className="hoverScale" >
 
@@ -253,7 +254,7 @@ export default function PlayersByFilter({ canShow500 = true }) {
         ...[!canShow500 ?
             {
                 name: 'Points',
-                selector: row => `${row.chosenScore} + ${row.chosenBonus}`,
+                selector: row => `${row.chosenScore + row.chosenBonus}`,
                 sortable: true,
                 center: true,
             } :

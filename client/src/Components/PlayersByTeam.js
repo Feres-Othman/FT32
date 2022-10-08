@@ -78,20 +78,20 @@ export default function Players() {
 
     const CustomFirstName = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
-            history.push(`/player/${row._id}`);
+            history.push(`/player/${row._id}/2`);
         }} >{row.firstName}</div>
     );
 
     const CustomLastName = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" onClick={() => {
-            history.push(`/player/${row._id}`);
+            history.push(`/player/${row._id}/2`);
         }} >{row.lastName}</div>
     );
 
     const CustomState = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" >
 
-            {row.isValid ? <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> : <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} />}
+            {row.isValid2 ? <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#3b0" }} /> : <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#fb0" }} />}
 
 
             {new Date() - new Date(row.changedTeam) < (1000 * 60 * 60 * 24 * 365 * 2) && <Icon icon={faCircle} className="hoverScale" size="lg" style={{ color: "#33b" }} />}
@@ -123,14 +123,14 @@ export default function Players() {
         },
         {
             name: 'Categorie',
-            selector: row => row.category.name,
+            selector: row => row.category2.name,
             sortable: true,
             center: true,
             maxWidth: '220px',
         },
         {
             name: 'Etat',
-            selector: row => row.isValid,
+            selector: row => row.isValid2,
             sortable: true,
             center: true,
             cell: row => <CustomState row={row} />,
@@ -180,14 +180,14 @@ export default function Players() {
         },
         {
             name: 'Categorie',
-            selector: row => row.category.name,
+            selector: row => row.category2.name,
             sortable: true,
             center: true,
             maxWidth: '220px',
         },
         {
             name: 'Etat',
-            selector: row => row.isValid,
+            selector: row => row.isValid2,
             sortable: true,
             center: true,
             cell: row => <CustomState row={row} />,

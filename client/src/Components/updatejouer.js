@@ -118,7 +118,7 @@ const Updatejouer = () => {
             }
         }
 
-        axios.post(`/api/player/read/one/${_id}`, {}, config)
+        axios.post(`/api/player/read/one/${_id}`, { season: 2 }, config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {

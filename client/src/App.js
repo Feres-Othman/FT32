@@ -412,7 +412,7 @@ function App() {
                       <ResetPassword />
                     </Route> */}
 
-                    <Route path="/player/:playerId" >
+                    <Route path="/player/:playerId/:season" >
                       <Profile />
                     </Route>
 
@@ -420,11 +420,11 @@ function App() {
                       <Championship />
                     </Route>
 
-                    <Route path="/indiv/players/:sex/:category" >
+                    <Route path="/indiv/players/:sex/:category/:season" >
                       <PlayersByFilter canShow500={false} />
                     </Route>
 
-                    <Route path="/players/:sex/:category" >
+                    <Route path="/players/:sex/:category/:season" >
                       <PlayersByFilter />
                     </Route>
 

@@ -35,6 +35,16 @@ export default function Players({ canShow500 = true }) {
     }]
     const [gender, setGender] = useState({})
 
+    const seasons = [{
+        _id: 1,
+        name: "Saison 1"
+    },
+    {
+        _id: 2,
+        name: "Saison 2"
+    }]
+    const [season, setSeason] = useState({})
+
     const getCategories = async () => {
 
         var session = Ls.getObject('session', { 'isLoggedIn': false });
@@ -101,6 +111,8 @@ export default function Players({ canShow500 = true }) {
             <br />
             <DrpDown dataset={genders} setData={setGender} data={gender} > Selectionner un Genre </DrpDown>
             <br />
+            <DrpDown dataset={seasons} setData={setSeason} data={season} > Selectionner un Saison </DrpDown>
+            <br />
             <Btn onClick={() => {
                 if (gender._id == undefined) {
                     notifier.alert("please select a gender");
@@ -112,7 +124,7 @@ export default function Players({ canShow500 = true }) {
                     return;
                 }
 
-                history.push(!canShow500 ? `/indiv/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}` : `/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}`);
+                history.push(!canShow500 ? `/indiv/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}/${season._id || 2}` : `/players/${gender._id.toLowerCase()}/${category.name.toLowerCase()}/${season._id || 2}`);
             }} style={{ width: isSmall ? 300 : 400 }}>Valider</Btn>
 
         </div >

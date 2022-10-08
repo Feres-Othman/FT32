@@ -872,7 +872,7 @@ export default function AddMatch() {
         let selectedPlayers = [];
 
         for (const player of team.players_v2) {
-            if (selectedCategories.includes(player.category)) {
+            if (selectedCategories.includes(player.category2)) {
                 // selectedPlayers.push(player)
                 if ((player.sex === gender._id) || (gender._id === "X")) {
                     selectedPlayers.push(player)
@@ -906,8 +906,9 @@ export default function AddMatch() {
                 }} >
                     <Dropdown style={{ width: "30%", minWidth: 350 }}>
 
+                        {console.log(competition?.name || "Selectionner une type de compétition")}
                         <Dropdown.Toggle variant="success"
-                            style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%" }}>
+                            style={{ backgroundColor: 'white', borderRadius: 15, height: 45, width: "100%", color: "black" }}>
                             {competition?.name || "Selectionner une type de compétition"}
                         </Dropdown.Toggle>
 

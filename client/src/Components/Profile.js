@@ -17,7 +17,7 @@ import { Bars } from 'react-loader-spinner'
 
 export default function Profile() {
 
-    const { playerId } = useParams();
+    const { playerId, season } = useParams();
     let history = useHistory();
     const [player, setPlayer] = useStateWithCallbackLazy({})
 
@@ -225,7 +225,7 @@ export default function Profile() {
             }
         }
 
-        axios.post(`/api/player/read/one/${playerId}`, {}, config)
+        axios.post(`/api/player/read/one/${playerId}`, { season }, config)
             .then((response) => {
                 let res = response.data;
                 if (res.success) {
@@ -385,7 +385,8 @@ export default function Profile() {
 
     return (
         <>
-
+            {console.log(player.number)}
+            {console.log(categories.length)}
             {player.number && categories.length != 0 ?
                 <div>
                     <div style={{

@@ -9,6 +9,7 @@ router.post("/read/one/:_id", PlayerController.readPlayer);
 router.post("/update/:_id", PlayerController.updatePlayer);
 router.post("/ban", verify, PlayerController.banPlayer);
 router.post("/reset", verify, PlayerController.resetDB);
+router.post("/nextSeason", verify, PlayerController.nextSeason);
 router.post("/resetPlayers", verify, PlayerController.resetPlayersScores);
 router.post("/bonus", verify, PlayerController.addBonuses);
 router.post("/championship", verify, PlayerController.addChampionship);

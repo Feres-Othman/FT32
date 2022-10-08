@@ -147,12 +147,12 @@ export default function Teams() {
 
     const CustomState = ({ row }) => (
         <div style={{ cursor: "pointer" }} className="hoverScale" >
-            {row.players_v2.filter(player => player.category == "615c7c026a276c684c988b61").length} /
-            {row.players_v2.filter(player => player.category == "615c7c036a276c684c988e9e").length} /
-            {row.players_v2.filter(player => player.category == "615c7bfd6a276c684c9884b9").length} /
-            {row.players_v2.filter(player => player.category == "615c7bfe6a276c684c988553").length} /
-            {row.players_v2.filter(player => player.category == "615c7c006a276c684c988858").length} /
-            {row.players_v2.filter(player => player.category == "615c7c006a276c684c988938").length}
+            {row.players_v2.filter(player => player.category2 == "615c7c026a276c684c988b61").length} /
+            {row.players_v2.filter(player => player.category2 == "615c7c036a276c684c988e9e").length} /
+            {row.players_v2.filter(player => player.category2 == "615c7bfd6a276c684c9884b9").length} /
+            {row.players_v2.filter(player => player.category2 == "615c7bfe6a276c684c988553").length} /
+            {row.players_v2.filter(player => player.category2 == "615c7c006a276c684c988858").length} /
+            {row.players_v2.filter(player => player.category2 == "615c7c006a276c684c988938").length}
         </div>
     );
 
@@ -166,42 +166,42 @@ export default function Teams() {
         },
         {
             name: 'Poussins',
-            selector: row => row.players_v2.filter(player => player.category == "615c7c026a276c684c988b61").length,
+            selector: row => row.players_v2.filter(player => player.category2 == "615c7c026a276c684c988b61").length,
             sortable: true,
             center: true,
             maxWidth: '130px'
         },
         {
             name: 'Pupilles',
-            selector: row => row.players_v2.filter(player => player.category == "615c7c036a276c684c988e9e").length,
+            selector: row => row.players_v2.filter(player => player.category2 == "615c7c036a276c684c988e9e").length,
             sortable: true,
             center: true,
             maxWidth: '130px'
         },
         {
             name: 'Minimes',
-            selector: row => row.players_v2.filter(player => player.category == "615c7bfd6a276c684c9884b9").length,
+            selector: row => row.players_v2.filter(player => player.category2 == "615c7bfd6a276c684c9884b9").length,
             sortable: true,
             center: true,
             maxWidth: '130px'
         },
         {
             name: 'Cadets',
-            selector: row => row.players_v2.filter(player => player.category == "615c7bfe6a276c684c988553").length,
+            selector: row => row.players_v2.filter(player => player.category2 == "615c7bfe6a276c684c988553").length,
             sortable: true,
             center: true,
             maxWidth: '130px'
         },
         {
             name: 'Juniors',
-            selector: row => row.players_v2.filter(player => player.category == "615c7c006a276c684c988858").length,
+            selector: row => row.players_v2.filter(player => player.category2 == "615c7c006a276c684c988858").length,
             sortable: true,
             center: true,
             maxWidth: '130px'
         },
         {
             name: 'Seniors',
-            selector: row => row.players_v2.filter(player => player.category == "615c7c006a276c684c988938").length,
+            selector: row => row.players_v2.filter(player => player.category2 == "615c7c006a276c684c988938").length,
             sortable: true,
             center: true,
             maxWidth: '130px'

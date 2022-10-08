@@ -60,7 +60,7 @@ export default function TeamAdd({ teams, addToList, categories, gender }) {
 
         for (const team of teams) {
             for (const player of team.players_v2) {
-                if (categories.includes(player.category)) {
+                if (categories.includes(player.category2)) {
                     if ((player.sex === gender._id) || (gender._id === "X")) {
                         selectedTeams.push(team)
                         break;

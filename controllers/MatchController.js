@@ -308,8 +308,8 @@ const createMatch = async (req, res, next) => {
             await newMatch.save();
 
             if (newMatch && !contest.isDouble) {
-                await Player.findOneAndUpdate({ _id: winner._id }, { $push: { history: newMatch._id }, scores: winner.scores }, {}).exec();
-                await Player.findOneAndUpdate({ _id: looser._id }, { $push: { history: newMatch._id }, scores: looser.scores }, {}).exec();
+                await Player.findOneAndUpdate({ _id: winner._id }, { $push: { history2: newMatch._id }, scores2: winner.scores }, {}).exec();
+                await Player.findOneAndUpdate({ _id: looser._id }, { $push: { history2: newMatch._id }, scores2: looser.scores }, {}).exec();
             }
 
         }
@@ -512,8 +512,8 @@ const createMatch = async (req, res, next) => {
         newMatch.save()
             .then(async () => {
 
-                await Player.findOneAndUpdate({ _id: winner._id }, { $push: { history: newMatch._id }, scores: winner.scores }, {}).exec();
-                await Player.findOneAndUpdate({ _id: looser._id }, { $push: { history: newMatch._id }, scores: looser.scores }, {}).exec();
+                await Player.findOneAndUpdate({ _id: winner._id }, { $push: { history2: newMatch._id }, scores2: winner.scores }, {}).exec();
+                await Player.findOneAndUpdate({ _id: looser._id }, { $push: { history2: newMatch._id }, scores2: looser.scores }, {}).exec();
 
                 res.json({
                     success: true,
@@ -632,7 +632,7 @@ const deleteMatch = (req, res, next) => {
 
     try {
         const idMatch = req.body.idMatch;
-        Player.findOneAndUpdate({ $in: { history: idMatch } }, { $pull: { history: idMatch } }).exec();
+        Player.findOneAndUpdate({ $in: { history2: idMatch } }, { $pull: { history2: idMatch } }).exec();
 
         Match.deleteOne({ _id: idMatch }, function (err, doc) {
             if (err) return res.json({
