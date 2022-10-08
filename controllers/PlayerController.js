@@ -12705,7 +12705,7 @@ const readPlayers = async (req, res, next) => {
       filter.category = { $in: finalCategories }
     }
 
-
+    console.log(finalCategories)
     // let filter = { sex: req.body.sex.toUpperCase(), category: { $in: finalCategories } }
 
 
@@ -12713,8 +12713,10 @@ const readPlayers = async (req, res, next) => {
       .sort({ score: -1 })
       .populate("category")
       .populate("team")
-      .populate("history")
+      // .populate("history")
       .exec();
+
+    console.log(players)
 
     if (!players) return res.json({
       success: false,
@@ -12760,12 +12762,14 @@ const readAllPlayers = async (req, res, next) => {
 
     }
 
-
+    console.log(finalCategories)
 
     const players = await Player.find({ category: { $in: finalCategories } })
       .sort({ score: -1 })
       .populate("team")
       .exec();
+
+    console.log(players)
 
     if (!players) return res.json({
       success: false,
