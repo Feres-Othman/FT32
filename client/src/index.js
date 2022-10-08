@@ -28,7 +28,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 } else {
   // production build code
   console.log("production")
-  axios.defaults.baseURL = 'https://www.fttt-competition.com/';
+  axios.defaults.baseURL = 'https://back.fttt-competition.com/';
 }
 
 axios.interceptors.request.use(request => {
