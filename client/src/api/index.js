@@ -10,7 +10,8 @@ export const DeleteChampionship = (id, config) => axios.delete(`/api/player/cham
 export const DeleteLeague = (id, config) => axios.delete(`/api/league/delete/${id}`, config);
 export const DeleteDesignation = (id, config) => axios.delete(`/api/designation/delete/${id}`, config);
 export const Deleteteam = (id, config) => axios.delete(`/api/team/delete/${id}`, config);
-export const Deletenews = (id, config) => axios.delete(`/api/news/${id}`, config);
+export const Deletenews = (id, config) => axios.delete(`/api/news/delete/${id}`, config);
+export const UpdateNews = (id, isPublic, config) => axios.post(`/api/news/edit`, { id, isPublic }, config);
 
 
 export const Updateequipe = (formData, _id, config) => axios.post(`/api/team/update/${_id}`, formData, config);

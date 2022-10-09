@@ -51,6 +51,7 @@ import League from './Components/team/league/League';
 import AddLeague from './Components/team/league/AddLeague';
 import ShowCalendar from './Components/team/calendar/ShowCalendar';
 import NewsList from './Components/news/NewsList';
+import AddNews from './Components/news/AddNews';
 
 
 function App() {
@@ -458,6 +459,10 @@ function App() {
 
                     <Route path="/help" >
                       <Help />
+                    </Route>
+
+                    <Route path="/news/add" >
+                      <AddNews />
                     </Route>
 
                     <Route path="/news" >

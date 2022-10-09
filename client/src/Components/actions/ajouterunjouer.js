@@ -59,6 +59,8 @@ export const deleteLeague = (_id) => async (dispatch) => {
   }
 };
 
+
+
 export const deleteDesignation = (_id) => async (dispatch) => {
 
   try {
@@ -88,6 +90,19 @@ export const deleteNews = (_id) => async (dispatch) => {
   try {
     console.log(_id)
     await api.Deletenews(_id);
+
+
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateNews = (_id, isPublic, config) => async (dispatch) => {
+
+  try {
+    console.log(_id)
+    await api.UpdateNews(_id, isPublic, config);
 
 
 
