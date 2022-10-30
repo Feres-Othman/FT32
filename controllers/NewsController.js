@@ -98,10 +98,14 @@ const editNews = async (req, res, next) => {
     const date = req.body.date;
     const isPublic = req.body.isPublic;
 
+    console.log(isPublic)
+    console.log(req.body.id)
 
     let news = await News.findOneAndUpdate({ _id: req.body.id }, {
         isPublic
     })
+
+    console.log(News)
 
     // category: category,
     // type: type,
