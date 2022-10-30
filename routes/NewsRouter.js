@@ -7,7 +7,7 @@ const NewsController = require("../controllers/NewsController");
 var upload = multer()
 
 router.post("/add", verify, upload.any(), NewsController.addNews);
-router.post("/edit", verify, NewsController.editNews);
+router.post("/edit", NewsController.editNews);
 router.post("/read/all", NewsController.readNewss);
 // router.post("/read/one/:_id", NewsController.readNews);
 router.delete("/delete/:id", NewsController.deleteNews);
